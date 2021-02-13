@@ -1,14 +1,13 @@
 package tsp;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import tsp.TSPFunctions.TSPFitnessFunction;
-import tsp.graph.Graph;
+import tsp.utils.Graph;
 
 public class TSPLauncher {
 
@@ -19,22 +18,17 @@ public class TSPLauncher {
 		cities.addNode("B");
 		cities.addNode("C");
 		cities.addNode("D");
-		cities.addNode("E");
 		cities.addEdge("A", "B", 10.0);
 		cities.addEdge("A", "C", 15.0);
-		cities.addEdge("A", "D", 16.0);
-		cities.addEdge("A", "E", 9.0);
-		cities.addEdge("B", "C", 30.0);
-		cities.addEdge("B", "D", 4.0);
-		cities.addEdge("B", "E", 12.50);
-		cities.addEdge("C", "D", 7.80);
-		cities.addEdge("C", "E", 8.0);
-		cities.addEdge("D", "E", 14.0);
+		cities.addEdge("A", "D", 20.0);
+		cities.addEdge("B", "C", 35.0);
+		cities.addEdge("B", "D", 25.0);
+		cities.addEdge("C", "D", 30.80);
 		
 		// Parameters
 		int popSize = 50;
 		double mutationProbability = 0.15; 
-		int numberOfGenerations = 200;
+		int numberOfGenerations = 500;
 		double matingProbability = 1;
 		
 		tspGeneticAlgorithm(cities, popSize, mutationProbability, numberOfGenerations, matingProbability);
@@ -49,7 +43,7 @@ public class TSPLauncher {
 
 		// Generate an initial population
 		Set<Individual<String>> population = new HashSet<>();
-		List<String> cityList = Arrays.asList(cities.getNodes());
+		List<String> cityList = cities.getNodes();
 		for (int i = 0; i < populationSize; i++)
 			population.add(TSPFunctions.generateRandomIndividual(cityList));
 
@@ -91,7 +85,7 @@ public class TSPLauncher {
 		// Run till a number of generations
 		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, numberGenerations);
 		System.out.println("\nMax time unlimited, Best Individual:\n" + bestIndividual.getRepresentation());
-		System.out.println("City number      = " + cities.getNodes().length);
+		System.out.println("City number      = " + cities.getNodes().size());
 		System.out.println("# Different Paths = " + (new BigDecimal(10)).pow(5)); //TODO: Fix this later
 		System.out.println("Fitness         = " + fitnessFunction.apply(bestIndividual));
 		System.out.println("Population Size = " + ga.getPopulationSize());

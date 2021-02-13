@@ -1,15 +1,14 @@
 package tsp;
 
-import aima.core.search.framework.Metrics;
-import aima.core.util.Tasks;
-import aima.core.util.Util;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
+
+import tsp.utils.Metrics;
+import tsp.utils.Tasks;
+import tsp.utils.Util;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.8, page
@@ -57,7 +56,7 @@ public class GeneticAlgorithm<A> {
 	protected static final String ITERATIONS = "iterations";
 	protected static final String TIME_IN_MILLISECONDS = "timeInMSec";
 	//
-	//TODO: Do metrics //protected Metrics metrics = new Metrics();
+	protected Metrics metrics = new Metrics();
 	//
 	protected int individualLength;
 	protected List<A> finiteAlphabet;
@@ -127,13 +126,12 @@ public class GeneticAlgorithm<A> {
 
 		long startTime = System.currentTimeMillis();
 		bestIndividual = retrieveBestIndividual(initPopulation, fitnessFn);
-		// repeat
 		int itCount = 0;
 		do {
 			population = nextGeneration(population, fitnessFn, bestIndividual);
 			bestIndividual = retrieveBestIndividual(population, fitnessFn);
 
-			// Monitorizar el fitness medio y mejor
+			// Monitor average and best fitness
 			System.out.println("\nGen: " + itCount + " Best f: " + fitnessFn.apply(bestIndividual) + " Average f:"
 					+ averageFitness(population, fitnessFn));
 
@@ -244,7 +242,7 @@ public class GeneticAlgorithm<A> {
 			Individual<A> child = reproduce2(x, y);
 			// if (small random probability) then child <- MUTATE(child)
 			if (random.nextDouble() <= mutationProbability) {
-				child = mutate2(child);
+				child = mutate(child);
 			}
 			// add child to new_population
 			newPopulation.add(child);
@@ -350,26 +348,18 @@ public class GeneticAlgorithm<A> {
 	}
 
 	protected Individual<A> mutate(Individual<A> child) {
-		int mutateOffset = randomOffset(individualLength);
-		int alphaOffset = randomOffset(finiteAlphabet.size());
-
+		// Debe seleccionar dos ciudades aleatorias que no sean la ultima e intercambiarlas
 		List<A> mutatedRepresentation = new ArrayList<A>(child.getRepresentation());
-
-		mutatedRepresentation.set(mutateOffset, finiteAlphabet.get(alphaOffset));
-
-		return new Individual<A>(mutatedRepresentation);
-	}
-
-	protected Individual<A> mutate2(Individual<A> child) {
-		// Debe seleccionar dos posiciones aleatorios e intercambiarlos
-		List<A> mutatedRepresentation = new ArrayList<A>(child.getRepresentation());
-		int mutateOffsetPos1 = randomOffset(individualLength);
-		int mutateOffsetPos2 = randomOffset(individualLength);
+		int mutateOffsetPos1 = randomOffset(individualLength-1);
+		int mutateOffsetPos2 = randomOffset(individualLength-1);
 		A mutateOffsetValue1 = mutatedRepresentation.get(mutateOffsetPos1);
 		A mutateOffsetValue2 = mutatedRepresentation.get(mutateOffsetPos2);
 
 		mutatedRepresentation.set(mutateOffsetPos1, mutateOffsetValue2);
 		mutatedRepresentation.set(mutateOffsetPos2, mutateOffsetValue1);
+		
+		//Ultima ciudad debe ser la de partida
+		mutatedRepresentation.set(mutatedRepresentation.size(), mutatedRepresentation.get(0));
 		
 		return new Individual<A>(mutatedRepresentation);
 	}

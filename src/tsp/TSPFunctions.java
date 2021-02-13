@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import tsp.graph.Graph;
+import tsp.utils.Graph;
 
 public class TSPFunctions {
 	
@@ -13,6 +13,8 @@ public class TSPFunctions {
 		for (int i = 0; i < cities.size(); i++) 
 			individualRepresentation.add(cities.get(i));		
 		Collections.shuffle(individualRepresentation);
+		//End city must be same as initial one
+		individualRepresentation.add(individualRepresentation.get(0));
 		return new Individual<>(individualRepresentation);
 	}
 	
@@ -30,12 +32,13 @@ public class TSPFunctions {
 		
 		public double apply(Individual<String> individual) {
 			double fitness = 0;
+			int size = individual.getRepresentation().size();
 			
-			for (int i=1; i<individual.getRepresentation().size(); i++) {
+			for (int i=1; i<size; i++) {
 				fitness += cities.getEdge(individual.getRepresentation().get(i-1), individual.getRepresentation().get(i));
 			}
-
-			return fitness;
+			
+			return 1.0/fitness;
 		}
 	}
 

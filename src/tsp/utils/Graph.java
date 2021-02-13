@@ -1,6 +1,8 @@
-package tsp.graph;
+package tsp.utils;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Graph<T> {
 
@@ -27,8 +29,11 @@ public class Graph<T> {
 		this.ejecutadoFloyd = false;
 	}
 
-	public T[] getNodes() {
-		return this.nodes;
+	public List<T> getNodes() {
+		List<T> nodes = new ArrayList<T>();
+		for (int i=0; i<this.size; i++)
+			nodes.add(this.nodes[i]);
+		return nodes;
 	}
 	
 	public int addNode(T node) {

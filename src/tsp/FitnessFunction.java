@@ -1,6 +1,6 @@
 package tsp;
 
-import tsp.graph.Graph;
+import tsp.utils.Graph;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): page 127.
