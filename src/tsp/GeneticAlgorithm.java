@@ -151,11 +151,11 @@ public class GeneticAlgorithm<A> {
 
 	public Individual<A> retrieveBestIndividual(Collection<Individual<A>> population, FitnessFunction<A> fitnessFn) {
 		Individual<A> bestIndividual = null;
-		double bestSoFarFValue = Double.NEGATIVE_INFINITY;
+		double bestSoFarFValue = Double.POSITIVE_INFINITY;
 
 		for (Individual<A> individual : population) {
 			double fValue = fitnessFn.apply(individual);
-			if (fValue > bestSoFarFValue) {
+			if (fValue < bestSoFarFValue) {
 				bestIndividual = individual;
 				bestSoFarFValue = fValue;
 			}
@@ -310,9 +310,11 @@ public class GeneticAlgorithm<A> {
 	// inputs: x, y, parent individuals
 	protected Individual<A> reproduce2(Individual<A> x, Individual<A> y) {
 
+		int workingIndividualLength = individualLength-1;
+		
 		List<A> childRepresentation = new ArrayList<A>(x.getRepresentation());
-		int p1 = randomOffset(individualLength);
-		int p2 = randomOffset(individualLength);
+		int p1 = randomOffset(workingIndividualLength);
+		int p2 = randomOffset(workingIndividualLength);
 		List<A> inheritedFromFirstParent = new ArrayList<A>();
 		
 		//Inheriting from first parent
@@ -321,20 +323,23 @@ public class GeneticAlgorithm<A> {
 			//childRepresentation.set(i, x.getRepresentation().get(i));
 			inheritedFromFirstParent.add(x.getRepresentation().get(i));
 			i++;
-			if (i == individualLength)
+			if (i == workingIndividualLength)
 				i = 0;
 		}
 
 		// Inheriting from second parent
 		int secondParentInheritsAt = p2;
-		for (i = 0; i < individualLength; i++) {
+		for (i = 0; i < workingIndividualLength; i++) {
 			if (!inheritedFromFirstParent.contains(y.getRepresentation().get(i))) {
 				childRepresentation.set(secondParentInheritsAt, y.getRepresentation().get(i));
 				secondParentInheritsAt++;
-				if (secondParentInheritsAt == individualLength)
+				if (secondParentInheritsAt == workingIndividualLength)
 					secondParentInheritsAt = 0;
 			}
 		}
+		
+		// Last city must be initial one
+		childRepresentation.set(individualLength-1, childRepresentation.get(0));
 		return new Individual<A>(childRepresentation);
 	}
 
@@ -358,8 +363,8 @@ public class GeneticAlgorithm<A> {
 		mutatedRepresentation.set(mutateOffsetPos1, mutateOffsetValue2);
 		mutatedRepresentation.set(mutateOffsetPos2, mutateOffsetValue1);
 		
-		//Ultima ciudad debe ser la de partida
-		mutatedRepresentation.set(mutatedRepresentation.size(), mutatedRepresentation.get(0));
+		// Last city must be initial one
+		mutatedRepresentation.set(individualLength-1, mutatedRepresentation.get(0));
 		
 		return new Individual<A>(mutatedRepresentation);
 	}

@@ -153,7 +153,7 @@ public class Graph<T> {
 		 * @return boolean true si existe arista
 		 */
 		try {
-			return edges[getNode(source)][getNode(target)];
+			return edges[getNode(source)][getNode(target)] || edges[getNode(target)][getNode(source)];
 		} catch (Exception e) {
 			return false;
 		}
@@ -184,7 +184,9 @@ public class Graph<T> {
 		this.ejecutadoFloyd = false;
 
 		edges[getNode(source)][getNode(target)] = true;
+		edges[getNode(target)][getNode(source)] = true;
 		this.weights[getNode(source)][getNode(target)] = weight;
+		this.weights[getNode(target)][getNode(source)] = weight;
 		return 0;
 	}
 

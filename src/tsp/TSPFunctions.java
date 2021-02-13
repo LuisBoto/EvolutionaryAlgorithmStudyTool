@@ -35,10 +35,10 @@ public class TSPFunctions {
 			int size = individual.getRepresentation().size();
 			
 			for (int i=1; i<size; i++) {
-				fitness += cities.getEdge(individual.getRepresentation().get(i-1), individual.getRepresentation().get(i));
+				fitness = fitness + cities.getEdge(individual.getRepresentation().get(i-1), individual.getRepresentation().get(i));
 			}
 			
-			return 1.0/fitness;
+			return fitness;
 		}
 	}
 

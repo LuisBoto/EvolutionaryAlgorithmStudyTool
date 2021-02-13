@@ -23,11 +23,11 @@ public class TSPLauncher {
 		cities.addEdge("A", "D", 20.0);
 		cities.addEdge("B", "C", 35.0);
 		cities.addEdge("B", "D", 25.0);
-		cities.addEdge("C", "D", 30.80);
-		
+		cities.addEdge("C", "D", 30.0);
+
 		// Parameters
-		int popSize = 50;
-		double mutationProbability = 0.15; 
+		int popSize = 150;
+		double mutationProbability = 0.20; 
 		int numberOfGenerations = 500;
 		double matingProbability = 1;
 		
@@ -48,7 +48,7 @@ public class TSPLauncher {
 			population.add(TSPFunctions.generateRandomIndividual(cityList));
 
 		Collection<String> alphabet = cityList;
-		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cityList.size(), alphabet, mutationProbability);
+		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cityList.size()+1, alphabet, mutationProbability);
 
 		/*
 		 * // Run for a set amount of time Individual<Integer> bestIndividual =
@@ -86,7 +86,7 @@ public class TSPLauncher {
 		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, numberGenerations);
 		System.out.println("\nMax time unlimited, Best Individual:\n" + bestIndividual.getRepresentation());
 		System.out.println("City number      = " + cities.getNodes().size());
-		System.out.println("# Different Paths = " + (new BigDecimal(10)).pow(5)); //TODO: Fix this later
+		System.out.println("# Different Paths = " + (new BigDecimal(cities.getNodes().size())).pow(cities.getNodes().size())); //TODO: Fix this later
 		System.out.println("Fitness         = " + fitnessFunction.apply(bestIndividual));
 		System.out.println("Population Size = " + ga.getPopulationSize());
 		System.out.println("Itertions       = " + ga.getIterations());
