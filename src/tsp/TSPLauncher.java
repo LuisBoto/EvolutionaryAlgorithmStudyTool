@@ -1,12 +1,13 @@
 package tsp;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import tsp.TSPFunctions.TSPFitnessFunction;
 import tsp.graph.Graph;
 
 public class TSPLauncher {
@@ -41,9 +42,10 @@ public class TSPLauncher {
 
 	private static void tspGeneticAlgorithm(Graph<String> cities, int populationSize, double mutationProbability, int numberGenerations,
 			double matingProbability) {
-		System.out.println("\n--- TSP GeneticAlgorithm ---");
+		System.out.println("--- TSP GeneticAlgorithm ---\n");
 
 		FitnessFunction<String> fitnessFunction = TSPFunctions.getFitnessFunction();
+		((TSPFitnessFunction) fitnessFunction).setCities(cities);
 
 		// Generate an initial population
 		Set<Individual<String>> population = new HashSet<>();
@@ -51,8 +53,8 @@ public class TSPLauncher {
 		for (int i = 0; i < populationSize; i++)
 			population.add(TSPFunctions.generateRandomIndividual(cityList));
 
-		GeneticAlgorithm<Integer> ga = new GeneticAlgorithm<>(boardSize,
-				NQueensGenAlgoUtil.getFiniteAlphabetForBoardOfSize(boardSize), mutationProbability);
+		Collection<String> alphabet = cityList;
+		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cityList.size(), alphabet, mutationProbability);
 
 		/*
 		 * // Run for a set amount of time Individual<Integer> bestIndividual =
@@ -88,11 +90,10 @@ public class TSPLauncher {
 
 		// Run till a number of generations
 		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, numberGenerations);
-		System.out.println("");
-		System.out.println("Max time unlimited, Best Individual:\n" + bestIndividual.getRepresentation());
+		System.out.println("\nMax time unlimited, Best Individual:\n" + bestIndividual.getRepresentation());
 		System.out.println("City number      = " + cities.getNodes().length);
 		System.out.println("# Different Paths = " + (new BigDecimal(10)).pow(5)); //TODO: Fix this later
-		System.out.println("Fitness         = " + fitnessFunction.apply(cities, bestIndividual));
+		System.out.println("Fitness         = " + fitnessFunction.apply(bestIndividual));
 		System.out.println("Population Size = " + ga.getPopulationSize());
 		System.out.println("Itertions       = " + ga.getIterations());
 		System.out.println("Took            = " + ga.getTimeInMilliseconds() + "ms.");

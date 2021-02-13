@@ -26,5 +26,5 @@ public interface FitnessFunction<A> {
 	 *            the individual whose fitness is to be accessed.
 	 * @return the individual's fitness value (the higher the better).
 	 */
-	double apply(Graph<A> cities, Individual<A> individual);
+	double apply(Individual<A> individual);
 }

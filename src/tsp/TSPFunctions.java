@@ -22,7 +22,13 @@ public class TSPFunctions {
 	
 	public static class TSPFitnessFunction implements FitnessFunction<String> {
 
-		public double apply(Graph<String> cities, Individual<String> individual) {
+		private Graph<String> cities;
+		
+		public void setCities(Graph<String> cities) {
+			this.cities = cities;
+		}
+		
+		public double apply(Individual<String> individual) {
 			double fitness = 0;
 			
 			for (int i=1; i<individual.getRepresentation().size(); i++) {
