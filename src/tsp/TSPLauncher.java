@@ -18,12 +18,15 @@ public class TSPLauncher {
 		cities.addNode("B");
 		cities.addNode("C");
 		cities.addNode("D");
+		cities.addNode("E");
 		cities.addEdge("A", "B", 10.0);
 		cities.addEdge("A", "C", 15.0);
 		cities.addEdge("A", "D", 20.0);
 		cities.addEdge("B", "C", 35.0);
 		cities.addEdge("B", "D", 25.0);
 		cities.addEdge("C", "D", 30.0);
+		cities.addEdge("E", "A", 100.0);
+		cities.addEdge("E", "D", 1.0);
 
 		// Parameters
 		int popSize = 150;

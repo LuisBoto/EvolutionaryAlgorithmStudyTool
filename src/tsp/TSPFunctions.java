@@ -35,7 +35,12 @@ public class TSPFunctions {
 			int size = individual.getRepresentation().size();
 			
 			for (int i=1; i<size; i++) {
-				fitness = fitness + cities.getEdge(individual.getRepresentation().get(i-1), individual.getRepresentation().get(i));
+				String source = individual.getRepresentation().get(i-1);
+				String target = individual.getRepresentation().get(i);
+				if (cities.existEdge(source, target))
+					fitness = fitness + cities.getEdge(source, target);
+				else //In case there is no path between two cities, altough it messes average fitness up
+					fitness = Math.pow(fitness, 2); //Or Double.POSITIVE_INFINITY
 			}
 			
 			return fitness;
