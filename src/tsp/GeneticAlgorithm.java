@@ -151,11 +151,11 @@ public class GeneticAlgorithm<A> {
 
 	public Individual<A> retrieveBestIndividual(Collection<Individual<A>> population, FitnessFunction<A> fitnessFn) {
 		Individual<A> bestIndividual = null;
-		double bestSoFarFValue = Double.POSITIVE_INFINITY;
+		double bestSoFarFValue = 0;
 
 		for (Individual<A> individual : population) {
 			double fValue = fitnessFn.apply(individual);
-			if (fValue < bestSoFarFValue) {
+			if (fValue > bestSoFarFValue) {
 				bestIndividual = individual;
 				bestSoFarFValue = fValue;
 			}

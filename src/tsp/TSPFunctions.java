@@ -39,11 +39,11 @@ public class TSPFunctions {
 				String target = individual.getRepresentation().get(i);
 				if (cities.existEdge(source, target))
 					fitness = fitness + cities.getEdge(source, target);
-				else //In case there is no path between two cities, altough it messes average fitness up
-					fitness = Math.pow(fitness, 2); //Or Double.POSITIVE_INFINITY
+				else //In case there is no path between two cities
+					return 0; 
 			}
 			
-			return fitness;
+			return 1/fitness;
 		}
 	}
 
