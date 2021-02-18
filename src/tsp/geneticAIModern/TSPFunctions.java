@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import tsp.geneticAIModern.utils.Graph;
+import tsp.utils.Graph;
 
 public class TSPFunctions {
 	

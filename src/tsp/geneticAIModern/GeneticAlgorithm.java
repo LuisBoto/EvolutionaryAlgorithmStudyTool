@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Predicate;
 
-import tsp.geneticAIModern.utils.Metrics;
-import tsp.geneticAIModern.utils.Util;
+import tsp.Algorithm;
+import tsp.utils.Util;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.8, page
@@ -50,19 +50,13 @@ import tsp.geneticAIModern.utils.Util;
  *        individuals in the population (this is to provide flexibility in terms
  *        of how a problem can be encoded).
  */
-public class GeneticAlgorithm<A> {
-	protected static final String POPULATION_SIZE = "populationSize";
-	protected static final String ITERATIONS = "iterations";
-	protected static final String TIME_IN_MILLISECONDS = "timeInMSec";
-	//
-	protected Metrics metrics = new Metrics();
-	//
+public class GeneticAlgorithm<A> extends Algorithm<A> {
+
 	protected int individualLength;
 	protected List<A> finiteAlphabet;
 	protected double mutationProbability;
 
 	protected Random random;
-	private List<ProgressTracker<A>> progressTrackers = new ArrayList<>();
 
 	public GeneticAlgorithm(int individualLength, Collection<A> finiteAlphabet, double mutationProbability) {
 		this(individualLength, finiteAlphabet, mutationProbability, new Random());
@@ -76,11 +70,6 @@ public class GeneticAlgorithm<A> {
 		this.random = random;
 
 		assert (this.mutationProbability >= 0.0 && this.mutationProbability <= 1.0);
-	}
-
-	/** Progress tracers can be used to display progress information. */
-	public void addProgressTracer(ProgressTracker<A> pTracker) {
-		progressTrackers.add(pTracker);
 	}
 
 	/**
@@ -155,60 +144,6 @@ public class GeneticAlgorithm<A> {
 		}
 
 		return bestIndividual;
-	}
-
-	/**
-	 * Sets the population size and number of iterations to zero.
-	 */
-	public void clearInstrumentation() {
-		updateMetrics(new ArrayList<Individual<A>>(), 0, 0L);
-	}
-
-	/**
-	 * Returns all the metrics of the genetic algorithm.
-	 * 
-	 * @return all the metrics of the genetic algorithm.
-	 */
-	public Metrics getMetrics() {
-		return metrics;
-	}
-
-	/**
-	 * Returns the population size.
-	 * 
-	 * @return the population size.
-	 */
-	public int getPopulationSize() {
-		return metrics.getInt(POPULATION_SIZE);
-	}
-
-	/**
-	 * Returns the number of iterations of the genetic algorithm.
-	 * 
-	 * @return the number of iterations of the genetic algorithm.
-	 */
-	public int getIterations() {
-		return metrics.getInt(ITERATIONS);
-	}
-
-	/**
-	 * 
-	 * @return the time in milliseconds that the genetic algorithm took.
-	 */
-	public long getTimeInMilliseconds() {
-		return metrics.getLong(TIME_IN_MILLISECONDS);
-	}
-
-	/**
-	 * Updates statistic data collected during search.
-	 * 
-	 * @param itCount the number of iterations.
-	 * @param time    the time in milliseconds that the genetic algorithm took.
-	 */
-	protected void updateMetrics(Collection<Individual<A>> population, int itCount, long time) {
-		metrics.set(POPULATION_SIZE, population.size());
-		metrics.set(ITERATIONS, itCount);
-		metrics.set(TIME_IN_MILLISECONDS, time);
 	}
 
 	//
@@ -348,18 +283,5 @@ public class GeneticAlgorithm<A> {
 			}
 		}
 	}
-
-	private void notifyProgressTrackers(int itCount, Collection<Individual<A>> generation) {
-		for (ProgressTracker<A> tracer : progressTrackers)
-			tracer.trackProgress(getIterations(), generation);
-	}
-
-	/**
-	 * Interface for progress tracers.
-	 * 
-	 * @author Ruediger Lunde
-	 */
-	public interface ProgressTracker<A> {
-		void trackProgress(int itCount, Collection<Individual<A>> population);
-	}
+	
 }

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import tsp.geneticAIModern.TSPFunctions.TSPFitnessFunction;
-import tsp.geneticAIModern.utils.Graph;
+import tsp.utils.Graph;
 
 public class TSPLauncher {
 
