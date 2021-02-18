@@ -1,4 +1,4 @@
-package tsp.utils;
+package tsp.geneticAIModern.utils;
 
 import java.util.Hashtable;
 import java.util.Set;
