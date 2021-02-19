@@ -127,7 +127,6 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 		} while (!goalTest.test(bestIndividual));
 
-		notifyProgressTrackers(itCount, population);
 		return bestIndividual;
 	}
 
@@ -170,7 +169,6 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 			newPopulation.add(child);
 		}
 		newPopulation.add(bestBefore);
-		notifyProgressTrackers(getIterations(), population);
 		return newPopulation;
 	}
 

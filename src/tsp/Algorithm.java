@@ -14,30 +14,27 @@ public class Algorithm<A> {
 	protected static final String TIME_IN_MILLISECONDS = "timeInMSec";
 
 	protected Metrics metrics = new Metrics();
-	private List<ProgressTracker<A>> progressTrackers = new ArrayList<>();
+	private List<ProgressTracker> progressTrackers = new ArrayList<>();
 	protected String fileUrl;
 
-	public void saveMetric(String name, long value) {
-		metrics.set(name, value);
-	}
-
-	public void saveMetric(String name, int value) {
-		metrics.set(name, value);
-	}
-
-	public void saveMetric(String name, double value) {
-		metrics.set(name, value);
-	}
-
 	// TODO: Maybe using a progress tracker
-	public void checkMetricsRecord(int total, int period, int current) {
-		if (current > total / period) {
-
+	public void metricsDumpCheck() {
+		if (saveCondition()) {
+			this.notifyProgressTrackers();
 		}
 	}
+	
+	//TODO: Default metric save condition to be overriden
+	public boolean saveCondition() {
+		if (getIterations()%5==0) //Every 5 iterations, save metrics
+			return true;
+		return false;
+	}
 
-	// TODO: Default stop condition
+	// TODO: Default stop condition to be overriden
 	public boolean stopCondition() {
+		if (getTimeInMilliseconds() > 30000) //30s default max time
+			return true;
 		return false;
 	}
 
@@ -75,23 +72,61 @@ public class Algorithm<A> {
 	 * @param time    the time in milliseconds that the genetic algorithm took.
 	 */
 	protected void updateMetrics(Collection<Individual<A>> population, int itCount, long time) {
-		metrics.set(POPULATION_SIZE, population.size());
-		metrics.set(ITERATIONS, itCount);
-		metrics.set(TIME_IN_MILLISECONDS, time);
+		metrics.setValue(POPULATION_SIZE, population.size());
+		metrics.setValue(ITERATIONS, itCount);
+		metrics.setValue(TIME_IN_MILLISECONDS, time);
 	}
 
 	/** Progress trackers can be used to display progress information. */
-	public void addProgressTracker(ProgressTracker<A> pTracker) {
+	public void addProgressTracker(ProgressTracker pTracker) {
 		progressTrackers.add(pTracker);
 	}
 
-	protected void notifyProgressTrackers(int itCount, Collection<Individual<A>> generation) {
-		for (ProgressTracker<A> tracer : progressTrackers)
-			tracer.trackProgress(getIterations(), generation);
+	protected void notifyProgressTrackers() {
+		for (ProgressTracker tracer : progressTrackers)
+			tracer.saveProgress();
 	}
 
-	public interface ProgressTracker<A> {
-		void trackProgress(int itCount, Collection<Individual<A>> population);
+	public class ProgressTracker {
+		
+		private String name;
+		private int valueInt;
+		private double valueDouble;
+		private long valueLong;
+		private int type;
+
+		public ProgressTracker(String name, int value) {
+			this.name = name;
+			this.valueInt = value;
+			this.type = 0;
+		}
+		
+		public ProgressTracker(String name, double value) {
+			this.name = name;
+			this.valueDouble = value;
+			this.type = 1;
+		}
+		
+		public ProgressTracker(String name, long value) {
+			this.name = name;
+			this.valueLong = value;
+			this.type = 2;
+		}
+		
+		void saveProgress() {
+			if (!metrics.existsMetrics(this.name)) 
+				metrics.createMetric(name);
+			
+			switch(this.type) {
+				case 0:
+					metrics.saveMetric(name, this.valueInt);
+				case 1:
+					metrics.saveMetric(name, this.valueDouble);
+				case 2:
+					metrics.saveMetric(name, this.valueLong);
+			}
+			
+		}
 	}
 
 }
