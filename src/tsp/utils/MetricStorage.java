@@ -13,16 +13,16 @@ import java.util.TreeMap;
  * @author Ravi Mohan
  * @author Ruediger Lunde
  */
-public class Metrics {
+public class MetricStorage {
 	private Hashtable<String, String> hash;
 	private HashMap<String, List<String>> map;
 
-	public Metrics() {
+	public MetricStorage() {
 		this.hash = new Hashtable<String, String>();
 		this.map = new HashMap<String, List<String>>();
 	}
 	
-	//Metric storage methods
+	//Metric history storage methods
 	
 	public boolean existsMetrics(String name) {
 		return map.containsKey(name);
@@ -54,6 +54,10 @@ public class Metrics {
 	
 	public long getLongLastMetric(String name) {
 		return Long.parseLong(map.get(name).get(map.get(name).size()-1));
+	}
+	
+	public List<String> getMetricValues(String name) {
+		return map.get(name);
 	}
 	
 	//Individual values storage methods

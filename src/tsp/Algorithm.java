@@ -5,7 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import tsp.geneticAIModern.Individual;
-import tsp.utils.Metrics;
+import tsp.utils.MetricStorage;
+import tsp.utils.Metric;
 
 public class Algorithm<A> {
 
@@ -13,14 +14,14 @@ public class Algorithm<A> {
 	protected static final String ITERATIONS = "iterations";
 	protected static final String TIME_IN_MILLISECONDS = "timeInMSec";
 
-	protected Metrics metrics = new Metrics();
+	protected MetricStorage metrics = new MetricStorage();
 	private List<ProgressTracker> progressTrackers = new ArrayList<>();
 	protected String fileUrl;
 
 	// TODO: Maybe using a progress tracker
 	public void metricsDumpCheck() {
 		if (saveCondition()) {
-			this.notifyProgressTrackers();
+			//this.notifyProgressTrackers();
 		}
 	}
 	
@@ -49,7 +50,7 @@ public class Algorithm<A> {
 		updateMetrics(new ArrayList<Individual<A>>(), 0, 0L);
 	}
 
-	public Metrics getMetrics() {
+	public MetricStorage getMetrics() {
 		return metrics;
 	}
 
@@ -90,40 +91,27 @@ public class Algorithm<A> {
 	public class ProgressTracker {
 		
 		private String name;
-		private int valueInt;
-		private double valueDouble;
-		private long valueLong;
-		private int type;
+		private Metric value;
 
-		public ProgressTracker(String name, int value) {
+		public ProgressTracker(String name, Metric value) {
 			this.name = name;
-			this.valueInt = value;
-			this.type = 0;
-		}
-		
-		public ProgressTracker(String name, double value) {
-			this.name = name;
-			this.valueDouble = value;
-			this.type = 1;
-		}
-		
-		public ProgressTracker(String name, long value) {
-			this.name = name;
-			this.valueLong = value;
-			this.type = 2;
+			this.value = value;
 		}
 		
 		void saveProgress() {
 			if (!metrics.existsMetrics(this.name)) 
 				metrics.createMetric(name);
 			
-			switch(this.type) {
+			switch(this.value.getType()) {
 				case 0:
-					metrics.saveMetric(name, this.valueInt);
+					metrics.saveMetric(name, this.value.getValueInt());
+					break;
 				case 1:
-					metrics.saveMetric(name, this.valueDouble);
+					metrics.saveMetric(name, this.value.getValueDouble());
+					break;
 				case 2:
-					metrics.saveMetric(name, this.valueLong);
+					metrics.saveMetric(name, this.value.getValueLong());
+					break;
 			}
 			
 		}
