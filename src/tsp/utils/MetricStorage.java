@@ -32,16 +32,8 @@ public class MetricStorage {
 		map.put(name, new ArrayList<String>());
 	}
 
-	public void saveMetric(String name, int value) {
-		map.get(name).add(Integer.toString(value));
-	}
-	
-	public void saveMetric(String name, double value) {
-		map.get(name).add(Double.toString(value));
-	}
-	
-	public void saveMetric(String name, long value) {
-		map.get(name).add(Long.toString(value));
+	public void saveMetric(String name) {
+		map.get(name).add(hash.get(name));
 	}
 	
 	public int getIntLastMetric(String name) {

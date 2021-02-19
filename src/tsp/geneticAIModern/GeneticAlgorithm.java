@@ -8,7 +8,6 @@ import java.util.function.Predicate;
 
 import tsp.Algorithm;
 import tsp.utils.Util;
-import tsp.utils.Metric;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.8, page
@@ -56,7 +55,6 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	protected int individualLength;
 	protected List<A> finiteAlphabet;
 	protected double mutationProbability;
-	public Metric bestFitness = new Metric(0.0);
 	protected Random random;
 
 	public GeneticAlgorithm(int individualLength, Collection<A> finiteAlphabet, double mutationProbability) {
@@ -65,6 +63,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	public GeneticAlgorithm(int individualLength, Collection<A> finiteAlphabet, double mutationProbability,
 			Random random) {
+		super();
 		this.individualLength = individualLength;
 		this.finiteAlphabet = new ArrayList<A>(finiteAlphabet);
 		this.mutationProbability = mutationProbability;
@@ -81,6 +80,11 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 			final int maxIterations, long maxTimeMilliseconds) {
 		Predicate<Individual<A>> goalTest = state -> getIterations() >= maxIterations;
 		return geneticAlgorithm(initPopulation, fitnessFn, goalTest, maxTimeMilliseconds);
+	}
+	
+	@Override
+	protected void createTrackers() {
+		this.addProgressTracker(new ProgressTracker("bestFitness"));
 	}
 
 	/**
@@ -101,10 +105,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	 *         specified FITNESS-FN and goal test.
 	 */
 	public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
-			Predicate<Individual<A>> goalTest, long maxTimeMilliseconds) {
-		
-		this.addProgressTracker(new ProgressTracker("bestFitness", this.bestFitness));
-		
+			Predicate<Individual<A>> goalTest, long maxTimeMilliseconds) {		
 		Individual<A> bestIndividual = null;
 		// Create a local copy of the population to work with
 		List<Individual<A>> population = new ArrayList<>(initPopulation);
@@ -118,21 +119,21 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 			population = nextGeneration(population, fitnessFn, bestIndividual);
 			bestIndividual = retrieveBestIndividual(population, fitnessFn);
 
-			this.bestFitness.setValue(fitnessFn.apply(bestIndividual));
-			this.notifyProgressTrackers();
 			
 			// Monitor average and best fitness
-			//System.out.println("\nGen: " + itCount + " Best f: " + fitnessFn.apply(bestIndividual) + " Average f:"
-			//		+ averageFitness(population, fitnessFn));
+			System.out.println("\nGen: " + itCount + " Best f: " + fitnessFn.apply(bestIndividual) + " Average f:"
+					+ averageFitness(population, fitnessFn));
 
 			updateMetrics(population, ++itCount, System.currentTimeMillis() - startTime);
-
+			this.metrics.setValue("bestFitness",fitnessFn.apply(bestIndividual)); 
+			this.metricsDumpCheck();
+			
 			// Until some individual is fit enough, or enough time has elapsed
 			if (maxTimeMilliseconds > 0L && (System.currentTimeMillis() - startTime) > maxTimeMilliseconds)
 				break;
 
 		} while (!goalTest.test(bestIndividual));
-		System.out.println(metrics.getMetricValues("bestFitness"));
+
 		return bestIndividual;
 	}
 
