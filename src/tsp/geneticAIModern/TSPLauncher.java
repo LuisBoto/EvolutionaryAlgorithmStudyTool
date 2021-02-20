@@ -48,14 +48,10 @@ public class TSPLauncher {
 		List<String> cityList = cities.getNodes();
 		for (int i = 0; i < populationSize; i++)
 			population.add(TSPFunctions.generateRandomIndividual(cityList));
-
+		
 		Collection<String> alphabet = cityList;
 		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cityList.size()+1, alphabet, mutationProbability);
-
-		//Run for a set amount of time 
-		//Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, Integer.MAX_VALUE, 5000L);
-		// Run till a number of generations
-		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction, numberGenerations, 0L);
+		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction);
 		
 		System.out.println("\nMax time unlimited, Best Individual:\n" + bestIndividual.getRepresentation());
 		System.out.println("City number      = " + cities.getNodes().size());

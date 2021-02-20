@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Predicate;
-
 import tsp.Algorithm;
 import tsp.utils.Util;
 
@@ -42,19 +40,15 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		this.addProgressTracker(new ProgressTracker("mutations"));
 		this.addProgressTracker(new ProgressTracker("cruces"));
 	}
-
-	/**
-	 * Starts the genetic algorithm and stops after a specified number of
-	 * iterations.
-	 */
-	public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
-			final int maxIterations, long maxTimeMilliseconds) {
-		Predicate<Individual<A>> goalTest = state -> getIterations() >= maxIterations;
-		return geneticAlgorithm(initPopulation, fitnessFn, goalTest, maxTimeMilliseconds);
+	
+	@Override
+	protected boolean stopCondition() {
+		if (getIterations() > 200) 
+			return true;
+		return false;
 	}
 
-	public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
-			Predicate<Individual<A>> goalTest, long maxTimeMilliseconds) {
+	public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn) {
 		this.metrics.setValue("mutations", 0);
 		this.metrics.setValue("cruces", 0);
 		Individual<A> bestIndividual = null;
@@ -79,15 +73,11 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 			this.metrics.setValue("averageFitness", averageFitness(population, fitnessFn));
 			this.metricsDumpCheck();
 
-			// Until some individual is fit enough, or enough time has elapsed
-			if (maxTimeMilliseconds > 0L && (System.currentTimeMillis() - startTime) > maxTimeMilliseconds)
-				break;
-
-		} while (!goalTest.test(bestIndividual));
-		System.out.println(this.metrics.getMetricValues("bestFitness"));
-		System.out.println(this.metrics.getMetricValues("averageFitness"));
-		System.out.println(this.metrics.getMetricValues("mutations"));
-		System.out.println(this.metrics.getMetricValues("cruces"));
+		} while (!this.stopCondition());
+		System.out.println("Best fitness:\n"+this.metrics.getMetricValues("bestFitness"));
+		System.out.println("Average fitness:\n"+this.metrics.getMetricValues("averageFitness"));
+		System.out.println("Mutations:\n"+this.metrics.getMetricValues("mutations"));
+		System.out.println("Cruces:\n"+this.metrics.getMetricValues("cruces"));
 		return bestIndividual;
 	}
 
@@ -112,10 +102,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	// Note: Override these protected methods to create your own desired
 	// behavior.
 	//
-	/**
-	 * Primitive operation which is responsible for creating the next generation.
-	 * Override to get progress information!
-	 */
+
 	protected List<Individual<A>> nextGeneration(List<Individual<A>> population, FitnessFunction<A> fitnessFn,
 			Individual<A> bestBefore) {
 		List<Individual<A>> newPopulation = new ArrayList<>(population.size());

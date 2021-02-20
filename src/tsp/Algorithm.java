@@ -21,21 +21,22 @@ public abstract class Algorithm<A> {
 		this.createTrackers();
 	}
 	
-	// TODO: Maybe using a progress tracker
+	// TODO: Flush to file
 	public void metricsDumpCheck() {
 		if (saveCondition()) {
 			this.notifyProgressTrackers();
+			this.flushToFile();
 		}
 	}
 	
-	//TODO: Default metric save condition to be overriden
+	// Default metric save condition to be overriden
 	protected boolean saveCondition() {
-		if (getIterations()%100==0) //Every 5 iterations, save metrics
+		if (getIterations()%100==0) //Every 100 iterations, save metrics
 			return true;
 		return false;
 	}
 
-	// TODO: Default stop condition to be overriden
+	// Default stop condition to be overriden
 	protected boolean stopCondition() {
 		if (getTimeInMilliseconds() > 30000) //30s default max time
 			return true;
@@ -75,6 +76,7 @@ public abstract class Algorithm<A> {
 		metrics.setValue(TIME_IN_MILLISECONDS, time);
 	}
 	
+	//Method where metric trackers should be created, called from Algorithm() constructor by default
 	protected abstract void createTrackers();
 
 	/** Progress trackers can be used to display progress information. */
