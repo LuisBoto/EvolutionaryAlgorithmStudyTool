@@ -11,44 +11,7 @@ import tsp.utils.Util;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.8, page
- * 129.<br>
- * <br>
- * 
- * <pre>
- * function GENETIC-ALGORITHM(population, FITNESS-FN) returns an individual
- *   inputs: population, a set of individuals
- *           FITNESS-FN, a function that measures the fitness of an individual
- *           
- *   repeat
- *     new_population &lt;- empty set
- *     for i = 1 to SIZE(population) do
- *       x &lt;- RANDOM-SELECTION(population, FITNESS-FN)
- *       y &lt;- RANDOM-SELECTION(population, FITNESS-FN)
- *       child &lt;- REPRODUCE(x, y)
- *       if (small random probability) then child &lt;- MUTATE(child)
- *       add child to new_population
- *     population &lt;- new_population
- *   until some individual is fit enough, or enough time has elapsed
- *   return the best individual in population, according to FITNESS-FN
- * --------------------------------------------------------------------------------
- * function REPRODUCE(x, y) returns an individual
- *   inputs: x, y, parent individuals
- *   
- *   n &lt;- LENGTH(x); c &lt;- random number from 1 to n
- *   return APPEND(SUBSTRING(x, 1, c), SUBSTRING(y, c+1, n))
- * </pre>
- * 
- * Figure 4.8 A genetic algorithm. The algorithm is the same as the one
- * diagrammed in Figure 4.6, with one variation: in this more popular version,
- * each mating of two parents produces only one offspring, not two.
- * 
- * @author Ciaran O'Reilly
- * @author Mike Stampone
- * @author Ruediger Lunde
- * 
- * @param <A> the type of the alphabet used in the representation of the
- *        individuals in the population (this is to provide flexibility in terms
- *        of how a problem can be encoded).
+ * 129.
  */
 public class GeneticAlgorithm<A> extends Algorithm<A> {
 
@@ -63,13 +26,21 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	public GeneticAlgorithm(int individualLength, Collection<A> finiteAlphabet, double mutationProbability,
 			Random random) {
-		super();
+		super(); // Calls createTrackers
 		this.individualLength = individualLength;
 		this.finiteAlphabet = new ArrayList<A>(finiteAlphabet);
 		this.mutationProbability = mutationProbability;
 		this.random = random;
 
 		assert (this.mutationProbability >= 0.0 && this.mutationProbability <= 1.0);
+	}
+
+	@Override
+	protected void createTrackers() {
+		this.addProgressTracker(new ProgressTracker("bestFitness"));
+		this.addProgressTracker(new ProgressTracker("averageFitness"));
+		this.addProgressTracker(new ProgressTracker("mutations"));
+		this.addProgressTracker(new ProgressTracker("cruces"));
 	}
 
 	/**
@@ -81,31 +52,11 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		Predicate<Individual<A>> goalTest = state -> getIterations() >= maxIterations;
 		return geneticAlgorithm(initPopulation, fitnessFn, goalTest, maxTimeMilliseconds);
 	}
-	
-	@Override
-	protected void createTrackers() {
-		this.addProgressTracker(new ProgressTracker("bestFitness"));
-	}
 
-	/**
-	 * Template method controlling search. It returns the best individual in the
-	 * specified population, according to the specified FITNESS-FN and goal test.
-	 * 
-	 * @param initPopulation      a set of individuals
-	 * @param fitnessFn           a function that measures the fitness of an
-	 *                            individual
-	 * @param goalTest            test determines whether a given individual is fit
-	 *                            enough to return. Can be used in subclasses to
-	 *                            implement additional termination criteria, e.g.
-	 *                            maximum number of iterations.
-	 * @param maxTimeMilliseconds the maximum time in milliseconds that the
-	 *                            algorithm is to run for (approximate). Only used
-	 *                            if > 0L.
-	 * @return the best individual in the specified population, according to the
-	 *         specified FITNESS-FN and goal test.
-	 */
 	public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn,
-			Predicate<Individual<A>> goalTest, long maxTimeMilliseconds) {		
+			Predicate<Individual<A>> goalTest, long maxTimeMilliseconds) {
+		this.metrics.setValue("mutations", 0);
+		this.metrics.setValue("cruces", 0);
 		Individual<A> bestIndividual = null;
 		// Create a local copy of the population to work with
 		List<Individual<A>> population = new ArrayList<>(initPopulation);
@@ -119,21 +70,24 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 			population = nextGeneration(population, fitnessFn, bestIndividual);
 			bestIndividual = retrieveBestIndividual(population, fitnessFn);
 
-			
 			// Monitor average and best fitness
 			System.out.println("\nGen: " + itCount + " Best f: " + fitnessFn.apply(bestIndividual) + " Average f:"
 					+ averageFitness(population, fitnessFn));
 
 			updateMetrics(population, ++itCount, System.currentTimeMillis() - startTime);
-			this.metrics.setValue("bestFitness",fitnessFn.apply(bestIndividual)); 
+			this.metrics.setValue("bestFitness", fitnessFn.apply(bestIndividual));
+			this.metrics.setValue("averageFitness", averageFitness(population, fitnessFn));
 			this.metricsDumpCheck();
-			
+
 			// Until some individual is fit enough, or enough time has elapsed
 			if (maxTimeMilliseconds > 0L && (System.currentTimeMillis() - startTime) > maxTimeMilliseconds)
 				break;
 
 		} while (!goalTest.test(bestIndividual));
-
+		System.out.println(this.metrics.getMetricValues("bestFitness"));
+		System.out.println(this.metrics.getMetricValues("averageFitness"));
+		System.out.println(this.metrics.getMetricValues("mutations"));
+		System.out.println(this.metrics.getMetricValues("cruces"));
 		return bestIndividual;
 	}
 
@@ -214,14 +168,14 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	protected Individual<A> reproduce(Individual<A> x, Individual<A> y) {
 
-		int workingIndividualLength = individualLength-1;
-		
+		int workingIndividualLength = individualLength - 1;
+
 		List<A> childRepresentation = new ArrayList<A>(x.getRepresentation());
 		int p1 = randomOffset(workingIndividualLength);
 		int p2 = randomOffset(workingIndividualLength);
 		List<A> inheritedFromFirstParent = new ArrayList<A>();
-		
-		//Inheriting from first parent
+
+		// Inheriting from first parent
 		int i = p1;
 		while (i != p2) {
 			inheritedFromFirstParent.add(x.getRepresentation().get(i));
@@ -240,9 +194,10 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 					secondParentInheritsAt = 0;
 			}
 		}
-		
+
 		// Last city must be initial one
-		childRepresentation.set(individualLength-1, childRepresentation.get(0));
+		childRepresentation.set(individualLength - 1, childRepresentation.get(0));
+		this.metrics.incrementIntValue("cruces");
 		return new Individual<A>(childRepresentation);
 	}
 
@@ -257,17 +212,17 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	protected Individual<A> mutate(Individual<A> child) {
 		// Select two random cities that are not the initial one and exchange them
 		List<A> mutatedRepresentation = new ArrayList<A>(child.getRepresentation());
-		int mutateOffsetPos1 = randomOffset(individualLength-1);
-		int mutateOffsetPos2 = randomOffset(individualLength-1);
+		int mutateOffsetPos1 = randomOffset(individualLength - 1);
+		int mutateOffsetPos2 = randomOffset(individualLength - 1);
 		A mutateOffsetValue1 = mutatedRepresentation.get(mutateOffsetPos1);
 		A mutateOffsetValue2 = mutatedRepresentation.get(mutateOffsetPos2);
 
 		mutatedRepresentation.set(mutateOffsetPos1, mutateOffsetValue2);
 		mutatedRepresentation.set(mutateOffsetPos2, mutateOffsetValue1);
-		
+
 		// Last city must be initial one
-		mutatedRepresentation.set(individualLength-1, mutatedRepresentation.get(0));
-		
+		mutatedRepresentation.set(individualLength - 1, mutatedRepresentation.get(0));
+		this.metrics.incrementIntValue("mutations");
 		return new Individual<A>(mutatedRepresentation);
 	}
 
@@ -288,5 +243,5 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 			}
 		}
 	}
-	
+
 }

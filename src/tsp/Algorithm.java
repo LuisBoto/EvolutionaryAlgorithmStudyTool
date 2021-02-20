@@ -29,21 +29,21 @@ public abstract class Algorithm<A> {
 	}
 	
 	//TODO: Default metric save condition to be overriden
-	public boolean saveCondition() {
-		if (getIterations()%5==0) //Every 5 iterations, save metrics
+	protected boolean saveCondition() {
+		if (getIterations()%100==0) //Every 5 iterations, save metrics
 			return true;
 		return false;
 	}
 
 	// TODO: Default stop condition to be overriden
-	public boolean stopCondition() {
+	protected boolean stopCondition() {
 		if (getTimeInMilliseconds() > 30000) //30s default max time
 			return true;
 		return false;
 	}
 
 	// TODO: Write metrics to csv file
-	public void flushToFile() {
+	private void flushToFile() {
 
 	}
 
