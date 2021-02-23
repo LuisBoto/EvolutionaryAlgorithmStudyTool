@@ -1,4 +1,4 @@
-package tsp.geneticAIModern;
+package tsp.geneticAlgorithm;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): page 127.

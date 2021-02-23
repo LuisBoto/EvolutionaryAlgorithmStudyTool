@@ -1,4 +1,4 @@
-package tsp.geneticAIModern;
+package tsp.geneticAlgorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;

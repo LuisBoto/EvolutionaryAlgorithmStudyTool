@@ -1,11 +1,16 @@
-package tsp.geneticAIModern;
+package tsp;
 
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import tsp.geneticAIModern.TSPFunctions.TSPFitnessFunction;
+
+import tsp.geneticAlgorithm.FitnessFunction;
+import tsp.geneticAlgorithm.GeneticAlgorithm;
+import tsp.geneticAlgorithm.Individual;
+import tsp.geneticAlgorithm.TSPFunctions;
+import tsp.geneticAlgorithm.TSPFunctions.TSPFitnessFunction;
 import tsp.utils.Graph;
 
 public class TSPLauncher {
@@ -30,16 +35,12 @@ public class TSPLauncher {
 		// Parameters
 		int popSize = 150;
 		double mutationProbability = 0.20; 
-		int numberOfGenerations = 500;
-		double matingProbability = 1;
 		
-		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability, numberOfGenerations, matingProbability);
+		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability);
 	}
 
-	private static void tspAIModernGeneticAlgorithm(Graph<String> cities, int populationSize, double mutationProbability, int numberGenerations,
-			double matingProbability) {
+	private static void tspAIModernGeneticAlgorithm(Graph<String> cities, int populationSize, double mutationProbability) {
 		System.out.println("--- TSP AIModern GeneticAlgorithm ---\n");
-
 		FitnessFunction<String> fitnessFunction = TSPFunctions.getFitnessFunction();
 		((TSPFitnessFunction) fitnessFunction).setCities(cities);
 
@@ -54,12 +55,11 @@ public class TSPLauncher {
 		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction);
 		
 		System.out.println("\nMax time unlimited, Best Individual:\n" + bestIndividual.getRepresentation());
-		System.out.println("City number      = " + cities.getNodes().size());
-		System.out.println("# Different Paths = " + (new BigDecimal(cities.getNodes().size())).pow(cities.getNodes().size())); //TODO: Fix this later
-		System.out.println("Fitness         = " + fitnessFunction.apply(bestIndividual));
+		System.out.println("City number = " + cities.getNodes().size());
+		System.out.println("Fitness = " + fitnessFunction.apply(bestIndividual));
 		System.out.println("Population Size = " + ga.getPopulationSize());
-		System.out.println("Iterations       = " + ga.getIterations());
-		System.out.println("Took            = " + ga.getTimeInMilliseconds() + "ms.");
+		System.out.println("Iterations = " + ga.getIterations());
+		System.out.println("Took = " + ga.getTimeInMilliseconds() + "ms.");
 	}
 
 }

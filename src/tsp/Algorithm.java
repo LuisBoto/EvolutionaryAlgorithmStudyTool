@@ -1,10 +1,14 @@
 package tsp;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
-import tsp.geneticAIModern.Individual;
+import tsp.geneticAlgorithm.Individual;
 import tsp.utils.MetricStorage;
 
 public abstract class Algorithm<A> {
@@ -23,15 +27,15 @@ public abstract class Algorithm<A> {
 	
 	// TODO: Flush to file
 	public void metricsDumpCheck() {
-		if (saveCondition()) {
-			this.notifyProgressTrackers();
+		if (saveCondition()) 
+			this.notifyProgressTrackers();		
+		if (stopCondition())
 			this.flushToFile();
-		}
 	}
 	
 	// Default metric save condition to be overriden
 	protected boolean saveCondition() {
-		if (getIterations()%100==0) //Every 100 iterations, save metrics
+		if (getIterations()%5==0) //Every 5 iterations, save metrics
 			return true;
 		return false;
 	}
@@ -43,9 +47,31 @@ public abstract class Algorithm<A> {
 		return false;
 	}
 
-	// TODO: Write metrics to csv file
+	// Write metrics to csv file
 	private void flushToFile() {
-
+		if (this.fileUrl==null)
+			this.fileUrl = "./executionResults/"+new Date().toGMTString().replace(':', '-')+".csv";
+		try {
+			FileWriter fw = new FileWriter(this.fileUrl);
+			BufferedWriter bf = new BufferedWriter(fw);
+			int metricSize = 0;
+			for (ProgressTracker tracer : progressTrackers) {
+				metricSize = metrics.getMetricValues(tracer.getName()).size();
+				bf.write(tracer.getName().concat(";"));
+			}
+			bf.write("\n");
+			for (int i=0; i<metricSize; i++) {
+				for (ProgressTracker tracer : progressTrackers) {
+					bf.write(metrics.getMetricValues(tracer.getName()).get(i).concat(";"));
+				}
+				bf.write("\n");
+			}
+			bf.flush();
+			bf.close();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/** Metrics */
@@ -95,6 +121,10 @@ public abstract class Algorithm<A> {
 
 		public ProgressTracker(String name) {
 			this.name = name;
+		}
+		
+		public String getName() {
+			return this.name;
 		}
 		
 		void saveProgress() {

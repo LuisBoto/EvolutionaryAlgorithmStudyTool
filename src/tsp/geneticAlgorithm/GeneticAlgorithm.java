@@ -1,4 +1,4 @@
-package tsp.geneticAIModern;
+package tsp.geneticAlgorithm;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,6 +35,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	@Override
 	protected void createTrackers() {
+		this.addProgressTracker(new ProgressTracker(Algorithm.ITERATIONS));
 		this.addProgressTracker(new ProgressTracker("bestFitness"));
 		this.addProgressTracker(new ProgressTracker("averageFitness"));
 		this.addProgressTracker(new ProgressTracker("mutations"));
@@ -43,7 +44,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	
 	@Override
 	protected boolean stopCondition() {
-		if (getIterations() > 200) 
+		if (getTimeInMilliseconds() > 10000) //10s max time
 			return true;
 		return false;
 	}
@@ -69,15 +70,13 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 					+ averageFitness(population, fitnessFn));
 
 			updateMetrics(population, ++itCount, System.currentTimeMillis() - startTime);
+			this.metrics.setValue(Algorithm.ITERATIONS, itCount);
 			this.metrics.setValue("bestFitness", fitnessFn.apply(bestIndividual));
 			this.metrics.setValue("averageFitness", averageFitness(population, fitnessFn));
 			this.metricsDumpCheck();
 
 		} while (!this.stopCondition());
-		System.out.println("Best fitness:\n"+this.metrics.getMetricValues("bestFitness"));
-		System.out.println("Average fitness:\n"+this.metrics.getMetricValues("averageFitness"));
-		System.out.println("Mutations:\n"+this.metrics.getMetricValues("mutations"));
-		System.out.println("Cruces:\n"+this.metrics.getMetricValues("cruces"));
+
 		return bestIndividual;
 	}
 
