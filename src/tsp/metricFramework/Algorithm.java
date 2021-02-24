@@ -1,4 +1,4 @@
-package tsp;
+package tsp.metricFramework;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 
 import tsp.geneticAlgorithm.Individual;
-import tsp.utils.MetricStorage;
 
 public abstract class Algorithm<A> {
 
