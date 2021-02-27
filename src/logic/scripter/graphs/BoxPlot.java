@@ -6,8 +6,8 @@ import logic.scripter.Metric;
 
 public class BoxPlot extends GraphCommand {
 
-	public BoxPlot(List<Metric> metrics) {
-		super(metrics);
+	public BoxPlot(String pdfName, List<Metric> metrics) {
+		super(pdfName, metrics);
 	}
 
 	@Override
@@ -19,11 +19,12 @@ public class BoxPlot extends GraphCommand {
 		for (int i = 0; i < this.getMetrics().size(); i++) {
 			res.append(this.getMetrics().get(i).getName().concat(","));
 		}
-		res.append(" , names = c('");
+		// Concatenation of data names
+		res.append(" names = c('");
 		for (int i = 0; i < this.getMetrics().size() - 1; i++) {
 			res.append(this.getMetrics().get(i).getName().concat("','"));
 		}
-		res.append(this.getMetrics().get(this.getMetrics().size() - 1).getName().concat("')"));
+		res.append(this.getMetrics().get(this.getMetrics().size() - 1).getName()).append("'))");
 		return res.toString();
 	}
 

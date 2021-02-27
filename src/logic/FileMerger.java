@@ -68,6 +68,7 @@ public class FileMerger {
 		return text;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void guardarFichero(String fichero, String nombre) {
 		BufferedWriter bw;
 		try {

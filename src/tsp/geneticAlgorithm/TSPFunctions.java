@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import tsp.utils.Graph;
+import tsp.lib.Graph;
 
 public class TSPFunctions {
 	

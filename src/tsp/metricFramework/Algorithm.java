@@ -47,6 +47,7 @@ public abstract class Algorithm<A> {
 	}
 
 	// Write metrics to csv file
+	@SuppressWarnings("deprecation")
 	private void flushToFile() {
 		if (this.fileUrl==null)
 			this.fileUrl = "./executionResults/"+new Date().toGMTString().replace(':', '-')+".csv";

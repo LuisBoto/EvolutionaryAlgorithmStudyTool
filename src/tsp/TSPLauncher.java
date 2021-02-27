@@ -11,7 +11,7 @@ import tsp.geneticAlgorithm.GeneticAlgorithm;
 import tsp.geneticAlgorithm.Individual;
 import tsp.geneticAlgorithm.TSPFunctions;
 import tsp.geneticAlgorithm.TSPFunctions.TSPFitnessFunction;
-import tsp.utils.Graph;
+import tsp.lib.Graph;
 
 public class TSPLauncher {
 

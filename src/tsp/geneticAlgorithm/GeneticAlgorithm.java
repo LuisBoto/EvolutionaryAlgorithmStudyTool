@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+import tsp.lib.Util;
 import tsp.metricFramework.Algorithm;
-import tsp.utils.Util;
 
 /**
  * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.8, page

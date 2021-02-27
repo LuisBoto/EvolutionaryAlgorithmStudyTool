@@ -1,4 +1,4 @@
-package tsp.utils;
+package tsp.lib;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

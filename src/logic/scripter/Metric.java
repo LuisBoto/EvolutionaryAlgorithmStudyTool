@@ -27,11 +27,11 @@ public class Metric {
 	@Override
 	public String toString() {
 		// Returns c(value, value, value...) type string
-		StringBuilder res = new StringBuilder(this.name.concat(" <- c("));
+		StringBuilder res = new StringBuilder(this.name).append(" <- c(");
 		for (int i = 0; i < this.getSize() - 1; i++) {
-			res.append(this.values.get(i).concat(","));
+			res.append(this.values.get(i)).append(",");
 		}
-		res.append(this.values.get(this.getSize() - 1).concat(")"));
+		res.append(this.values.get(this.getSize() - 1)).append(")");
 		return res.toString();
 	}
 }

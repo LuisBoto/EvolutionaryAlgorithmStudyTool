@@ -6,10 +6,19 @@ import logic.scripter.Metric;
 
 public abstract class GraphCommand {
 
+	private String pdfName;
 	private List<Metric> metrics;
 
-	public GraphCommand(List<Metric> metrics) {
+	public GraphCommand(String pdfName, List<Metric> metrics) {
+		this.setPdfName(pdfName);
 		this.setMetrics(metrics);
+	}
+	
+	public String generateScriptCode() {
+		StringBuilder res = new StringBuilder("pdf('").append(this.pdfName).append("')\n");
+		res.append(this.execute()).append("\n");
+		res.append("dev.off()");
+		return res.toString();
 	}
 	
 	public abstract String execute();
@@ -20,6 +29,14 @@ public abstract class GraphCommand {
 
 	public void setMetrics(List<Metric> metrics) {
 		this.metrics = metrics;
+	}
+
+	public String getPdfName() {
+		return pdfName;
+	}
+
+	public void setPdfName(String pdfName) {
+		this.pdfName = pdfName;
 	}
 
 }

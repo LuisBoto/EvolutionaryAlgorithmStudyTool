@@ -1,4 +1,4 @@
-package tsp.utils;
+package tsp.lib;
 
 import java.util.ArrayList;
 import java.util.Collection;
