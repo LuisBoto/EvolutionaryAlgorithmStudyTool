@@ -3,34 +3,22 @@ package logic.scripter;
 import java.util.ArrayList;
 import java.util.List;
 
+import logic.FileParser;
 import logic.scripter.graphs.BoxPlot;
 import logic.scripter.graphs.GraphCommand;
 
 public class Scripter {
 
 	public static void main(String[] args) {
-		List<String> values = new ArrayList<String>();
-		values.add("0.0037121212121212135");
-		values.add("0.0037878787878787897");
-		values.add("0.003674242424242425");
-			
-		List<String> values2 = new ArrayList<String>();
-		values2.add("0.005681818181818182");
-		values2.add("0.005781818181818182");
-		values2.add("0.005481818181818182");
-		
-		Metric averageFitness = new Metric("averageFitness", values);
-		Metric bestFitness = new Metric("bestFitness", values2);
-		List<Metric> metrics = new ArrayList<Metric>();
-		metrics.add(averageFitness);
-		metrics.add(bestFitness);
-		GraphCommand box = new BoxPlot("autoBoxPlotTest", metrics);
-		
+		FileParser.parseMetrics("./resources/merged/resumen27 Feb 2021 09-27-28 GMT.csv");
+		List<Metric> metrics = FileParser.getParsedMetrics();
+
+		GraphCommand box = new BoxPlot("autoBoxPlotTest.pdf", metrics);
+
 		List<GraphCommand> graphs = new ArrayList<GraphCommand>();
 		graphs.add(box);
-		
+
 		System.out.println(Scripter.createScript("./scripts", metrics, graphs));
-			
 	}
 
 	public static String createScript(String workDirectory, List<Metric> metrics, List<GraphCommand> graphs) {
@@ -45,7 +33,7 @@ public class Scripter {
 		for (int i = 0; i < graphs.size(); i++) {
 			script.append(graphs.get(i).generateScriptCode()).append("\n");
 		}
-		
+
 		return script.toString();
 	}
 

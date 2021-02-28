@@ -1,5 +1,6 @@
 package logic.scripter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Metric {
@@ -12,12 +13,21 @@ public class Metric {
 		this.values = values;
 	}
 
+	public Metric(String name) {
+		this.name = name;
+		this.values = new ArrayList<String>();
+	}
+
 	public String getName() {
 		return this.name;
 	}
 
 	public List<String> getValues() {
 		return this.values;
+	}
+	
+	public void addValue(String value) {
+		this.values.add(value);
 	}
 
 	public int getSize() {
