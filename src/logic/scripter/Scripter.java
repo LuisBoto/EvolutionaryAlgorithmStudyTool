@@ -19,6 +19,7 @@ public class Scripter {
 		graphs.add(box);
 
 		System.out.println(Scripter.createScript("./scripts", metrics, graphs));
+		RScriptRunner.runRScript(Scripter.createScript("./scripts", metrics, graphs));
 	}
 
 	public static String createScript(String workDirectory, List<Metric> metrics, List<GraphCommand> graphs) {

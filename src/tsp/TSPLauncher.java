@@ -1,10 +1,11 @@
 package tsp;
 
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.script.ScriptException;
 
 import tsp.geneticAlgorithm.FitnessFunction;
 import tsp.geneticAlgorithm.GeneticAlgorithm;
@@ -15,7 +16,7 @@ import tsp.lib.Graph;
 
 public class TSPLauncher {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ScriptException {
 		//City graph construction
 		Graph<String> cities = new Graph<String>(5);
 		cities.addNode("A");
@@ -35,7 +36,6 @@ public class TSPLauncher {
 		// Parameters
 		int popSize = 150;
 		double mutationProbability = 0.20; 
-		
 		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability);
 	}
 
