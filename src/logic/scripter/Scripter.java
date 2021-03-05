@@ -3,14 +3,14 @@ package logic.scripter;
 import java.util.ArrayList;
 import java.util.List;
 
-import logic.FileParser;
+import logic.fileManager.FileParser;
 import logic.scripter.graphs.BoxPlot;
 import logic.scripter.graphs.GraphCommand;
 
 public class Scripter {
 
 	public static void main(String[] args) {
-		FileParser.parseMetrics("./resources/merged/resumen27 Feb 2021 09-27-28 GMT.csv");
+		FileParser.parseMetrics("./executionResults/merged/resumen27 Feb 2021 09-27-28 GMT.csv");
 		List<Metric> metrics = FileParser.getParsedMetrics();
 
 		GraphCommand box = new BoxPlot("autoBoxPlotTest.pdf", metrics);
@@ -18,12 +18,13 @@ public class Scripter {
 		List<GraphCommand> graphs = new ArrayList<GraphCommand>();
 		graphs.add(box);
 
-		System.out.println(Scripter.createScript("./scripts", metrics, graphs));
-		RScriptRunner.runRScript(Scripter.createScript("./scripts", metrics, graphs));
+		String script = Scripter.createScript(metrics, graphs);
+		System.out.println(script);
+		RScriptRunner.runRScript(script);
 	}
 
-	public static String createScript(String workDirectory, List<Metric> metrics, List<GraphCommand> graphs) {
-		// TODO: Work directory cannot be changed from Renjin
+	public static String createScript(List<Metric> metrics, List<GraphCommand> graphs) {
+		// Work directory cannot be changed from Renjin
 		StringBuilder script = new StringBuilder("");//"setwd('" + workDirectory + "')\n");
 
 		// First declare all metrics that will be used

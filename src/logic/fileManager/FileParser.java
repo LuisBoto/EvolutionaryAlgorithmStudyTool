@@ -1,4 +1,4 @@
-package logic;
+package logic.fileManager;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -44,7 +44,7 @@ public class FileParser {
 		for (int i = 0; i < parsedMetrics.size(); i++) {
 			Metric metric = parsedMetrics.get(i);
 			for (int j = 0; j < metric.getValues().size(); j++) {
-				if (!validateMetric(metric.getValues().get(j))) {
+				if (!isNumeric(metric.getValues().get(j))) {
 					System.out.println("Removing " + parsedMetrics.get(i).getName());
 					parsedMetrics.remove(i);
 					i -= 1;
@@ -54,7 +54,7 @@ public class FileParser {
 		}
 	}
 
-	private static boolean validateMetric(String value) {
+	private static boolean isNumeric(String value) {
 		// Checks if a metric value is numeric
 		return value.matches("-?\\d+(\\.\\d+)?");
 	}

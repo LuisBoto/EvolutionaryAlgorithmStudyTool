@@ -24,7 +24,6 @@ public abstract class Algorithm<A> {
 		this.createTrackers();
 	}
 	
-	// TODO: Flush to file
 	public void metricsDumpCheck() {
 		if (saveCondition()) 
 			this.notifyProgressTrackers();		

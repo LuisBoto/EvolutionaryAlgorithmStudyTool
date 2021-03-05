@@ -1,4 +1,4 @@
-package logic;
+package logic.fileManager;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -11,11 +11,14 @@ import java.util.Scanner;
 
 public class FileMerger {
 
-	protected static String directorio = "./executionResults" + "/";
+	protected static String directory;// = "./executionResults" + "/";
+	public static final String MERGED_OUTPUT_FOLDER = "merged/";
 	protected static List<String> nombres = new ArrayList<String>();
 	protected static List<String> ficheros = new ArrayList<String>();
 
-	public static void main(String[] args) {
+	public static void mergeFiles(String dir) {
+		// dir = directory containing csv files to be merged
+		directory = dir;
 		cargarFicheros();
 		String[] lineasFichero = ficheros.get(0).split("\n");
 		// solo ultima linea: suponemos que la cabecera esta en la penultima linea; si
@@ -41,19 +44,19 @@ public class FileMerger {
 		guardarFichero(fichero, "resumen");
 	}
 
-	public static List<String> cargarFicheros() {
-		File file = new File(directorio);
+	private static List<String> cargarFicheros() {
+		File file = new File(directory);
 		if (file.isDirectory()) {
 			File[] ficheros = file.listFiles();
 			for (File fichero : ficheros)
-				nombres.add(directorio + fichero.getName());
+				nombres.add(directory + fichero.getName());
 		}
 		for (String fichero : nombres)
 			ficheros.add(cargaFichero(fichero));
 		return ficheros;
 	}
 
-	public static String cargaFichero(String fichero) {
+	private static String cargaFichero(String fichero) {
 		Scanner kbd;
 		String text = "";
 		try {
@@ -69,16 +72,32 @@ public class FileMerger {
 	}
 
 	@SuppressWarnings("deprecation")
-	public static void guardarFichero(String fichero, String nombre) {
+	private static void guardarFichero(String fichero, String nombre) {
 		BufferedWriter bw;
 		try {
 			bw = new BufferedWriter(new FileWriter(new File(
-					"./resources/merged/" + nombre + new Date().toGMTString().replace(':', '-') + ".csv")));
+					directory + MERGED_OUTPUT_FOLDER + nombre + new Date().toGMTString().replace(':', '-') + ".csv")));
 			bw.write(fichero);
 			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	static double desviacion(double[] v) {
+		double prom, sum = 0;
+		int i, n = v.length;
+		prom = promedio(v);
+		for (i = 0; i < n; i++)
+			sum += Math.pow(v[i] - prom, 2);
+		return Math.sqrt(sum / (double) n);
+	}
+
+	static double promedio(double[] v) {
+		double prom = 0.0;
+		for (int i = 0; i < v.length; i++)
+			prom += v[i];
+		return prom / (double) v.length;
 	}
 
 }
