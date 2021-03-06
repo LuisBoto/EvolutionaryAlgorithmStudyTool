@@ -9,37 +9,35 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import logic.scripter.Metric;
+
 public class FileMerger {
 
 	protected static String directory;// = "./executionResults" + "/";
 	public static final String MERGED_OUTPUT_FOLDER = "merged/";
 	protected static List<String> nombres = new ArrayList<String>();
-	protected static List<String> ficheros = new ArrayList<String>();
+	protected static List<String> ficheros = new ArrayList<String>();	
 
 	public static void mergeFiles(String dir) {
 		// dir = directory containing csv files to be merged
 		directory = dir;
+		List<Metric> metrics = new ArrayList<Metric>();
 		cargarFicheros();
 		String[] lineasFichero = ficheros.get(0).split("\n");
-		// solo ultima linea: suponemos que la cabecera esta en la penultima linea; si
-		// solo hay dos linea esta en la primera.
-//		String fichero = lineasFichero[lineasFichero.length - 2] + "\n";
 		String fichero = "Cabecera;";
-		// añadimos nombres de las columnas
+		// Adding column names
 		for (int j = 0; j < lineasFichero[0].split(";").length; j++)
 			fichero += lineasFichero[0].split(";")[j] + ";";
 		fichero += "\n";
 		// todas las lineas salvo la primera
 //		String fichero = lineasFichero[0] + "\n";
-		for (int i = 0; i < nombres.size(); i++) {
-			lineasFichero = ficheros.get(i).split("\n");
-			// solo una linea
-//			fichero += nombres.get(i)+";"+lineasFichero[501] + "\n";
-			// solo ultima linea
-			fichero += nombres.get(i).replace("_", ";") + ";" + lineasFichero[lineasFichero.length - 1] + "\n";
-			// todas las lineas salvo la primera
-//			for (int l = 1; l < lineasFichero.length; l++) 
-//				fichero += nombres.get(i)+";"+lineasFichero[l] + "\n";
+		for (int i = 0; i < nombres.size(); i++) {	
+			fichero+= nombres.get(i)+";";
+			metrics = FileParser.parseMetrics(nombres.get(i));
+			for (int k=0; k<metrics.size(); k++) {
+				fichero += metrics.get(k).average()+";";
+			}
+			fichero+="\n";
 		}
 		guardarFichero(fichero, "resumen");
 	}
@@ -49,7 +47,8 @@ public class FileMerger {
 		if (file.isDirectory()) {
 			File[] ficheros = file.listFiles();
 			for (File fichero : ficheros)
-				nombres.add(directory + fichero.getName());
+				if (!fichero.isDirectory())
+					nombres.add(directory + fichero.getName());
 		}
 		for (String fichero : nombres)
 			ficheros.add(cargaFichero(fichero));
@@ -82,22 +81,6 @@ public class FileMerger {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	static double desviacion(double[] v) {
-		double prom, sum = 0;
-		int i, n = v.length;
-		prom = promedio(v);
-		for (i = 0; i < n; i++)
-			sum += Math.pow(v[i] - prom, 2);
-		return Math.sqrt(sum / (double) n);
-	}
-
-	static double promedio(double[] v) {
-		double prom = 0.0;
-		for (int i = 0; i < v.length; i++)
-			prom += v[i];
-		return prom / (double) v.length;
 	}
 
 }

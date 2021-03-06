@@ -12,7 +12,7 @@ public class FileParser {
 
 	private static List<Metric> parsedMetrics = new ArrayList<Metric>();
 
-	public static boolean parseMetrics(String fileUrl) {
+	public static List<Metric> parseMetrics(String fileUrl) {
 		parsedMetrics = new ArrayList<Metric>();
 		FileReader fr;
 		try {
@@ -33,10 +33,10 @@ public class FileParser {
 			validateParsedMetrics();
 			bf.close();
 			fr.close();
-			return true;
+			return parsedMetrics;
 		} catch (IOException e) {
 			e.printStackTrace();
-			return false;
+			return new ArrayList<Metric>();
 		}
 	}
 
@@ -57,9 +57,5 @@ public class FileParser {
 	private static boolean isNumeric(String value) {
 		// Checks if a metric value is numeric
 		return value.matches("-?\\d+(\\.\\d+)?");
-	}
-
-	public static List<Metric> getParsedMetrics() {
-		return parsedMetrics;
 	}
 }

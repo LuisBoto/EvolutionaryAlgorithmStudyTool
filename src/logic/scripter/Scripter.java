@@ -3,6 +3,7 @@ package logic.scripter;
 import java.util.ArrayList;
 import java.util.List;
 
+import logic.fileManager.FileMerger;
 import logic.fileManager.FileParser;
 import logic.scripter.graphs.BoxPlot;
 import logic.scripter.graphs.GraphCommand;
@@ -10,9 +11,10 @@ import logic.scripter.graphs.GraphCommand;
 public class Scripter {
 
 	public static void main(String[] args) {
-		FileParser.parseMetrics("./executionResults/merged/resumen27 Feb 2021 09-27-28 GMT.csv");
-		List<Metric> metrics = FileParser.getParsedMetrics();
-
+		FileMerger.mergeFiles("./executionResults/");
+		
+		List<Metric> metrics = FileParser.parseMetrics("./executionResults/merged/resumen6 Mar 2021 10-14-24 GMT.csv");
+		
 		GraphCommand box = new BoxPlot("autoBoxPlotTest.pdf", metrics);
 
 		List<GraphCommand> graphs = new ArrayList<GraphCommand>();

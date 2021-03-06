@@ -36,12 +36,38 @@ public class Metric {
 
 	@Override
 	public String toString() {
-		// Returns c(value, value, value...) type string
+		// Returns name<-c(value, value, value...) type string
 		StringBuilder res = new StringBuilder(this.name).append(" <- c(");
 		for (int i = 0; i < this.getSize() - 1; i++) {
 			res.append(this.values.get(i)).append(",");
 		}
 		res.append(this.values.get(this.getSize() - 1)).append(")");
 		return res.toString();
+	}
+	
+	public double deviation() {
+		double[] v = this.getDoubleValues();
+		double prom, sum = 0;
+		int i, n = v.length;
+		prom = this.average();
+		for (i = 0; i < n; i++)
+			sum += Math.pow(v[i] - prom, 2);
+		return Math.sqrt(sum / (double) n);
+	}
+
+	public double average() {
+		double[] v = this.getDoubleValues();
+		double prom = 0.0;
+		for (int i = 0; i < v.length; i++)
+			prom += v[i];
+		return prom / (double) v.length;
+	}
+	
+	private double[] getDoubleValues() {
+		double[] valuesDouble = new double[this.values.size()];
+		for (int i=0; i<valuesDouble.length; i++) {
+			valuesDouble[i] = Double.parseDouble(this.values.get(i));
+		}		
+		return valuesDouble;
 	}
 }
