@@ -30,6 +30,7 @@ import javax.swing.JTextArea;
 import java.awt.GridLayout;
 import javax.swing.JTable;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class MainFrame extends JFrame {
 
@@ -88,9 +89,10 @@ public class MainFrame extends JFrame {
 	}
 
 	public MainFrame() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/gui/img/dnaIcon.png")));
 		setTitle("Evolutive algorithm study tool");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 702, 469);
+		setBounds(100, 100, 950, 600);
 		setJMenuBar(getMenuBar_1());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -360,6 +362,7 @@ public class MainFrame extends JFrame {
 	private JPanel getScriptEditPn() {
 		if (scriptEditPn == null) {
 			scriptEditPn = new JPanel();
+			scriptEditPn.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 5));
 			scriptEditPn.add(getLblGeneratedScript());
 			scriptEditPn.add(getBtnEditSave());
 		}
@@ -376,6 +379,7 @@ public class MainFrame extends JFrame {
 	private JButton getBtnEditSave() {
 		if (btnEditSave == null) {
 			btnEditSave = new JButton("Edit");
+			btnEditSave.setHorizontalAlignment(SwingConstants.TRAILING);
 			btnEditSave.setEnabled(false);
 		}
 		return btnEditSave;
@@ -384,9 +388,18 @@ public class MainFrame extends JFrame {
 	private JTextArea getTextAreaScript() {
 		if (textAreaScript == null) {
 			textAreaScript = new JTextArea();
-			textAreaScript.setColumns(65);
-			textAreaScript.setText("loren ipsum");
-			textAreaScript.setEnabled(false);
+			textAreaScript.setWrapStyleWord(true);
+			textAreaScript.setLineWrap(true);
+			textAreaScript.setColumns(35);
+			textAreaScript.setText("setwd('./scripts')\r\n" + 
+					"iterations <- c(2860,945,950)\r\n" + 
+					"bestFitness <- c(0.005681818181818182,0.005681818181818182,0.005681818181818182)\r\n" + 
+					"averageFitness <- c(0.0037121212121212135,0.0037878787878787897,0.003674242424242425)\r\n" + 
+					"mutations <- c(84989,28300,28394)\r\n" + 
+					"cruces <- c(426140,140805,141550)\r\n" + 
+					"pdf('autoBoxPlotTest')\r\n" + 
+					"boxplot(iterations,bestFitness,averageFitness,mutations,cruces, names = c('iterations','bestFitness','averageFitness','mutations','cruces'))\r\n" + 
+					"dev.off()");
 			textAreaScript.setEditable(false);
 		}
 		return textAreaScript;
