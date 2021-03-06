@@ -7,6 +7,7 @@ public class Metric {
 
 	private String name;
 	private List<String> values;
+	public static final String[] STATISTICS = {"Name", "Best", "Average", "Standard Deviation"};
 
 	public Metric(String name, List<String> values) {
 		this.name = name;

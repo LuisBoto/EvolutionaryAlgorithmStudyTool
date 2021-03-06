@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -16,6 +17,9 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+
+import logic.scripter.Metric;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -24,6 +28,8 @@ import javax.swing.BoxLayout;
 import javax.swing.border.BevelBorder;
 import javax.swing.JTextArea;
 import java.awt.GridLayout;
+import javax.swing.JTable;
+import javax.swing.ImageIcon;
 
 public class MainFrame extends JFrame {
 
@@ -64,10 +70,9 @@ public class MainFrame extends JFrame {
 	private JPanel statisticsPn;
 	private JPanel plotPreviewPn;
 	private JLabel lblStatistics;
-	private JPanel statisticsTablePn;
-	private JLabel lblBest;
-	private JLabel lblAverage;
-	private JLabel lblStandardDeviation;
+	private JTable statisticsTable;
+	private JLabel lblPlotPreview;
+	private JLabel lblPlotImage;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -82,7 +87,6 @@ public class MainFrame extends JFrame {
 		});
 	}
 
-	
 	public MainFrame() {
 		setTitle("Evolutive algorithm study tool");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -93,8 +97,8 @@ public class MainFrame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(getOpenFileButtonPn(), BorderLayout.NORTH);
-		contentPane.add(getScriptGenerationButtonPn(), BorderLayout.SOUTH);
 		contentPane.add(getMainPn(), BorderLayout.CENTER);
+		contentPane.add(getScriptGenerationButtonPn(), BorderLayout.SOUTH);
 	}
 
 	private JMenuBar getMenuBar_1() {
@@ -105,6 +109,7 @@ public class MainFrame extends JFrame {
 		}
 		return menuBar;
 	}
+
 	private JMenu getMnFile() {
 		if (mnFile == null) {
 			mnFile = new JMenu("File");
@@ -114,6 +119,7 @@ public class MainFrame extends JFrame {
 		}
 		return mnFile;
 	}
+
 	private JMenu getMnHelp() {
 		if (mnHelp == null) {
 			mnHelp = new JMenu("Help");
@@ -121,6 +127,7 @@ public class MainFrame extends JFrame {
 		}
 		return mnHelp;
 	}
+
 	private JMenuItem getMenuFileExit() {
 		if (menuFileExit == null) {
 			menuFileExit = new JMenuItem("Exit");
@@ -128,6 +135,7 @@ public class MainFrame extends JFrame {
 		}
 		return menuFileExit;
 	}
+
 	private JMenuItem getMenuFileNew() {
 		if (menuFileNew == null) {
 			menuFileNew = new JMenuItem("New");
@@ -135,12 +143,14 @@ public class MainFrame extends JFrame {
 		}
 		return menuFileNew;
 	}
+
 	private JSeparator getFileMenuSeparator() {
 		if (fileMenuSeparator == null) {
 			fileMenuSeparator = new JSeparator();
 		}
 		return fileMenuSeparator;
 	}
+
 	private JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem("About...");
@@ -148,6 +158,7 @@ public class MainFrame extends JFrame {
 		}
 		return mntmAbout;
 	}
+
 	private JPanel getOpenFileButtonPn() {
 		if (openFileButtonPn == null) {
 			openFileButtonPn = new JPanel();
@@ -159,6 +170,7 @@ public class MainFrame extends JFrame {
 		}
 		return openFileButtonPn;
 	}
+
 	private JPanel getScriptGenerationButtonPn() {
 		if (scriptGenerationButtonPn == null) {
 			scriptGenerationButtonPn = new JPanel();
@@ -169,6 +181,7 @@ public class MainFrame extends JFrame {
 		}
 		return scriptGenerationButtonPn;
 	}
+
 	private JButton getBtnOpenFile() {
 		if (btnOpenFile == null) {
 			btnOpenFile = new JButton("Open File...");
@@ -176,6 +189,7 @@ public class MainFrame extends JFrame {
 		}
 		return btnOpenFile;
 	}
+
 	private JButton getBtnMergeFiles() {
 		if (btnMergeFiles == null) {
 			btnMergeFiles = new JButton("Merge files...");
@@ -183,36 +197,42 @@ public class MainFrame extends JFrame {
 		}
 		return btnMergeFiles;
 	}
+
 	private JButton getBtnGenerateScript() {
 		if (btnGenerateScript == null) {
 			btnGenerateScript = new JButton("Generate Script");
+			btnGenerateScript.setEnabled(false);
 		}
 		return btnGenerateScript;
 	}
+
 	private JButton getBtnRunScript() {
 		if (btnRunScript == null) {
 			btnRunScript = new JButton("Run Script");
+			btnRunScript.setEnabled(false);
 		}
 		return btnRunScript;
 	}
+
 	private JButton getBtnExportScript() {
 		if (btnExportScript == null) {
 			btnExportScript = new JButton("Export Script");
+			btnExportScript.setEnabled(false);
 		}
 		return btnExportScript;
 	}
+
 	private JPanel getMainPn() {
 		if (mainPn == null) {
 			mainPn = new JPanel();
-			FlowLayout flowLayout = (FlowLayout) mainPn.getLayout();
-			flowLayout.setVgap(0);
-			flowLayout.setHgap(0);
+			mainPn.setLayout(new BoxLayout(mainPn, BoxLayout.X_AXIS));
 			mainPn.add(getPlotsPn());
 			mainPn.add(getScriptPn());
 			mainPn.add(getStatisticsPreviewPn());
 		}
 		return mainPn;
 	}
+
 	private JPanel getPlotsPn() {
 		if (plotsPn == null) {
 			plotsPn = new JPanel();
@@ -224,6 +244,7 @@ public class MainFrame extends JFrame {
 		}
 		return plotsPn;
 	}
+
 	private JPanel getScriptPn() {
 		if (scriptPn == null) {
 			scriptPn = new JPanel();
@@ -234,6 +255,7 @@ public class MainFrame extends JFrame {
 		}
 		return scriptPn;
 	}
+
 	private JPanel getStatisticsPreviewPn() {
 		if (statisticsPreviewPn == null) {
 			statisticsPreviewPn = new JPanel();
@@ -244,6 +266,7 @@ public class MainFrame extends JFrame {
 		}
 		return statisticsPreviewPn;
 	}
+
 	private JLabel getLblFile() {
 		if (lblFile == null) {
 			lblFile = new JLabel("File: None");
@@ -251,6 +274,7 @@ public class MainFrame extends JFrame {
 		}
 		return lblFile;
 	}
+
 	private JPanel getMetricsPlotsPn() {
 		if (metricsPlotsPn == null) {
 			metricsPlotsPn = new JPanel();
@@ -262,6 +286,7 @@ public class MainFrame extends JFrame {
 		}
 		return metricsPlotsPn;
 	}
+
 	private JPanel getMetricSelectPn() {
 		if (metricSelectPn == null) {
 			metricSelectPn = new JPanel();
@@ -270,6 +295,7 @@ public class MainFrame extends JFrame {
 		}
 		return metricSelectPn;
 	}
+
 	private JPanel getPlotsSelectPn() {
 		if (plotsSelectPn == null) {
 			plotsSelectPn = new JPanel();
@@ -278,6 +304,7 @@ public class MainFrame extends JFrame {
 		}
 		return plotsSelectPn;
 	}
+
 	private JPanel getPlotManagerPn() {
 		if (plotManagerPn == null) {
 			plotManagerPn = new JPanel();
@@ -287,6 +314,7 @@ public class MainFrame extends JFrame {
 		}
 		return plotManagerPn;
 	}
+
 	private JPanel getPlotButtonsPn() {
 		if (plotButtonsPn == null) {
 			plotButtonsPn = new JPanel();
@@ -295,18 +323,23 @@ public class MainFrame extends JFrame {
 		}
 		return plotButtonsPn;
 	}
+
 	private JButton getBtnAddPlot() {
 		if (btnAddPlot == null) {
 			btnAddPlot = new JButton("Add Plot");
+			btnAddPlot.setEnabled(false);
 		}
 		return btnAddPlot;
 	}
+
 	private JButton getBtnRemovePlot() {
 		if (btnRemovePlot == null) {
 			btnRemovePlot = new JButton("Remove Plot");
+			btnRemovePlot.setEnabled(false);
 		}
 		return btnRemovePlot;
 	}
+
 	private JPanel getPlotListPn() {
 		if (plotListPn == null) {
 			plotListPn = new JPanel();
@@ -315,6 +348,7 @@ public class MainFrame extends JFrame {
 		}
 		return plotListPn;
 	}
+
 	private JLabel getLblPlots() {
 		if (lblPlots == null) {
 			lblPlots = new JLabel("Plots");
@@ -322,6 +356,7 @@ public class MainFrame extends JFrame {
 		}
 		return lblPlots;
 	}
+
 	private JPanel getScriptEditPn() {
 		if (scriptEditPn == null) {
 			scriptEditPn = new JPanel();
@@ -330,42 +365,53 @@ public class MainFrame extends JFrame {
 		}
 		return scriptEditPn;
 	}
+
 	private JLabel getLblGeneratedScript() {
 		if (lblGeneratedScript == null) {
 			lblGeneratedScript = new JLabel("Generated Script");
 		}
 		return lblGeneratedScript;
 	}
+
 	private JButton getBtnEditSave() {
 		if (btnEditSave == null) {
 			btnEditSave = new JButton("Edit");
+			btnEditSave.setEnabled(false);
 		}
 		return btnEditSave;
 	}
+
 	private JTextArea getTextAreaScript() {
 		if (textAreaScript == null) {
 			textAreaScript = new JTextArea();
+			textAreaScript.setColumns(65);
 			textAreaScript.setText("loren ipsum");
 			textAreaScript.setEnabled(false);
 			textAreaScript.setEditable(false);
 		}
 		return textAreaScript;
 	}
+
 	private JPanel getStatisticsPn() {
 		if (statisticsPn == null) {
 			statisticsPn = new JPanel();
 			statisticsPn.setLayout(new BoxLayout(statisticsPn, BoxLayout.Y_AXIS));
 			statisticsPn.add(getLblStatistics());
-			statisticsPn.add(getStatisticsTablePn());
+			statisticsPn.add(new JScrollPane(getStatisticsTable()));
 		}
 		return statisticsPn;
 	}
+
 	private JPanel getPlotPreviewPn() {
 		if (plotPreviewPn == null) {
 			plotPreviewPn = new JPanel();
+			plotPreviewPn.setLayout(new BoxLayout(plotPreviewPn, BoxLayout.Y_AXIS));
+			plotPreviewPn.add(getLblPlotPreview());
+			plotPreviewPn.add(getLblPlotImage());
 		}
 		return plotPreviewPn;
 	}
+
 	private JLabel getLblStatistics() {
 		if (lblStatistics == null) {
 			lblStatistics = new JLabel("Statistics");
@@ -373,32 +419,30 @@ public class MainFrame extends JFrame {
 		}
 		return lblStatistics;
 	}
-	private JPanel getStatisticsTablePn() {
-		if (statisticsTablePn == null) {
-			statisticsTablePn = new JPanel();
-			statisticsTablePn.setLayout(new GridLayout(2, 4, 0, 0));
-			statisticsTablePn.add(getLblBest());
-			statisticsTablePn.add(getLblAverage());
-			statisticsTablePn.add(getLblStandardDeviation());
+
+	private JTable getStatisticsTable() {
+		if (statisticsTable == null) {
+			String[] columnNames = Metric.STATISTICS;
+			//TODO: Figure these out
+			Object[][] data = { { "Fitness", 5000, 80, 70 }, { "Crosses", 7000, 90, 76 } };
+			JTable table = new JTable(data, columnNames);
+			statisticsTable = new JTable(data, columnNames);
 		}
-		return statisticsTablePn;
+		return statisticsTable;
 	}
-	private JLabel getLblBest() {
-		if (lblBest == null) {
-			lblBest = new JLabel("Best");
+	private JLabel getLblPlotPreview() {
+		if (lblPlotPreview == null) {
+			lblPlotPreview = new JLabel("Plot preview");
+			lblPlotPreview.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
-		return lblBest;
+		return lblPlotPreview;
 	}
-	private JLabel getLblAverage() {
-		if (lblAverage == null) {
-			lblAverage = new JLabel("Average");
+	private JLabel getLblPlotImage() {
+		if (lblPlotImage == null) {
+			lblPlotImage = new JLabel("");
+			lblPlotImage.setIcon(new ImageIcon(MainFrame.class.getResource("/gui/img/graph.jpg")));
+			lblPlotImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
-		return lblAverage;
-	}
-	private JLabel getLblStandardDeviation() {
-		if (lblStandardDeviation == null) {
-			lblStandardDeviation = new JLabel("Standard Deviation");
-		}
-		return lblStandardDeviation;
+		return lblPlotImage;
 	}
 }
