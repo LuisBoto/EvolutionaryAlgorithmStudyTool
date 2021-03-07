@@ -10,12 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.io.File;
-
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -111,7 +108,7 @@ public class MainFrame extends JFrame {
 		contentPane.add(getScriptGenerationButtonPn(), BorderLayout.SOUTH);
 	}
 
-	private JMenuBar getMenuBar_1() {
+	protected JMenuBar getMenuBar_1() {
 		if (menuBar == null) {
 			menuBar = new JMenuBar();
 			menuBar.add(getMnFile());
@@ -120,7 +117,7 @@ public class MainFrame extends JFrame {
 		return menuBar;
 	}
 
-	private JMenu getMnFile() {
+	protected JMenu getMnFile() {
 		if (mnFile == null) {
 			mnFile = new JMenu("File");
 			mnFile.add(getMenuFileNew());
@@ -130,7 +127,7 @@ public class MainFrame extends JFrame {
 		return mnFile;
 	}
 
-	private JMenu getMnHelp() {
+	protected JMenu getMnHelp() {
 		if (mnHelp == null) {
 			mnHelp = new JMenu("Help");
 			mnHelp.add(getMntmAbout());
@@ -139,7 +136,7 @@ public class MainFrame extends JFrame {
 	}
 
 	@SuppressWarnings("deprecation")
-	private JMenuItem getMenuFileExit() {
+	protected JMenuItem getMenuFileExit() {
 		if (menuFileExit == null) {
 			menuFileExit = new JMenuItem("Exit");
 			menuFileExit.addActionListener(new ActionListener() {
@@ -153,7 +150,7 @@ public class MainFrame extends JFrame {
 	}
 
 	@SuppressWarnings("deprecation")
-	private JMenuItem getMenuFileNew() {
+	protected JMenuItem getMenuFileNew() {
 		if (menuFileNew == null) {
 			menuFileNew = new JMenuItem("New");
 			menuFileNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
@@ -161,7 +158,7 @@ public class MainFrame extends JFrame {
 		return menuFileNew;
 	}
 
-	private JSeparator getFileMenuSeparator() {
+	protected JSeparator getFileMenuSeparator() {
 		if (fileMenuSeparator == null) {
 			fileMenuSeparator = new JSeparator();
 		}
@@ -169,7 +166,7 @@ public class MainFrame extends JFrame {
 	}
 
 	@SuppressWarnings("deprecation")
-	private JMenuItem getMntmAbout() {
+	protected JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem("About...");
 			mntmAbout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
@@ -177,7 +174,7 @@ public class MainFrame extends JFrame {
 		return mntmAbout;
 	}
 
-	private JPanel getOpenFileButtonPn() {
+	protected JPanel getOpenFileButtonPn() {
 		if (openFileButtonPn == null) {
 			openFileButtonPn = new JPanel();
 			FlowLayout flowLayout = (FlowLayout) openFileButtonPn.getLayout();
@@ -189,7 +186,7 @@ public class MainFrame extends JFrame {
 		return openFileButtonPn;
 	}
 
-	private JPanel getScriptGenerationButtonPn() {
+	protected JPanel getScriptGenerationButtonPn() {
 		if (scriptGenerationButtonPn == null) {
 			scriptGenerationButtonPn = new JPanel();
 			scriptGenerationButtonPn.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -200,7 +197,7 @@ public class MainFrame extends JFrame {
 		return scriptGenerationButtonPn;
 	}
 
-	private JButton getBtnOpenFile() {
+	protected JButton getBtnOpenFile() {
 		if (btnOpenFile == null) {
 			btnOpenFile = new JButton("Open File...");
 			btnOpenFile.addActionListener(new ActionListener() {
@@ -213,7 +210,7 @@ public class MainFrame extends JFrame {
 		return btnOpenFile;
 	}
 
-	private JButton getBtnMergeFiles() {
+	protected JButton getBtnMergeFiles() {
 		if (btnMergeFiles == null) {
 			btnMergeFiles = new JButton("Merge files...");
 			btnMergeFiles.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -221,7 +218,7 @@ public class MainFrame extends JFrame {
 		return btnMergeFiles;
 	}
 
-	private JButton getBtnGenerateScript() {
+	protected JButton getBtnGenerateScript() {
 		if (btnGenerateScript == null) {
 			btnGenerateScript = new JButton("Generate Script");
 			btnGenerateScript.setEnabled(false);
@@ -229,7 +226,7 @@ public class MainFrame extends JFrame {
 		return btnGenerateScript;
 	}
 
-	private JButton getBtnRunScript() {
+	protected JButton getBtnRunScript() {
 		if (btnRunScript == null) {
 			btnRunScript = new JButton("Run Script");
 			btnRunScript.setEnabled(false);
@@ -237,7 +234,7 @@ public class MainFrame extends JFrame {
 		return btnRunScript;
 	}
 
-	private JButton getBtnExportScript() {
+	protected JButton getBtnExportScript() {
 		if (btnExportScript == null) {
 			btnExportScript = new JButton("Export Script");
 			btnExportScript.setEnabled(false);
@@ -245,7 +242,7 @@ public class MainFrame extends JFrame {
 		return btnExportScript;
 	}
 
-	private JPanel getMainPn() {
+	protected JPanel getMainPn() {
 		if (mainPn == null) {
 			mainPn = new JPanel();
 			mainPn.setLayout(new BoxLayout(mainPn, BoxLayout.X_AXIS));
@@ -256,7 +253,7 @@ public class MainFrame extends JFrame {
 		return mainPn;
 	}
 
-	private JPanel getPlotsPn() {
+	protected JPanel getPlotsPn() {
 		if (plotsPn == null) {
 			plotsPn = new JPanel();
 			plotsPn.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -268,7 +265,7 @@ public class MainFrame extends JFrame {
 		return plotsPn;
 	}
 
-	private JPanel getScriptPn() {
+	protected JPanel getScriptPn() {
 		if (scriptPn == null) {
 			scriptPn = new JPanel();
 			scriptPn.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -279,7 +276,7 @@ public class MainFrame extends JFrame {
 		return scriptPn;
 	}
 
-	private JPanel getStatisticsPreviewPn() {
+	protected JPanel getStatisticsPreviewPn() {
 		if (statisticsPreviewPn == null) {
 			statisticsPreviewPn = new JPanel();
 			statisticsPreviewPn.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -290,7 +287,7 @@ public class MainFrame extends JFrame {
 		return statisticsPreviewPn;
 	}
 
-	private JLabel getLblFile() {
+	protected JLabel getLblFile() {
 		if (lblFile == null) {
 			lblFile = new JLabel("File: None");
 			lblFile.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -298,7 +295,7 @@ public class MainFrame extends JFrame {
 		return lblFile;
 	}
 
-	private JPanel getMetricsPlotsPn() {
+	protected JPanel getMetricsPlotsPn() {
 		if (metricsPlotsPn == null) {
 			metricsPlotsPn = new JPanel();
 			FlowLayout flowLayout = (FlowLayout) metricsPlotsPn.getLayout();
@@ -310,7 +307,7 @@ public class MainFrame extends JFrame {
 		return metricsPlotsPn;
 	}
 
-	private JPanel getMetricSelectPn() {
+	protected JPanel getMetricSelectPn() {
 		if (metricSelectPn == null) {
 			metricSelectPn = new JPanel();
 			metricSelectPn.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -319,7 +316,7 @@ public class MainFrame extends JFrame {
 		return metricSelectPn;
 	}
 
-	private JPanel getPlotsSelectPn() {
+	protected JPanel getPlotsSelectPn() {
 		if (plotsSelectPn == null) {
 			plotsSelectPn = new JPanel();
 			plotsSelectPn.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -328,7 +325,7 @@ public class MainFrame extends JFrame {
 		return plotsSelectPn;
 	}
 
-	private JPanel getPlotManagerPn() {
+	protected JPanel getPlotManagerPn() {
 		if (plotManagerPn == null) {
 			plotManagerPn = new JPanel();
 			plotManagerPn.setLayout(new BoxLayout(plotManagerPn, BoxLayout.Y_AXIS));
@@ -338,7 +335,7 @@ public class MainFrame extends JFrame {
 		return plotManagerPn;
 	}
 
-	private JPanel getPlotButtonsPn() {
+	protected JPanel getPlotButtonsPn() {
 		if (plotButtonsPn == null) {
 			plotButtonsPn = new JPanel();
 			plotButtonsPn.add(getBtnAddPlot());
@@ -347,7 +344,7 @@ public class MainFrame extends JFrame {
 		return plotButtonsPn;
 	}
 
-	private JButton getBtnAddPlot() {
+	protected JButton getBtnAddPlot() {
 		if (btnAddPlot == null) {
 			btnAddPlot = new JButton("Add Plot");
 			btnAddPlot.setEnabled(false);
@@ -355,7 +352,7 @@ public class MainFrame extends JFrame {
 		return btnAddPlot;
 	}
 
-	private JButton getBtnRemovePlot() {
+	protected JButton getBtnRemovePlot() {
 		if (btnRemovePlot == null) {
 			btnRemovePlot = new JButton("Remove Plot");
 			btnRemovePlot.setEnabled(false);
@@ -363,7 +360,7 @@ public class MainFrame extends JFrame {
 		return btnRemovePlot;
 	}
 
-	private JPanel getPlotListPn() {
+	protected JPanel getPlotListPn() {
 		if (plotListPn == null) {
 			plotListPn = new JPanel();
 			plotListPn.setLayout(new BoxLayout(plotListPn, BoxLayout.Y_AXIS));
@@ -372,7 +369,7 @@ public class MainFrame extends JFrame {
 		return plotListPn;
 	}
 
-	private JLabel getLblPlots() {
+	protected JLabel getLblPlots() {
 		if (lblPlots == null) {
 			lblPlots = new JLabel("Plots");
 			lblPlots.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -380,7 +377,7 @@ public class MainFrame extends JFrame {
 		return lblPlots;
 	}
 
-	private JPanel getScriptEditPn() {
+	protected JPanel getScriptEditPn() {
 		if (scriptEditPn == null) {
 			scriptEditPn = new JPanel();
 			scriptEditPn.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 5));
@@ -390,14 +387,14 @@ public class MainFrame extends JFrame {
 		return scriptEditPn;
 	}
 
-	private JLabel getLblGeneratedScript() {
+	protected JLabel getLblGeneratedScript() {
 		if (lblGeneratedScript == null) {
 			lblGeneratedScript = new JLabel("Generated Script");
 		}
 		return lblGeneratedScript;
 	}
 
-	private JButton getBtnEditSave() {
+	protected JButton getBtnEditSave() {
 		if (btnEditSave == null) {
 			btnEditSave = new JButton("Edit");
 			btnEditSave.setHorizontalAlignment(SwingConstants.TRAILING);
@@ -406,7 +403,7 @@ public class MainFrame extends JFrame {
 		return btnEditSave;
 	}
 
-	private JTextArea getTextAreaScript() {
+	protected JTextArea getTextAreaScript() {
 		if (textAreaScript == null) {
 			textAreaScript = new JTextArea();
 			textAreaScript.setWrapStyleWord(true);
@@ -418,7 +415,7 @@ public class MainFrame extends JFrame {
 		return textAreaScript;
 	}
 
-	private JPanel getStatisticsPn() {
+	protected JPanel getStatisticsPn() {
 		if (statisticsPn == null) {
 			statisticsPn = new JPanel();
 			statisticsPn.setLayout(new BoxLayout(statisticsPn, BoxLayout.Y_AXIS));
@@ -428,7 +425,7 @@ public class MainFrame extends JFrame {
 		return statisticsPn;
 	}
 
-	private JPanel getPlotPreviewPn() {
+	protected JPanel getPlotPreviewPn() {
 		if (plotPreviewPn == null) {
 			plotPreviewPn = new JPanel();
 			plotPreviewPn.setLayout(new BoxLayout(plotPreviewPn, BoxLayout.Y_AXIS));
@@ -438,7 +435,7 @@ public class MainFrame extends JFrame {
 		return plotPreviewPn;
 	}
 
-	private JLabel getLblStatistics() {
+	protected JLabel getLblStatistics() {
 		if (lblStatistics == null) {
 			lblStatistics = new JLabel("Statistics");
 			lblStatistics.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -446,7 +443,7 @@ public class MainFrame extends JFrame {
 		return lblStatistics;
 	}
 
-	private JTable getStatisticsTable() {
+	protected JTable getStatisticsTable() {
 		if (statisticsTable == null) {
 			String[] columnNames = Metric.STATISTICS;
 			// TODO: Figure these out
@@ -456,7 +453,7 @@ public class MainFrame extends JFrame {
 		return statisticsTable;
 	}
 
-	private JLabel getLblPlotPreview() {
+	protected JLabel getLblPlotPreview() {
 		if (lblPlotPreview == null) {
 			lblPlotPreview = new JLabel("Plot preview");
 			lblPlotPreview.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -464,35 +461,12 @@ public class MainFrame extends JFrame {
 		return lblPlotPreview;
 	}
 
-	private JLabel getLblPlotImage() {
+	protected JLabel getLblPlotImage() {
 		if (lblPlotImage == null) {
 			lblPlotImage = new JLabel("");
 			lblPlotImage.setIcon(new ImageIcon(MainFrame.class.getResource("/gui/img/graph.jpg")));
 			lblPlotImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblPlotImage;
-	}
-
-	public class MainFrameController {
-
-		private MainFrame mf;
-
-		public MainFrameController(MainFrame mf) {
-			this.mf = mf;
-		}
-
-		public void openFile() {
-			JFileChooser fc = new JFileChooser();
-			if (fc.showOpenDialog(mf) != JFileChooser.APPROVE_OPTION)
-				return;
-			File f = fc.getSelectedFile();
-			String filepath = f.getPath();
-			System.out.println(filepath);
-		}
-
-		public void closeProgram() {
-			System.exit(0);
-		}
-
 	}
 }
