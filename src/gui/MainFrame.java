@@ -1,40 +1,46 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import java.io.File;
 
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
-import java.awt.event.KeyEvent;
-import java.awt.event.InputEvent;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
-import javax.swing.JButton;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import logic.scripter.Metric;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.BoxLayout;
-import javax.swing.border.BevelBorder;
-import javax.swing.JTextArea;
-import java.awt.GridLayout;
-import javax.swing.JTable;
-import javax.swing.ImageIcon;
-import java.awt.Toolkit;
-
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 4085389089535850911L;
+
+	// Controller to manage component events and operations
+	private MainFrameController controller;
+
 	private JPanel contentPane;
 	private JMenuBar menuBar;
 	private JMenu mnFile;
@@ -80,6 +86,7 @@ public class MainFrame extends JFrame {
 			public void run() {
 				try {
 					MainFrame frame = new MainFrame();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -89,6 +96,7 @@ public class MainFrame extends JFrame {
 	}
 
 	public MainFrame() {
+		this.controller = new MainFrameController(this);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/gui/img/dnaIcon.png")));
 		setTitle("Evolutive algorithm study tool");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,14 +138,21 @@ public class MainFrame extends JFrame {
 		return mnHelp;
 	}
 
+	@SuppressWarnings("deprecation")
 	private JMenuItem getMenuFileExit() {
 		if (menuFileExit == null) {
 			menuFileExit = new JMenuItem("Exit");
+			menuFileExit.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.closeProgram();
+				}
+			});
 			menuFileExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, InputEvent.ALT_MASK));
 		}
 		return menuFileExit;
 	}
 
+	@SuppressWarnings("deprecation")
 	private JMenuItem getMenuFileNew() {
 		if (menuFileNew == null) {
 			menuFileNew = new JMenuItem("New");
@@ -153,6 +168,7 @@ public class MainFrame extends JFrame {
 		return fileMenuSeparator;
 	}
 
+	@SuppressWarnings("deprecation")
 	private JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem("About...");
@@ -187,6 +203,11 @@ public class MainFrame extends JFrame {
 	private JButton getBtnOpenFile() {
 		if (btnOpenFile == null) {
 			btnOpenFile = new JButton("Open File...");
+			btnOpenFile.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.openFile();
+				}
+			});
 			btnOpenFile.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return btnOpenFile;
@@ -391,15 +412,7 @@ public class MainFrame extends JFrame {
 			textAreaScript.setWrapStyleWord(true);
 			textAreaScript.setLineWrap(true);
 			textAreaScript.setColumns(35);
-			textAreaScript.setText("setwd('./scripts')\r\n" + 
-					"iterations <- c(2860,945,950)\r\n" + 
-					"bestFitness <- c(0.005681818181818182,0.005681818181818182,0.005681818181818182)\r\n" + 
-					"averageFitness <- c(0.0037121212121212135,0.0037878787878787897,0.003674242424242425)\r\n" + 
-					"mutations <- c(84989,28300,28394)\r\n" + 
-					"cruces <- c(426140,140805,141550)\r\n" + 
-					"pdf('autoBoxPlotTest')\r\n" + 
-					"boxplot(iterations,bestFitness,averageFitness,mutations,cruces, names = c('iterations','bestFitness','averageFitness','mutations','cruces'))\r\n" + 
-					"dev.off()");
+			textAreaScript.setText("No script generated yet");
 			textAreaScript.setEditable(false);
 		}
 		return textAreaScript;
@@ -436,13 +449,13 @@ public class MainFrame extends JFrame {
 	private JTable getStatisticsTable() {
 		if (statisticsTable == null) {
 			String[] columnNames = Metric.STATISTICS;
-			//TODO: Figure these out
+			// TODO: Figure these out
 			Object[][] data = { { "Fitness", 5000, 80, 70 }, { "Crosses", 7000, 90, 76 } };
-			JTable table = new JTable(data, columnNames);
 			statisticsTable = new JTable(data, columnNames);
 		}
 		return statisticsTable;
 	}
+
 	private JLabel getLblPlotPreview() {
 		if (lblPlotPreview == null) {
 			lblPlotPreview = new JLabel("Plot preview");
@@ -450,6 +463,7 @@ public class MainFrame extends JFrame {
 		}
 		return lblPlotPreview;
 	}
+
 	private JLabel getLblPlotImage() {
 		if (lblPlotImage == null) {
 			lblPlotImage = new JLabel("");
@@ -457,5 +471,28 @@ public class MainFrame extends JFrame {
 			lblPlotImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblPlotImage;
+	}
+
+	public class MainFrameController {
+
+		private MainFrame mf;
+
+		public MainFrameController(MainFrame mf) {
+			this.mf = mf;
+		}
+
+		public void openFile() {
+			JFileChooser fc = new JFileChooser();
+			if (fc.showOpenDialog(mf) != JFileChooser.APPROVE_OPTION)
+				return;
+			File f = fc.getSelectedFile();
+			String filepath = f.getPath();
+			System.out.println(filepath);
+		}
+
+		public void closeProgram() {
+			System.exit(0);
+		}
+
 	}
 }
