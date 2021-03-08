@@ -55,7 +55,7 @@ public class FileParser {
 		}
 	}
 
-	private static boolean isNumeric(String value) {
+	public static boolean isNumeric(String value) {
 		// Checks if a metric value is numeric
 		return value.matches("-?\\d+(\\.\\d+)?");
 	}
