@@ -27,7 +27,8 @@ public class FileParser {
 			while ((line = bf.readLine()) != null) {
 				String[] pieces = line.split(";");
 				for (int i = 0; i < pieces.length; i++) {
-					parsedMetrics.get(i).addValue(pieces[i]);
+					if (!pieces[i].equals(""))
+						parsedMetrics.get(i).addValue(pieces[i]);
 				}
 			}
 			validateParsedMetrics();

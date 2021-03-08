@@ -13,16 +13,16 @@ public class Scripter {
 	public static void main(String[] args) {
 		FileMerger.mergeFiles("./executionResults/");
 		
-		List<Metric> metrics = FileParser.parseMetrics("./executionResults/merged/resumen6 Mar 2021 10-14-24 GMT.csv");
+		List<Metric> metrics = FileParser.parseMetrics("./executionResults/23 Feb 2021 14-44-58 GMT.csv");
 		
-		GraphCommand box = new BoxPlot("autoBoxPlotTest.pdf", metrics);
+		/*GraphCommand box = new BoxPlot("autoBoxPlotTest.pdf", metrics);
 
 		List<GraphCommand> graphs = new ArrayList<GraphCommand>();
 		graphs.add(box);
 
 		String script = Scripter.createScript(metrics, graphs);
 		System.out.println(script);
-		RScriptRunner.runRScript(script);
+		RScriptRunner.runRScript(script);*/
 	}
 
 	public static String createScript(List<Metric> metrics, List<GraphCommand> graphs) {

@@ -7,7 +7,6 @@ public class Metric {
 
 	private String name;
 	private List<String> values;
-	public static final String[] STATISTICS = {"Name", "Best", "Average", "Standard Deviation"};
 
 	public Metric(String name, List<String> values) {
 		this.name = name;
@@ -44,24 +43,6 @@ public class Metric {
 		}
 		res.append(this.values.get(this.getSize() - 1)).append(")");
 		return res.toString();
-	}
-	
-	public double deviation() {
-		double[] v = this.getDoubleValues();
-		double prom, sum = 0;
-		int i, n = v.length;
-		prom = this.average();
-		for (i = 0; i < n; i++)
-			sum += Math.pow(v[i] - prom, 2);
-		return Math.sqrt(sum / (double) n);
-	}
-
-	public double average() {
-		double[] v = this.getDoubleValues();
-		double prom = 0.0;
-		for (int i = 0; i < v.length; i++)
-			prom += v[i];
-		return prom / (double) v.length;
 	}
 	
 	private double[] getDoubleValues() {

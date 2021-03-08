@@ -13,8 +13,9 @@ import logic.scripter.Metric;
 
 public class FileMerger {
 
+	public static final String[] STATISTICS = {"Best", "Average", "Standard Deviation"};
 	protected static String directory;// = "./executionResults" + "/";
-	public static final String MERGED_OUTPUT_FOLDER = "merged/";
+	protected static final String MERGED_OUTPUT_FOLDER = "merged/";
 	protected static List<String> nombres = new ArrayList<String>();
 	protected static List<String> ficheros = new ArrayList<String>();	
 
@@ -35,7 +36,7 @@ public class FileMerger {
 			fichero+= nombres.get(i)+";";
 			metrics = FileParser.parseMetrics(nombres.get(i));
 			for (int k=0; k<metrics.size(); k++) {
-				fichero += metrics.get(k).average()+";";
+				//fichero += metrics.get(k).average()+";";
 			}
 			fichero+="\n";
 		}
@@ -81,6 +82,22 @@ public class FileMerger {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static double deviation(double[] values) {
+		double prom, sum = 0;
+		int i, n = values.length;
+		prom = average(values);
+		for (i = 0; i < n; i++)
+			sum += Math.pow(values[i] - prom, 2);
+		return Math.sqrt(sum / (double) n);
+	}
+
+	public static double average(double[] values) {
+		double prom = 0.0;
+		for (int i = 0; i < values.length; i++)
+			prom += values[i];
+		return prom / (double) values.length;
 	}
 
 }

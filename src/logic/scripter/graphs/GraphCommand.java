@@ -6,9 +6,9 @@ import logic.scripter.Metric;
 
 public abstract class GraphCommand {
 
+	public static enum GRAPHS {BoxPlot, Plot};
 	private String pdfName;
 	private List<Metric> metrics;
-	public static enum GRAPHS {BoxPlot, Plot};
 
 	public GraphCommand(String pdfName, List<Metric> metrics) {
 		this.setPdfName(pdfName);
