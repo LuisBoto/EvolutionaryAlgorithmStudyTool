@@ -8,6 +8,7 @@ public abstract class GraphCommand {
 
 	private String pdfName;
 	private List<Metric> metrics;
+	public static enum GRAPHS {BoxPlot, Plot};
 
 	public GraphCommand(String pdfName, List<Metric> metrics) {
 		this.setPdfName(pdfName);
