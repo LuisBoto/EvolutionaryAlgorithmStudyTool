@@ -3,6 +3,7 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
@@ -21,14 +22,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import java.awt.Dimension;
+
+import logic.scripter.Metric;
 
 public class MainFrame extends JFrame {
 
@@ -70,6 +74,9 @@ public class MainFrame extends JFrame {
 	private JLabel lblGeneratedScript;
 	private JButton btnEditSave;
 	private JTextArea textAreaScript;
+	private JPanel statisticsPreviewPn;
+	private JTable statisticsTable;
+	private JLabel lblStatistics;
 	private JPanel plotPreviewPn;
 	private JLabel lblPlotPreview;
 	private JLabel lblPlotImage;
@@ -282,12 +289,13 @@ public class MainFrame extends JFrame {
 	protected JPanel getPreviewPn() {
 		if (previewPn == null) {
 			previewPn = new JPanel();
-			previewPn.setPreferredSize(new Dimension(250, 250));
-			previewPn.setBorder(null);
+			previewPn.setBorder(new LineBorder(new Color(0, 0, 0)));
 			previewPn.setLayout(new BoxLayout(previewPn, BoxLayout.Y_AXIS));
+			previewPn.add(getStatisticsPreviewPn());
 			previewPn.add(getLblPlotPreview());
-			previewPn.add(Box.createRigidArea(new Dimension(0, 25)));
+			previewPn.add(Box.createRigidArea(new Dimension(0, 20)));
 			previewPn.add(getPlotPreviewPn());
+			previewPn.add(Box.createRigidArea(new Dimension(0, 20)));
 		}
 		return previewPn;
 	}
@@ -417,7 +425,7 @@ public class MainFrame extends JFrame {
 			textAreaScript = new JTextArea();
 			textAreaScript.setWrapStyleWord(true);
 			textAreaScript.setLineWrap(true);
-			textAreaScript.setColumns(50);
+			textAreaScript.setColumns(40);
 			textAreaScript.setText("No script generated yet");
 			textAreaScript.setEditable(false);
 		}
@@ -449,5 +457,34 @@ public class MainFrame extends JFrame {
 			lblPlotImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblPlotImage;
+	}
+
+	protected JPanel getStatisticsPreviewPn() {
+		if (statisticsPreviewPn == null) {
+			statisticsPreviewPn = new JPanel();
+			statisticsPreviewPn.setLayout(new BoxLayout(statisticsPreviewPn, BoxLayout.Y_AXIS));
+			statisticsPreviewPn.add(getLblStatistics());
+			statisticsPreviewPn.add(new JScrollPane(getStatisticsTable()));
+
+		}
+		return statisticsPreviewPn;
+	}
+	
+	protected JLabel getLblStatistics() {
+		if (lblStatistics == null) {
+			lblStatistics = new JLabel("Statistics");
+			lblStatistics.setAlignmentX(Component.CENTER_ALIGNMENT);
+		}
+		return lblStatistics;
+	}
+	
+	protected JTable getStatisticsTable() {
+		if (statisticsTable == null) {
+			String[] columnNames = Metric.STATISTICS;
+			// TODO: Figure these out
+			Object[][] data = { { "Fitness", 5000, 80, 70 }, { "Crosses", 7000, 90, 76 } };
+			statisticsTable = new JTable(data, columnNames);
+		}
+		return statisticsTable;
 	}
 }

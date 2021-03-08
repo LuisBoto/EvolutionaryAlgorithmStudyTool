@@ -9,11 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-import logic.scripter.Metric;
-
 public class FileMerger {
 
-	public static final String[] STATISTICS = {"Best", "Average", "Standard Deviation"};
 	protected static String directory;// = "./executionResults" + "/";
 	protected static final String MERGED_OUTPUT_FOLDER = "merged/";
 	protected static List<String> fileNames = new ArrayList<String>();
@@ -79,17 +76,8 @@ public class FileMerger {
 			e.printStackTrace();
 		}
 	}
-	
-	public static double deviation(double[] values) {
-		double prom, sum = 0;
-		int i, n = values.length;
-		prom = average(values);
-		for (i = 0; i < n; i++)
-			sum += Math.pow(values[i] - prom, 2);
-		return Math.sqrt(sum / (double) n);
-	}
 
-	public static double average(double[] values) {
+	private static double average(double[] values) {
 		double prom = 0.0;
 		for (int i = 0; i < values.length; i++)
 			prom += values[i];
