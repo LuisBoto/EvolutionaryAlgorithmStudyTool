@@ -11,9 +11,10 @@ import logic.scripter.graphs.GraphCommand;
 public class Scripter {
 
 	public static void main(String[] args) {
-		FileMerger.mergeFiles("./executionResults/");
+		FileMerger.mergeByLastLine("./executionResults/");
+		FileMerger.mergeByAverage("./executionResults/");
 		
-		List<Metric> metrics = FileParser.parseMetrics("./executionResults/23 Feb 2021 14-44-58 GMT.csv");
+		//List<Metric> metrics = FileParser.parseMetrics("./executionResults/23 Feb 2021 14-44-58 GMT.csv");
 		
 		/*GraphCommand box = new BoxPlot("autoBoxPlotTest.pdf", metrics);
 

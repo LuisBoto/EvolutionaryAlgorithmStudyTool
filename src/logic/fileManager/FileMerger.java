@@ -14,9 +14,9 @@ public class FileMerger {
 	protected static String directory;// = "./executionResults" + "/";
 	protected static final String MERGED_OUTPUT_FOLDER = "merged/";
 	protected static List<String> fileNames = new ArrayList<String>();
-	protected static List<String> fileContents = new ArrayList<String>();	
+	protected static List<String> fileContents = new ArrayList<String>();
 
-	public static void mergeFiles(String dir) {
+	public static void mergeByLastLine(String dir) {
 		// dir = directory containing csv files to be merged
 		directory = dir;
 		cargarFicheros();
@@ -26,14 +26,45 @@ public class FileMerger {
 		for (int j = 0; j < lineasFichero[0].split(";").length; j++)
 			fichero += lineasFichero[0].split(";")[j] + ";";
 		fichero += "\n";
-		//Adding last line TODO: Check every file has same number of rows
-		for (int i = 0; i < fileNames.size(); i++) {	
-			fichero+= fileNames.get(i)+";";
+		// Adding last line
+		for (int i = 0; i < fileNames.size(); i++) {
+			fichero += fileNames.get(i) + ";"; // File name
 			String[] lines = fileContents.get(i).split("\n");
-			fichero+= lines[lines.length-1];
-			fichero+="\n";
+			fichero += lines[lines.length - 1]; // Last line
+			fichero += "\n";
 		}
-		guardarFichero(fichero, "resumen");
+		guardarFichero(fichero, "resumenUltimaLinea");
+	}
+
+	public static void mergeByAverage(String dir) {
+		// dir = directory containing csv files to be merged
+		directory = dir;
+		cargarFicheros();
+		String[] lineasFichero = fileContents.get(0).split("\n");
+		String fichero = "";
+		// Adding column names
+		int columnNumber = lineasFichero[0].split(";").length;
+		for (int j = 0; j < columnNumber; j++)
+			fichero += lineasFichero[0].split(";")[j] + ";";
+		fichero += "\n";
+		// Checking all files are equal in row number
+		int size = fileContents.get(0).split("\n").length;
+		for (int i = 1; i < fileNames.size(); i++) {
+			if (fileContents.get(i).split("\n").length != size)
+				return; // TODO: Throw error
+		}
+		// Adding average of lines
+		double[] values = new double[fileNames.size()];
+		for (int i = 0; i < size; i++) { // Current row
+			for (int k = 0; k < columnNumber; k++) { // Current column
+				for (int j = 0; j < fileNames.size(); j++) { // Current file
+					values[j] = Double.parseDouble(fileContents.get(j).split("\n")[i].split(";")[k]);
+				}
+				fichero += average(values) + ";";
+			}
+			fichero += "\n";
+		}
+		guardarFichero(fichero, "resumenPromedios");
 	}
 
 	private static List<String> cargarFicheros() {
