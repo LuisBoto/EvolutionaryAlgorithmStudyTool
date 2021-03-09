@@ -1,5 +1,8 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,8 +10,10 @@ import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.border.LineBorder;
 
 import logic.fileManager.FileParser;
 import logic.scripter.Metric;
@@ -41,8 +46,7 @@ public class MainFrameController {
 
 		mf.getMetricSelectPn().removeAll();
 		mf.getPlotsSelectPn().removeAll();
-		for (int i = 1; i < mf.getPlotListPn().getComponentCount(); i++)
-			mf.getPlotListPn().remove(i);
+		mf.getPlotListPn().removeAll();
 
 		this.metrics = new ArrayList<Metric>();
 	}
@@ -52,6 +56,7 @@ public class MainFrameController {
 		if (fc.showOpenDialog(mf) != JFileChooser.APPROVE_OPTION)
 			return;
 		// A file has been selected
+		//TODO: Load file names to file label
 		File f = fc.getSelectedFile();
 		String filepath = f.getPath();
 		List<Metric> parsedMetrics = FileParser.parseMetrics(filepath);
@@ -86,23 +91,65 @@ public class MainFrameController {
 	}
 
 	public void enableButtons() {
-		//mf.getBtnRunScript().setEnabled(true);
-		//mf.getBtnExportScript().setEnabled(true);
-		//mf.getBtnEditSave().setEnabled(true);
+		// mf.getBtnRunScript().setEnabled(true);
+		// mf.getBtnExportScript().setEnabled(true);
+		// mf.getBtnEditSave().setEnabled(true);
 
 		mf.getBtnAddPlot().setEnabled(true);
 		mf.getBtnRemovePlot().setEnabled(true);
 	}
+
+	public void removePlot() {
+		//TODO: Remove graph command from list
+		mf.getPlotListPn().remove(mf.getPlotListPn().getComponentCount()-1);
+		mf.getPlotManagerPn().repaint();
+		mf.getPlotManagerPn().validate();
+	}
 	
 	public void addPlot() {
+		//TODO: Ask for pdf name/parameters
 		List<Metric> plotMetrics = new ArrayList<Metric>();
-		for (int i=0; i<mf.getMetricSelectPn().getComponentCount(); i++) {
-			if (((JCheckBox)mf.getMetricSelectPn().getComponent(i)).isSelected())
+		for (int i = 0; i < mf.getMetricSelectPn().getComponentCount(); i++) {
+			if (((JCheckBox) mf.getMetricSelectPn().getComponent(i)).isSelected())
 				plotMetrics.add(this.metrics.get(i));
 		}
-		System.out.println(plotMetrics.get(0));
-		//((JRadioButton)mf.getPlotsSelectPn().getComponent(0)).
+
+		String plotName = "";
+		for (int i = 0; i < mf.getPlotsSelectPn().getComponentCount(); i++) {
+			if (((JRadioButton) mf.getPlotsSelectPn().getComponent(i)).isSelected()) {
+				plotName = ((JRadioButton) mf.getPlotsSelectPn().getComponent(i)).getText();
+			}
+		}
+
+		if (plotName.equals("") || plotMetrics.size() <= 0)
+			return;
+
+		this.createGraphObject(plotName, plotName, plotMetrics);
+		this.addPlotLabel(plotName);
 		mf.getBtnGenerateScript().setEnabled(true);
+	}
+
+	public void createGraphObject(String graphType, String pdfName, List<Metric> plotMetrics) {
+		// TODO: Create Graph command and add to plot list to send to scripter
+	}
+
+	public void addPlotLabel(String name) {
+		JPanel plotListPane = mf.getPlotListPn();
+		JLabel plotLabel = new JLabel(" " + mf.getPlotListPn().getComponentCount() + ": " + name + " ");
+		plotLabel.setOpaque(true);
+		plotLabel.setBackground(new Color(255, 204, 255));
+		plotLabel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		plotLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+		plotLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		plotListPane.add(plotLabel);
+		this.refreshUI(mf.getPlotManagerPn());
+		mf.getPlotManagerPn().repaint();
+		mf.getPlotManagerPn().validate();
+	}
+	
+	private void refreshUI(JPanel panel) {
+		panel.repaint();
+		panel.validate();
 	}
 
 	public void closeProgram() {

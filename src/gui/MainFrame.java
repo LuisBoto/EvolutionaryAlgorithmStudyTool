@@ -32,6 +32,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import logic.scripter.Metric;
 import javax.swing.ScrollPaneConstants;
+import java.awt.GridLayout;
 
 public class MainFrame extends JFrame {
 
@@ -379,6 +380,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnRemovePlot() {
 		if (btnRemovePlot == null) {
 			btnRemovePlot = new JButton("Remove Plot");
+			btnRemovePlot.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.removePlot();
+				}
+			});
 			btnRemovePlot.setMnemonic('r');
 			btnRemovePlot.setEnabled(false);
 		}
