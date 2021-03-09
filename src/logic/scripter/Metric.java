@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Metric {
-	
-	public static final String[] STATISTICS = {"Name", "Best", "Average", "Standard Deviation"};
+
+	public static final String[] STATISTICS = { "Name", "Best", "Average", "Standard Deviation" };
 	private String name;
 	private List<String> values;
 
@@ -26,7 +26,7 @@ public class Metric {
 	public List<String> getValues() {
 		return this.values;
 	}
-	
+
 	public void addValue(String value) {
 		this.values.add(value);
 	}
@@ -45,7 +45,7 @@ public class Metric {
 		res.append(this.values.get(this.getSize() - 1)).append(")");
 		return res.toString();
 	}
-	
+
 	public double getDeviation() {
 		double[] v = this.getDoubleValues();
 		double prom, sum = 0;
@@ -63,12 +63,12 @@ public class Metric {
 			prom += v[i];
 		return prom / (double) v.length;
 	}
-	
+
 	private double[] getDoubleValues() {
 		double[] valuesDouble = new double[this.values.size()];
-		for (int i=0; i<valuesDouble.length; i++) {
+		for (int i = 0; i < valuesDouble.length; i++) {
 			valuesDouble[i] = Double.parseDouble(this.values.get(i));
-		}		
+		}
 		return valuesDouble;
 	}
 }

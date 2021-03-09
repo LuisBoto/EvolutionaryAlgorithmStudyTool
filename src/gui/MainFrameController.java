@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
@@ -17,10 +18,12 @@ public class MainFrameController {
 
 	private MainFrame mf;
 	private List<Metric> metrics;
+	private List<String> loadedFileNames;
 
 	public MainFrameController(MainFrame mf) {
 		this.mf = mf;
 		this.metrics = new ArrayList<Metric>();
+		this.loadedFileNames = new ArrayList<String>();
 	}
 
 	public void initialize() {
@@ -40,7 +43,7 @@ public class MainFrameController {
 		mf.getPlotsSelectPn().removeAll();
 		for (int i = 1; i < mf.getPlotListPn().getComponentCount(); i++)
 			mf.getPlotListPn().remove(i);
-		
+
 		this.metrics = new ArrayList<Metric>();
 	}
 
@@ -65,28 +68,41 @@ public class MainFrameController {
 			JCheckBox checkMet = new JCheckBox(this.metrics.get(i).getName());
 			metricsPanel.add(checkMet);
 		}
-		mf.getPlotsPn().validate();
+		mf.getMetricsPlotsPn().repaint();
+		mf.getMetricsPlotsPn().validate();
 	}
 
 	public void populatePlotSelectPanel() {
 		JPanel plotsPanel = mf.getPlotsSelectPn();
 		plotsPanel.removeAll();
+		ButtonGroup group = new ButtonGroup();
 		for (int i = 0; i < GraphCommand.GRAPHS.values().length; i++) {
 			JRadioButton btnPlot = new JRadioButton(GraphCommand.GRAPHS.values()[i].toString());
+			group.add(btnPlot);
 			plotsPanel.add(btnPlot);
 		}
-		mf.getPlotsPn().validate();
+		mf.getMetricsPlotsPn().repaint();
+		mf.getMetricsPlotsPn().validate();
 	}
 
 	public void enableButtons() {
-		mf.getBtnGenerateScript().setEnabled(true);
-		mf.getBtnRunScript().setEnabled(true);
-		mf.getBtnExportScript().setEnabled(true);
-
-		mf.getBtnEditSave().setEnabled(true);
+		//mf.getBtnRunScript().setEnabled(true);
+		//mf.getBtnExportScript().setEnabled(true);
+		//mf.getBtnEditSave().setEnabled(true);
 
 		mf.getBtnAddPlot().setEnabled(true);
 		mf.getBtnRemovePlot().setEnabled(true);
+	}
+	
+	public void addPlot() {
+		List<Metric> plotMetrics = new ArrayList<Metric>();
+		for (int i=0; i<mf.getMetricSelectPn().getComponentCount(); i++) {
+			if (((JCheckBox)mf.getMetricSelectPn().getComponent(i)).isSelected())
+				plotMetrics.add(this.metrics.get(i));
+		}
+		System.out.println(plotMetrics.get(0));
+		//((JRadioButton)mf.getPlotsSelectPn().getComponent(0)).
+		mf.getBtnGenerateScript().setEnabled(true);
 	}
 
 	public void closeProgram() {

@@ -11,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -31,9 +30,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
 import logic.scripter.Metric;
-import javax.swing.JRadioButton;
+import javax.swing.ScrollPaneConstants;
 
 public class MainFrame extends JFrame {
 
@@ -81,6 +79,9 @@ public class MainFrame extends JFrame {
 	private JPanel plotPreviewPn;
 	private JLabel lblPlotPreview;
 	private JLabel lblPlotImage;
+	private JScrollPane metricSelectScrollPane;
+	private JScrollPane plotSelectScrollPane;
+	private JScrollPane plotListScrollPane;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -205,7 +206,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnOpenFile() {
 		if (btnOpenFile == null) {
-			btnOpenFile = new JButton("Open File...");
+			btnOpenFile = new JButton("Load File...");
 			btnOpenFile.setMnemonic('o');
 			btnOpenFile.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -267,10 +268,12 @@ public class MainFrame extends JFrame {
 	protected JPanel getPlotsPn() {
 		if (plotsPn == null) {
 			plotsPn = new JPanel();
+			plotsPn.setPreferredSize(new Dimension(300, 10));
 			plotsPn.setBorder(new LineBorder(new Color(0, 0, 0)));
 			plotsPn.setLayout(new BoxLayout(plotsPn, BoxLayout.Y_AXIS));
 			plotsPn.add(getLblFile());
 			plotsPn.add(getMetricsPlotsPn());
+			plotsPn.add(Box.createRigidArea(new Dimension(0, 5)));
 			plotsPn.add(getPlotManagerPn());
 		}
 		return plotsPn;
@@ -313,11 +316,9 @@ public class MainFrame extends JFrame {
 		if (metricsPlotsPn == null) {
 			metricsPlotsPn = new JPanel();
 			metricsPlotsPn.setAlignmentY(Component.TOP_ALIGNMENT);
-			FlowLayout flowLayout = (FlowLayout) metricsPlotsPn.getLayout();
-			flowLayout.setVgap(0);
-			flowLayout.setHgap(0);
-			metricsPlotsPn.add(new JScrollPane(getMetricSelectPn()));
-			metricsPlotsPn.add(new JScrollPane(getPlotsSelectPn()));
+			metricsPlotsPn.setLayout(new BoxLayout(metricsPlotsPn, BoxLayout.X_AXIS));
+			metricsPlotsPn.add(getMetricSelectScrollPane());
+			metricsPlotsPn.add(getPlotSelectScrollPane());
 		}
 		return metricsPlotsPn;
 	}
@@ -345,8 +346,8 @@ public class MainFrame extends JFrame {
 			plotManagerPn = new JPanel();
 			plotManagerPn.setLayout(new BoxLayout(plotManagerPn, BoxLayout.Y_AXIS));
 			plotManagerPn.add(getPlotButtonsPn());
-			plotManagerPn.add(getPlotListPn());
-			plotManagerPn.add(Box.createGlue());
+			plotManagerPn.add(getLblPlots());
+			plotManagerPn.add(getPlotListScrollPane());
 		}
 		return plotManagerPn;
 	}
@@ -354,6 +355,7 @@ public class MainFrame extends JFrame {
 	protected JPanel getPlotButtonsPn() {
 		if (plotButtonsPn == null) {
 			plotButtonsPn = new JPanel();
+			plotButtonsPn.setLayout(new BoxLayout(plotButtonsPn, BoxLayout.X_AXIS));
 			plotButtonsPn.add(getBtnAddPlot());
 			plotButtonsPn.add(getBtnRemovePlot());
 		}
@@ -363,6 +365,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnAddPlot() {
 		if (btnAddPlot == null) {
 			btnAddPlot = new JButton("Add Plot");
+			btnAddPlot.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.addPlot();
+				}
+			});
 			btnAddPlot.setMnemonic('a');
 			btnAddPlot.setEnabled(false);
 		}
@@ -381,15 +388,15 @@ public class MainFrame extends JFrame {
 	protected JPanel getPlotListPn() {
 		if (plotListPn == null) {
 			plotListPn = new JPanel();
+			plotListPn.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 			plotListPn.setLayout(new BoxLayout(plotListPn, BoxLayout.Y_AXIS));
-			plotListPn.add(getLblPlots());
 		}
 		return plotListPn;
 	}
 
 	protected JLabel getLblPlots() {
 		if (lblPlots == null) {
-			lblPlots = new JLabel("Plots");
+			lblPlots = new JLabel("Plots:");
 			lblPlots.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblPlots;
@@ -471,7 +478,7 @@ public class MainFrame extends JFrame {
 		}
 		return statisticsPreviewPn;
 	}
-	
+
 	protected JLabel getLblStatistics() {
 		if (lblStatistics == null) {
 			lblStatistics = new JLabel("Statistics");
@@ -479,7 +486,7 @@ public class MainFrame extends JFrame {
 		}
 		return lblStatistics;
 	}
-	
+
 	protected JTable getStatisticsTable() {
 		if (statisticsTable == null) {
 			String[] columnNames = Metric.STATISTICS;
@@ -488,5 +495,34 @@ public class MainFrame extends JFrame {
 			statisticsTable = new JTable(data, columnNames);
 		}
 		return statisticsTable;
+	}
+
+	protected JScrollPane getMetricSelectScrollPane() {
+		if (metricSelectScrollPane == null) {
+			metricSelectScrollPane = new JScrollPane();
+			metricSelectScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			metricSelectScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			metricSelectScrollPane.setViewportView(getMetricSelectPn());
+		}
+		return metricSelectScrollPane;
+	}
+
+	protected JScrollPane getPlotSelectScrollPane() {
+		if (plotSelectScrollPane == null) {
+			plotSelectScrollPane = new JScrollPane();
+			plotSelectScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			plotSelectScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			plotSelectScrollPane.setViewportView(getPlotsSelectPn());
+		}
+		return plotSelectScrollPane;
+	}
+	protected JScrollPane getPlotListScrollPane() {
+		if (plotListScrollPane == null) {
+			plotListScrollPane = new JScrollPane();
+			plotListScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			plotListScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			plotListScrollPane.setViewportView(getPlotListPn());
+		}
+		return plotListScrollPane;
 	}
 }

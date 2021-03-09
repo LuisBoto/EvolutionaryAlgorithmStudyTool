@@ -6,7 +6,10 @@ import logic.scripter.Metric;
 
 public abstract class GraphCommand {
 
-	public static enum GRAPHS {BoxPlot, Plot};
+	public static enum GRAPHS {
+		BoxPlot, Plot
+	};
+
 	private String pdfName;
 	private List<Metric> metrics;
 
@@ -14,14 +17,14 @@ public abstract class GraphCommand {
 		this.setPdfName(pdfName);
 		this.setMetrics(metrics);
 	}
-	
+
 	public String generateScriptCode() {
 		StringBuilder res = new StringBuilder("pdf('").append(this.pdfName).append("')\n");
 		res.append(this.execute()).append("\n");
 		res.append("dev.off()");
 		return res.toString();
 	}
-	
+
 	public abstract String execute();
 
 	public List<Metric> getMetrics() {
