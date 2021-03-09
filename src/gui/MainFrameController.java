@@ -1,10 +1,13 @@
 package gui;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import logic.fileManager.FileParser;
 import logic.scripter.Metric;
@@ -13,9 +16,11 @@ import logic.scripter.graphs.GraphCommand;
 public class MainFrameController {
 
 	private MainFrame mf;
+	private List<Metric> metrics;
 
 	public MainFrameController(MainFrame mf) {
 		this.mf = mf;
+		this.metrics = new ArrayList<Metric>();
 	}
 
 	public void initialize() {
@@ -35,6 +40,8 @@ public class MainFrameController {
 		mf.getPlotsSelectPn().removeAll();
 		for (int i = 1; i < mf.getPlotListPn().getComponentCount(); i++)
 			mf.getPlotListPn().remove(i);
+		
+		this.metrics = new ArrayList<Metric>();
 	}
 
 	public void openFile() {
@@ -42,27 +49,33 @@ public class MainFrameController {
 		if (fc.showOpenDialog(mf) != JFileChooser.APPROVE_OPTION)
 			return;
 		// A file has been selected
-		//this.initialize();
 		File f = fc.getSelectedFile();
 		String filepath = f.getPath();
-		List<Metric> metrics = FileParser.parseMetrics(filepath);
-		this.populateMetricPanel(metrics);
+		List<Metric> parsedMetrics = FileParser.parseMetrics(filepath);
+		this.populateMetricPanel(parsedMetrics);
 		this.populatePlotSelectPanel();
 		this.enableButtons();
 	}
 
-	public void populateMetricPanel(List<Metric> metrics) {
-		// TODO: Load metrics
+	public void populateMetricPanel(List<Metric> parsedMetrics) {
+		this.metrics.addAll(parsedMetrics);
 		JPanel metricsPanel = mf.getMetricSelectPn();
-		for (int i = 0; i < metrics.size(); i++) {
+		metricsPanel.removeAll();
+		for (int i = 0; i < this.metrics.size(); i++) {
+			JCheckBox checkMet = new JCheckBox(this.metrics.get(i).getName());
+			metricsPanel.add(checkMet);
 		}
+		mf.getPlotsPn().validate();
 	}
 
 	public void populatePlotSelectPanel() {
-		// TODO: Load available plots
+		JPanel plotsPanel = mf.getPlotsSelectPn();
+		plotsPanel.removeAll();
 		for (int i = 0; i < GraphCommand.GRAPHS.values().length; i++) {
-
+			JRadioButton btnPlot = new JRadioButton(GraphCommand.GRAPHS.values()[i].toString());
+			plotsPanel.add(btnPlot);
 		}
+		mf.getPlotsPn().validate();
 	}
 
 	public void enableButtons() {

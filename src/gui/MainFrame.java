@@ -33,6 +33,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import logic.scripter.Metric;
+import javax.swing.JRadioButton;
 
 public class MainFrame extends JFrame {
 
@@ -311,11 +312,12 @@ public class MainFrame extends JFrame {
 	protected JPanel getMetricsPlotsPn() {
 		if (metricsPlotsPn == null) {
 			metricsPlotsPn = new JPanel();
+			metricsPlotsPn.setAlignmentY(Component.TOP_ALIGNMENT);
 			FlowLayout flowLayout = (FlowLayout) metricsPlotsPn.getLayout();
 			flowLayout.setVgap(0);
 			flowLayout.setHgap(0);
-			metricsPlotsPn.add(getMetricSelectPn());
-			metricsPlotsPn.add(getPlotsSelectPn());
+			metricsPlotsPn.add(new JScrollPane(getMetricSelectPn()));
+			metricsPlotsPn.add(new JScrollPane(getPlotsSelectPn()));
 		}
 		return metricsPlotsPn;
 	}
