@@ -55,7 +55,7 @@ public class FileMerger {
 		}
 		// Adding average of lines
 		double[] values = new double[fileNames.size()];
-		for (int i = 0; i < size; i++) { // Current row
+		for (int i = 1; i < size; i++) { // Current row
 			for (int k = 0; k < columnNumber; k++) { // Current column
 				for (int j = 0; j < fileNames.size(); j++) { // Current file
 					values[j] = Double.parseDouble(fileContents.get(j).split("\n")[i].split(";")[k]);
@@ -99,8 +99,8 @@ public class FileMerger {
 	private static void guardarFichero(String fichero, String nombre) {
 		BufferedWriter bw;
 		try {
-			bw = new BufferedWriter(new FileWriter(new File(
-					directory + MERGED_OUTPUT_FOLDER + nombre + new Date().toGMTString().replace(':', '-') + ".csv")));
+			bw = new BufferedWriter(new FileWriter(new File(directory + MERGED_OUTPUT_FOLDER + nombre + " "
+					+ new Date().toGMTString().replace(':', '-') + ".csv")));
 			bw.write(fichero);
 			bw.close();
 		} catch (IOException e) {
