@@ -56,9 +56,10 @@ public class MainFrameController {
 		if (fc.showOpenDialog(mf) != JFileChooser.APPROVE_OPTION)
 			return;
 		// A file has been selected
-		//TODO: Load file names to file label
+		// TODO: Load file names to file label
 		File f = fc.getSelectedFile();
 		String filepath = f.getPath();
+		this.loadedFileNames.add(f.getName());
 		List<Metric> parsedMetrics = FileParser.parseMetrics(filepath);
 		this.populateMetricPanel(parsedMetrics);
 		this.populatePlotSelectPanel();
@@ -73,8 +74,7 @@ public class MainFrameController {
 			JCheckBox checkMet = new JCheckBox(this.metrics.get(i).getName());
 			metricsPanel.add(checkMet);
 		}
-		mf.getMetricsPlotsPn().repaint();
-		mf.getMetricsPlotsPn().validate();
+		this.refreshUI(mf.getMetricsPlotsPn());
 	}
 
 	public void populatePlotSelectPanel() {
@@ -86,8 +86,7 @@ public class MainFrameController {
 			group.add(btnPlot);
 			plotsPanel.add(btnPlot);
 		}
-		mf.getMetricsPlotsPn().repaint();
-		mf.getMetricsPlotsPn().validate();
+		this.refreshUI(mf.getMetricsPlotsPn());
 	}
 
 	public void enableButtons() {
@@ -100,14 +99,13 @@ public class MainFrameController {
 	}
 
 	public void removePlot() {
-		//TODO: Remove graph command from list
-		mf.getPlotListPn().remove(mf.getPlotListPn().getComponentCount()-1);
-		mf.getPlotManagerPn().repaint();
-		mf.getPlotManagerPn().validate();
+		// TODO: Remove graph command from list
+		mf.getPlotListPn().remove(mf.getPlotListPn().getComponentCount() - 1);
+		this.refreshUI(mf.getPlotManagerPn());
 	}
-	
+
 	public void addPlot() {
-		//TODO: Ask for pdf name/parameters
+		// TODO: Ask for pdf name/parameters
 		List<Metric> plotMetrics = new ArrayList<Metric>();
 		for (int i = 0; i < mf.getMetricSelectPn().getComponentCount(); i++) {
 			if (((JCheckBox) mf.getMetricSelectPn().getComponent(i)).isSelected())
@@ -143,10 +141,8 @@ public class MainFrameController {
 		plotLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		plotListPane.add(plotLabel);
 		this.refreshUI(mf.getPlotManagerPn());
-		mf.getPlotManagerPn().repaint();
-		mf.getPlotManagerPn().validate();
 	}
-	
+
 	private void refreshUI(JPanel panel) {
 		panel.repaint();
 		panel.validate();

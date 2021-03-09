@@ -32,7 +32,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import logic.scripter.Metric;
 import javax.swing.ScrollPaneConstants;
-import java.awt.GridLayout;
 
 public class MainFrame extends JFrame {
 
