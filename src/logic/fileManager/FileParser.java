@@ -12,33 +12,29 @@ public class FileParser {
 
 	private static List<Metric> parsedMetrics = new ArrayList<Metric>();
 
-	public static List<Metric> parseMetrics(String fileUrl) {
+	public static List<Metric> parseMetrics(String fileUrl) throws IOException {
 		parsedMetrics = new ArrayList<Metric>();
 		FileReader fr;
-		try {
-			fr = new FileReader(fileUrl);
-			BufferedReader bf = new BufferedReader(fr);
-			String line = bf.readLine();
-			// First line is composed of metric names
-			for (int i = 0; i < line.split(";").length; i++) {
-				parsedMetrics.add(new Metric(line.split(";")[i]));
-			}
-			// Now onto parsing values
-			while ((line = bf.readLine()) != null) {
-				String[] pieces = line.split(";");
-				for (int i = 0; i < pieces.length; i++) {
-					if (!pieces[i].equals(""))
-						parsedMetrics.get(i).addValue(pieces[i]);
-				}
-			}
-			validateParsedMetrics();
-			bf.close();
-			fr.close();
-			return parsedMetrics;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return new ArrayList<Metric>();
+
+		fr = new FileReader(fileUrl);
+		BufferedReader bf = new BufferedReader(fr);
+		String line = bf.readLine();
+		// First line is composed of metric names
+		for (int i = 0; i < line.split(";").length; i++) {
+			parsedMetrics.add(new Metric(line.split(";")[i]));
 		}
+		// Now onto parsing values
+		while ((line = bf.readLine()) != null) {
+			String[] pieces = line.split(";");
+			for (int i = 0; i < pieces.length; i++) {
+				if (!pieces[i].equals(""))
+					parsedMetrics.get(i).addValue(pieces[i]);
+			}
+		}
+		validateParsedMetrics();
+		bf.close();
+		fr.close();
+		return parsedMetrics;
 	}
 
 	private static void validateParsedMetrics() {

@@ -36,7 +36,7 @@ public class FileMerger {
 		guardarFichero(fichero, "resumenUltimaLinea");
 	}
 
-	public static void mergeByAverage(String dir) {
+	public static void mergeByAverage(String dir) throws IllegalArgumentException {
 		// dir = directory containing csv files to be merged
 		directory = dir;
 		cargarFicheros();
@@ -51,7 +51,7 @@ public class FileMerger {
 		int size = fileContents.get(0).split("\n").length;
 		for (int i = 1; i < fileNames.size(); i++) {
 			if (fileContents.get(i).split("\n").length != size)
-				return; // TODO: Throw error
+				throw new IllegalArgumentException("Files are not equal in row number");
 		}
 		// Adding average of lines
 		double[] values = new double[fileNames.size()];

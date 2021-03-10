@@ -78,12 +78,23 @@ public class MainFrameController {
 		// A file has been selected
 		// TODO: Load file names to file label
 		File f = fc.getSelectedFile();
+		if (!f.getName().endsWith(".csv")) {
+			JOptionPane.showMessageDialog(this.mf, "Non supported file format", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+				
 		String filepath = f.getPath();
 		this.loadedFileNames.add(f.getName());
-		List<Metric> parsedMetrics = FileParser.parseMetrics(filepath);
-		this.populateMetricPanel(parsedMetrics);
-		this.populatePlotSelectPanel();
-		this.enableButtons();
+		List<Metric> parsedMetrics;
+		try {
+			parsedMetrics = FileParser.parseMetrics(filepath);
+			this.populateMetricPanel(parsedMetrics);
+			this.populatePlotSelectPanel();
+			this.enableButtons();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this.mf,"An error has ocurred opening the file","Error reading file",  JOptionPane.ERROR_MESSAGE);
+			return;
+		}
 	}
 
 	public void populateMetricPanel(List<Metric> parsedMetrics) {
@@ -106,14 +117,11 @@ public class MainFrameController {
 			group.add(btnPlot);
 			plotsPanel.add(btnPlot);
 		}
+		((JRadioButton)plotsPanel.getComponent(0)).setSelected(true);
 		this.refreshUI(mf.getMetricsPlotsPn());
 	}
 
 	public void enableButtons() {
-		// mf.getBtnRunScript().setEnabled(true);
-		// mf.getBtnExportScript().setEnabled(true);
-		// mf.getBtnEditSave().setEnabled(true);
-
 		mf.getBtnAddPlot().setEnabled(true);
 		mf.getBtnRemovePlot().setEnabled(true);
 		mf.getBtnGenerateScript().setEnabled(true);
@@ -197,6 +205,8 @@ public class MainFrameController {
 	}
 
 	public void runScript() {
+		if (this.script.equals("")) 
+			return;
 		int res = JOptionPane.showConfirmDialog(this.mf, "Execute current script?");
 		if (res != 0)
 			return;
@@ -207,6 +217,7 @@ public class MainFrameController {
 		} catch (Exception e) {
 			this.showExceptionDialog("Script execution error", "An exception ocurred while executing the script:",
 					e.getMessage());
+			return;
 		}
 	}
 
