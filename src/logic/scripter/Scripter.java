@@ -34,7 +34,7 @@ public class Scripter {
 	}
 
 	public static String createScript(List<Metric> metrics, List<GraphCommand> graphs) {
-		// Work directory cannot be changed from Renjin
+		// TODO: Work directory cannot be changed from Renjin
 		StringBuilder script = new StringBuilder("");// "setwd('" + workDirectory + "')\n");
 
 		// First declare all metrics that will be used

@@ -17,18 +17,25 @@ import javax.swing.border.LineBorder;
 
 import logic.fileManager.FileParser;
 import logic.scripter.Metric;
+import logic.scripter.Scripter;
+import logic.scripter.graphs.BoxPlot;
 import logic.scripter.graphs.GraphCommand;
+import logic.scripter.graphs.Plot;
 
 public class MainFrameController {
 
 	private MainFrame mf;
 	private List<Metric> metrics;
 	private List<String> loadedFileNames;
+	private List<GraphCommand> plots;
+	private String script;
 
 	public MainFrameController(MainFrame mf) {
 		this.mf = mf;
 		this.metrics = new ArrayList<Metric>();
 		this.loadedFileNames = new ArrayList<String>();
+		this.plots = new ArrayList<GraphCommand>();
+		this.script = "";
 	}
 
 	public void initialize() {
@@ -49,6 +56,8 @@ public class MainFrameController {
 		mf.getPlotListPn().removeAll();
 
 		this.metrics = new ArrayList<Metric>();
+		this.plots = new ArrayList<GraphCommand>();
+		this.script="";
 	}
 
 	public void openFile() {
@@ -99,7 +108,7 @@ public class MainFrameController {
 	}
 
 	public void removePlot() {
-		// TODO: Remove graph command from list
+		this.plots.remove(this.plots.size()-1);
 		mf.getPlotListPn().remove(mf.getPlotListPn().getComponentCount() - 1);
 		this.refreshUI(mf.getPlotManagerPn());
 	}
@@ -108,8 +117,10 @@ public class MainFrameController {
 		// TODO: Ask for pdf name/parameters
 		List<Metric> plotMetrics = new ArrayList<Metric>();
 		for (int i = 0; i < mf.getMetricSelectPn().getComponentCount(); i++) {
-			if (((JCheckBox) mf.getMetricSelectPn().getComponent(i)).isSelected())
+			if (((JCheckBox) mf.getMetricSelectPn().getComponent(i)).isSelected()) {
+				((JCheckBox) mf.getMetricSelectPn().getComponent(i)).setSelected(false);
 				plotMetrics.add(this.metrics.get(i));
+			}
 		}
 
 		String plotName = "";
@@ -127,8 +138,16 @@ public class MainFrameController {
 		mf.getBtnGenerateScript().setEnabled(true);
 	}
 
-	public void createGraphObject(String graphType, String pdfName, List<Metric> plotMetrics) {
-		// TODO: Create Graph command and add to plot list to send to scripter
+	private void createGraphObject(String graphType, String pdfName, List<Metric> plotMetrics) {
+		// Factory method that creates GraphCommand objects
+		switch (graphType) {
+		case "BoxPlot":
+			this.plots.add(new BoxPlot(pdfName, plotMetrics));
+			break;
+		case "Plot":
+			this.plots.add(new Plot(pdfName, plotMetrics));
+			break;
+		}
 	}
 
 	public void addPlotLabel(String name) {
@@ -141,6 +160,11 @@ public class MainFrameController {
 		plotLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		plotListPane.add(plotLabel);
 		this.refreshUI(mf.getPlotManagerPn());
+	}
+	
+	public void generateScript() {
+		this.script = Scripter.createScript(this.metrics, this.plots);
+		mf.getTextAreaScript().setText(this.script);
 	}
 
 	private void refreshUI(JPanel panel) {

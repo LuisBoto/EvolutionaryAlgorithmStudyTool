@@ -230,6 +230,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnGenerateScript() {
 		if (btnGenerateScript == null) {
 			btnGenerateScript = new JButton("Generate Script");
+			btnGenerateScript.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.generateScript();
+				}
+			});
 			btnGenerateScript.setMnemonic('g');
 			btnGenerateScript.setEnabled(false);
 		}
