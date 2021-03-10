@@ -82,6 +82,7 @@ public class MainFrame extends JFrame {
 	private JScrollPane metricSelectScrollPane;
 	private JScrollPane plotSelectScrollPane;
 	private JScrollPane plotListScrollPane;
+	private JScrollPane textAreaScrollPane;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -290,7 +291,7 @@ public class MainFrame extends JFrame {
 			scriptPn.setBorder(new LineBorder(new Color(0, 0, 0)));
 			scriptPn.setLayout(new BoxLayout(scriptPn, BoxLayout.Y_AXIS));
 			scriptPn.add(getScriptEditPn());
-			scriptPn.add(getTextAreaScript());
+			scriptPn.add(getTextAreaScrollPane());
 		}
 		return scriptPn;
 	}
@@ -415,8 +416,9 @@ public class MainFrame extends JFrame {
 	protected JPanel getScriptEditPn() {
 		if (scriptEditPn == null) {
 			scriptEditPn = new JPanel();
-			scriptEditPn.setLayout(new FlowLayout(FlowLayout.CENTER, 25, 5));
+			scriptEditPn.setLayout(new BoxLayout(scriptEditPn, BoxLayout.X_AXIS));
 			scriptEditPn.add(getLblGeneratedScript());
+			scriptEditPn.add(Box.createRigidArea(new Dimension(30, 0)));
 			scriptEditPn.add(getBtnEditSave());
 		}
 		return scriptEditPn;
@@ -534,5 +536,14 @@ public class MainFrame extends JFrame {
 			plotListScrollPane.setViewportView(getPlotListPn());
 		}
 		return plotListScrollPane;
+	}
+	protected JScrollPane getTextAreaScrollPane() {
+		if (textAreaScrollPane == null) {
+			textAreaScrollPane = new JScrollPane();
+			textAreaScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			textAreaScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			textAreaScrollPane.setViewportView(this.getTextAreaScript());
+		}
+		return textAreaScrollPane;
 	}
 }
