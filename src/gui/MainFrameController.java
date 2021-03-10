@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,9 +116,12 @@ public class MainFrameController {
 
 		mf.getBtnAddPlot().setEnabled(true);
 		mf.getBtnRemovePlot().setEnabled(true);
+		mf.getBtnGenerateScript().setEnabled(true);
 	}
 
 	public void removePlot() {
+		if (this.plots.size()<=0)
+			return;
 		this.plots.remove(this.plots.size() - 1);
 		mf.getPlotListPn().remove(mf.getPlotListPn().getComponentCount() - 1);
 		this.refreshUI(mf.getPlotManagerPn());
@@ -143,7 +149,6 @@ public class MainFrameController {
 
 		this.createGraphObject(plotName, plotName, plotMetrics);
 		this.addPlotLabel(plotName);
-		mf.getBtnGenerateScript().setEnabled(true);
 	}
 
 	private void createGraphObject(String graphType, String pdfName, List<Metric> plotMetrics) {
@@ -174,12 +179,12 @@ public class MainFrameController {
 		if (mf.getBtnEditSave().getText().equals("Edit")) {
 			mf.getTextAreaScript().setEditable(true);
 			mf.getBtnEditSave().setText("Save");
-			mf.getTextAreaScript().setBackground(new Color(255,247,230));
+			mf.getTextAreaScript().setBackground(new Color(255, 247, 230));
 		} else { // Saving functionality
 			mf.getTextAreaScript().setEditable(false);
 			mf.getBtnEditSave().setText("Edit");
 			this.script = mf.getTextAreaScript().getText();
-			mf.getTextAreaScript().setBackground(new Color(255,255,255));
+			mf.getTextAreaScript().setBackground(new Color(255, 255, 255));
 		}
 	}
 
@@ -200,15 +205,17 @@ public class MainFrameController {
 			JOptionPane.showMessageDialog(this.mf, "Execution completed successfully", "Script execution completed",
 					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
-			this.showExceptionDialog(e.getMessage());
+			this.showExceptionDialog("Script execution error", "An exception ocurred while executing the script:",
+					e.getMessage());
 		}
 	}
-	
-	private void showExceptionDialog(String exceptionMessage) {
-		//Creating a BoxLayout panel with a scrollable textArea to show exception Message on GUI
+
+	private void showExceptionDialog(String title, String message, String exceptionMessage) {
+		// Creating a BoxLayout panel with a scrollable textArea to show exception
+		// Message on GUI
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(new JLabel("An exception ocurred while executing the script:"));
+		panel.add(new JLabel(message));
 		panel.add(Box.createRigidArea(new Dimension(10, 10)));
 		JScrollPane scroll = new JScrollPane();
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -222,13 +229,27 @@ public class MainFrameController {
 		ta.setEditable(false);
 		scroll.setViewportView(ta);
 		panel.add(scroll);
-		JOptionPane.showMessageDialog(this.mf, panel, "Script execution error", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(this.mf, panel, title, JOptionPane.ERROR_MESSAGE);
 	}
 
 	public void exportScript() {
 		JFileChooser fc = new JFileChooser();
 		if (fc.showSaveDialog(mf) != JFileChooser.APPROVE_OPTION)
 			return;
+		File file = fc.getSelectedFile();
+		String path = file.getPath();
+		FileWriter fw;
+		try {
+			fw = new FileWriter(path);
+			BufferedWriter bf = new BufferedWriter(fw);
+			bf.write(this.script);
+			bf.close();
+			fw.close();
+			JOptionPane.showMessageDialog(this.mf, "Export completed successfully",
+					"Script export completed to " + path, JOptionPane.INFORMATION_MESSAGE);
+		} catch (IOException e) {
+			this.showExceptionDialog("Script export error", "An error ocurred exporting the script:", e.getMessage());
+		}
 	}
 
 	private void refreshUI(JPanel panel) {

@@ -6,11 +6,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -26,13 +28,12 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import logic.scripter.Metric;
-import javax.swing.ScrollPaneConstants;
-import java.awt.Font;
 
 public class MainFrame extends JFrame {
 
@@ -522,6 +523,7 @@ public class MainFrame extends JFrame {
 			// TODO: Figure these out
 			Object[][] data = { { "Fitness", 5000, 80, 70 }, { "Crosses", 7000, 90, 76 } };
 			statisticsTable = new JTable(data, columnNames);
+			statisticsTable.setRowHeight(40);
 		}
 		return statisticsTable;
 	}
