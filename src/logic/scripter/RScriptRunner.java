@@ -17,7 +17,6 @@ public class RScriptRunner {
 		System.out.println("Executing R script");
 		for (int i = 0; i < lines.length; i++)
 			engine.eval(lines[i]);		
-
 		System.out.println("R execution finished");
 	}
 

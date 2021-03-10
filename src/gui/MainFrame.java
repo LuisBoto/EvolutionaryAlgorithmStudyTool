@@ -32,6 +32,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import logic.scripter.Metric;
 import javax.swing.ScrollPaneConstants;
+import java.awt.Font;
 
 public class MainFrame extends JFrame {
 
@@ -259,6 +260,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnExportScript() {
 		if (btnExportScript == null) {
 			btnExportScript = new JButton("Export Script");
+			btnExportScript.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.exportScript();
+				}
+			});
 			btnExportScript.setMnemonic('s');
 			btnExportScript.setEnabled(false);
 		}
@@ -454,9 +460,10 @@ public class MainFrame extends JFrame {
 	protected JTextArea getTextAreaScript() {
 		if (textAreaScript == null) {
 			textAreaScript = new JTextArea();
+			textAreaScript.setFont(new Font("Monospaced", Font.PLAIN, 15));
 			textAreaScript.setWrapStyleWord(true);
 			textAreaScript.setLineWrap(true);
-			textAreaScript.setColumns(40);
+			textAreaScript.setColumns(50);
 			textAreaScript.setText("No script generated yet");
 			textAreaScript.setEditable(false);
 		}

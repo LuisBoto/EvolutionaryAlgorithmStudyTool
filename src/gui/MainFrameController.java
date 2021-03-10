@@ -2,11 +2,14 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -14,6 +17,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
 import logic.fileManager.FileParser;
@@ -168,10 +174,12 @@ public class MainFrameController {
 		if (mf.getBtnEditSave().getText().equals("Edit")) {
 			mf.getTextAreaScript().setEditable(true);
 			mf.getBtnEditSave().setText("Save");
+			mf.getTextAreaScript().setBackground(new Color(255,247,230));
 		} else { // Saving functionality
 			mf.getTextAreaScript().setEditable(false);
 			mf.getBtnEditSave().setText("Edit");
 			this.script = mf.getTextAreaScript().getText();
+			mf.getTextAreaScript().setBackground(new Color(255,255,255));
 		}
 	}
 
@@ -189,13 +197,38 @@ public class MainFrameController {
 			return;
 		try {
 			RScriptRunner.runRScript(this.script);
+			JOptionPane.showMessageDialog(this.mf, "Execution completed successfully", "Script execution completed",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this.mf,
-					"An exception ocurred while executing the script:\n" + e.getMessage(), "Script execution error",
-					JOptionPane.ERROR_MESSAGE);
+			this.showExceptionDialog(e.getMessage());
 		}
-		JOptionPane.showMessageDialog(this.mf, "Execution completed successfully", "Script execution completed",
-				JOptionPane.PLAIN_MESSAGE);
+	}
+	
+	private void showExceptionDialog(String exceptionMessage) {
+		//Creating a BoxLayout panel with a scrollable textArea to show exception Message on GUI
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.add(new JLabel("An exception ocurred while executing the script:"));
+		panel.add(Box.createRigidArea(new Dimension(10, 10)));
+		JScrollPane scroll = new JScrollPane();
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		JTextArea ta = new JTextArea(exceptionMessage);
+		ta.setRows(10);
+		ta.setColumns(50);
+		ta.setFont(new Font("Monospaced", Font.PLAIN, 13));
+		ta.setWrapStyleWord(true);
+		ta.setLineWrap(true);
+		ta.setEditable(false);
+		scroll.setViewportView(ta);
+		panel.add(scroll);
+		JOptionPane.showMessageDialog(this.mf, panel, "Script execution error", JOptionPane.ERROR_MESSAGE);
+	}
+
+	public void exportScript() {
+		JFileChooser fc = new JFileChooser();
+		if (fc.showSaveDialog(mf) != JFileChooser.APPROVE_OPTION)
+			return;
 	}
 
 	private void refreshUI(JPanel panel) {
