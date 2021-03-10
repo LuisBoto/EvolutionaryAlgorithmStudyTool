@@ -162,9 +162,21 @@ public class MainFrameController {
 		this.refreshUI(mf.getPlotManagerPn());
 	}
 	
+	public void editSaveScriptArea() {
+		if (mf.getBtnEditSave().getText().equals("Edit")) {
+			mf.getTextAreaScript().setEditable(true);
+			mf.getBtnEditSave().setText("Save");
+		} else { //Saving functionality
+			mf.getTextAreaScript().setEditable(false);
+			mf.getBtnEditSave().setText("Edit");
+			this.script = mf.getTextAreaScript().getText();
+		}
+	}
+	
 	public void generateScript() {
 		this.script = Scripter.createScript(this.metrics, this.plots);
 		mf.getTextAreaScript().setText(this.script);
+		mf.getBtnEditSave().setEnabled(true);
 	}
 
 	private void refreshUI(JPanel panel) {

@@ -434,6 +434,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnEditSave() {
 		if (btnEditSave == null) {
 			btnEditSave = new JButton("Edit");
+			btnEditSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.editSaveScriptArea();
+				}
+			});
 			btnEditSave.setMnemonic('e');
 			btnEditSave.setHorizontalAlignment(SwingConstants.TRAILING);
 			btnEditSave.setEnabled(false);
