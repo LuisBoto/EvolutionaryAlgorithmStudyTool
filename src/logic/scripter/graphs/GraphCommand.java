@@ -19,7 +19,7 @@ public abstract class GraphCommand {
 	}
 
 	public String generateScriptCode() {
-		StringBuilder res = new StringBuilder("pdf('").append(this.pdfName).append("')\n");
+		StringBuilder res = new StringBuilder("pdf('").append(this.pdfName).append(".pdf')\n");
 		res.append(this.execute()).append("\n");
 		res.append("dev.off()");
 		return res.toString();

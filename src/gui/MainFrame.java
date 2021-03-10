@@ -245,6 +245,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnRunScript() {
 		if (btnRunScript == null) {
 			btnRunScript = new JButton("Run Script");
+			btnRunScript.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.runScript();
+				}
+			});
 			btnRunScript.setMnemonic('u');
 			btnRunScript.setEnabled(false);
 		}

@@ -11,12 +11,14 @@ import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.LineBorder;
 
 import logic.fileManager.FileParser;
 import logic.scripter.Metric;
+import logic.scripter.RScriptRunner;
 import logic.scripter.Scripter;
 import logic.scripter.graphs.BoxPlot;
 import logic.scripter.graphs.GraphCommand;
@@ -57,7 +59,7 @@ public class MainFrameController {
 
 		this.metrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
-		this.script="";
+		this.script = "";
 	}
 
 	public void openFile() {
@@ -108,7 +110,7 @@ public class MainFrameController {
 	}
 
 	public void removePlot() {
-		this.plots.remove(this.plots.size()-1);
+		this.plots.remove(this.plots.size() - 1);
 		mf.getPlotListPn().remove(mf.getPlotListPn().getComponentCount() - 1);
 		this.refreshUI(mf.getPlotManagerPn());
 	}
@@ -161,22 +163,39 @@ public class MainFrameController {
 		plotListPane.add(plotLabel);
 		this.refreshUI(mf.getPlotManagerPn());
 	}
-	
+
 	public void editSaveScriptArea() {
 		if (mf.getBtnEditSave().getText().equals("Edit")) {
 			mf.getTextAreaScript().setEditable(true);
 			mf.getBtnEditSave().setText("Save");
-		} else { //Saving functionality
+		} else { // Saving functionality
 			mf.getTextAreaScript().setEditable(false);
 			mf.getBtnEditSave().setText("Edit");
 			this.script = mf.getTextAreaScript().getText();
 		}
 	}
-	
+
 	public void generateScript() {
 		this.script = Scripter.createScript(this.metrics, this.plots);
 		mf.getTextAreaScript().setText(this.script);
 		mf.getBtnEditSave().setEnabled(true);
+		mf.getBtnRunScript().setEnabled(true);
+		mf.getBtnExportScript().setEnabled(true);
+	}
+
+	public void runScript() {
+		int res = JOptionPane.showConfirmDialog(this.mf, "Execute current script?");
+		if (res != 0)
+			return;
+		try {
+			RScriptRunner.runRScript(this.script);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this.mf,
+					"An exception ocurred while executing the script:\n" + e.getMessage(), "Script execution error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		JOptionPane.showMessageDialog(this.mf, "Execution completed successfully", "Script execution completed",
+				JOptionPane.PLAIN_MESSAGE);
 	}
 
 	private void refreshUI(JPanel panel) {
