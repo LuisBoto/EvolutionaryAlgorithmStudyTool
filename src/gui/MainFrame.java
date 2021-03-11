@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -28,7 +27,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -90,6 +89,13 @@ public class MainFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					try {
+						UIManager.setLookAndFeel(
+								"org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
+					} catch (Exception e) {
+						System.out.println("Substance look and feel failed to initialize");
+					}
+
 					MainFrame frame = new MainFrame();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
@@ -189,7 +195,6 @@ public class MainFrame extends JFrame {
 			openFileButtonPn = new JPanel();
 			FlowLayout flowLayout = (FlowLayout) openFileButtonPn.getLayout();
 			flowLayout.setAlignment(FlowLayout.LEADING);
-			openFileButtonPn.setBorder(new LineBorder(new Color(0, 0, 0)));
 			openFileButtonPn.add(getBtnOpenFile());
 			openFileButtonPn.add(getBtnMergeFiles());
 		}
@@ -199,7 +204,6 @@ public class MainFrame extends JFrame {
 	protected JPanel getScriptGenerationButtonPn() {
 		if (scriptGenerationButtonPn == null) {
 			scriptGenerationButtonPn = new JPanel();
-			scriptGenerationButtonPn.setBorder(new LineBorder(new Color(0, 0, 0)));
 			scriptGenerationButtonPn.add(getBtnGenerateScript());
 			scriptGenerationButtonPn.add(getBtnRunScript());
 			scriptGenerationButtonPn.add(getBtnExportScript());
@@ -457,7 +461,6 @@ public class MainFrame extends JFrame {
 				}
 			});
 			btnEditSave.setMnemonic('e');
-			btnEditSave.setHorizontalAlignment(SwingConstants.TRAILING);
 			btnEditSave.setEnabled(false);
 		}
 		return btnEditSave;
@@ -546,6 +549,7 @@ public class MainFrame extends JFrame {
 	protected JScrollPane getPlotListScrollPane() {
 		if (plotListScrollPane == null) {
 			plotListScrollPane = new JScrollPane();
+			plotListScrollPane.setMinimumSize(new Dimension(23, 75));
 			plotListScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			plotListScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			plotListScrollPane.setViewportView(getPlotListPn());
@@ -566,6 +570,8 @@ public class MainFrame extends JFrame {
 	protected JScrollPane getStatisticSelectScroll() {
 		if (statisticSelectScroll == null) {
 			statisticSelectScroll = new JScrollPane();
+			statisticSelectScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			statisticSelectScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			statisticSelectScroll.setViewportView(getStatisticSelectPane());
 		}
 		return statisticSelectScroll;
@@ -577,10 +583,10 @@ public class MainFrame extends JFrame {
 			statisticSelectPane.setLayout(new BoxLayout(statisticSelectPane, BoxLayout.Y_AXIS));
 			statisticSelectPane.setVisible(false);
 			controller.populateStatisticsPanel();
-			//statisticSelectPane.add(Box.createVerticalGlue());
 		}
 		return statisticSelectPane;
 	}
+
 	protected JTextArea getTxtStatsResult() {
 		if (txtStatsResult == null) {
 			txtStatsResult = new JTextArea();

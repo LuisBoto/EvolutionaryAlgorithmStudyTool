@@ -22,6 +22,12 @@
     	<artifactId>renjin-script-engine</artifactId>
 	  	<version>3.5-beta43</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.java.net.substance/substance -->
+	<dependency>
+	    <groupId>org.java.net.substance</groupId>
+	    <artifactId>substance</artifactId>
+	    <version>6.0</version>
+	</dependency>
   </dependencies>
   <repositories>
   	<repository>

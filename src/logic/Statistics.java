@@ -1,5 +1,6 @@
 package logic;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import logic.scripter.Metric;
@@ -8,17 +9,21 @@ public class Statistics {
 
 	public static final String[] STATISTICS = { "Best", "Average", "Standard Deviation" };
 
-	public static double getStatistic(String name, List<Metric> metrics) {
+	public static String getStatistic(String name, List<Metric> metrics) {
+		double result = -1;
 		switch (name) {
 		case "Best":
-			return best(metrics);
+			result= best(metrics);
+			break;
 		case "Average":
-			return average(metrics);
+			result= average(metrics);
+			break;
 		case "Standard Deviation":
-			return standardDeviation(metrics);
-		default:
-			return -1;
+			result= standardDeviation(metrics);
+			break;
 		}
+		DecimalFormat numberFormat = new DecimalFormat("#.######");
+		return numberFormat.format(result);
 	}
 	
 	private static double best(List<Metric> metrics) {
