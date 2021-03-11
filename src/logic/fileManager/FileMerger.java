@@ -11,14 +11,14 @@ import java.util.Scanner;
 
 public class FileMerger {
 
-	protected static String directory;// = "./executionResults" + "/";
-	protected static final String MERGED_OUTPUT_FOLDER = "merged/";
+	protected static String directory;
+	protected static final String MERGED_OUTPUT_FOLDER = "/merged/";
 	protected static List<String> fileNames = new ArrayList<String>();
 	protected static List<String> fileContents = new ArrayList<String>();
 
 	public static void mergeByLastLine(String dir) {
 		// dir = directory containing csv files to be merged
-		directory = dir;
+		directory = dir+"/";
 		cargarFicheros();
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "Cabecera;";
@@ -38,7 +38,7 @@ public class FileMerger {
 
 	public static void mergeByAverage(String dir) throws IllegalArgumentException {
 		// dir = directory containing csv files to be merged
-		directory = dir;
+		directory = dir+"/";
 		cargarFicheros();
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "";

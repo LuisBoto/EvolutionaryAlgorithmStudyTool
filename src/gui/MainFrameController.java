@@ -309,16 +309,15 @@ public class MainFrameController {
 		chooser.setCurrentDirectory(new java.io.File("."));
 		chooser.setDialogTitle("Select directory to merge");
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		chooser.setAcceptAllFileFilterUsed(false);
 		if (chooser.showOpenDialog(this.mf) != JFileChooser.APPROVE_OPTION)
 			return;
-		File directory = chooser.getCurrentDirectory();
-
+		File directory = chooser.getSelectedFile();
+		String path = directory.getPath().replace('\\', '/');
 		if (optionSelected == 0) { // Merge by average
-			FileMerger.mergeByAverage(directory.getPath());
+			FileMerger.mergeByAverage(path);
 		}
 		if (optionSelected == 1) { // Merge by last line
-			FileMerger.mergeByLastLine(directory.getPath());
+			FileMerger.mergeByLastLine(path);
 		}
 	}
 
