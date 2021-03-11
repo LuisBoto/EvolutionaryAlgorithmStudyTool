@@ -224,6 +224,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnMergeFiles() {
 		if (btnMergeFiles == null) {
 			btnMergeFiles = new JButton("Merge files...");
+			btnMergeFiles.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.mergeFiles();
+				}
+			});
 			btnMergeFiles.setMnemonic('m');
 			btnMergeFiles.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}

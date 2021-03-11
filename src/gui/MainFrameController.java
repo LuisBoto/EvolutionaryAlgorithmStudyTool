@@ -29,6 +29,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
 import logic.Statistics;
+import logic.fileManager.FileMerger;
 import logic.fileManager.FileParser;
 import logic.scripter.Metric;
 import logic.scripter.RScriptRunner;
@@ -68,7 +69,7 @@ public class MainFrameController {
 		mf.getMetricSelectPn().removeAll();
 		mf.getPlotsSelectPn().removeAll();
 		mf.getPlotListPn().removeAll();
-		
+
 		mf.getStatisticSelectPane().setVisible(false);
 
 		this.metrics = new ArrayList<Metric>();
@@ -80,6 +81,7 @@ public class MainFrameController {
 
 	public void openFile() {
 		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(new java.io.File("."));
 		if (fc.showOpenDialog(mf) != JFileChooser.APPROVE_OPTION)
 			return;
 		// A file has been selected
@@ -104,17 +106,17 @@ public class MainFrameController {
 			return;
 		}
 	}
-	
+
 	public void updateLoadedFileLabel() {
-		if (this.loadedFileNames.size()<=0) {
+		if (this.loadedFileNames.size() <= 0) {
 			mf.getLblFile().setText("File: None");
-			mf.getLblFile().setToolTipText(null); //Turns off
+			mf.getLblFile().setToolTipText(null); // Turns off
 			return;
 		}
 		mf.getLblFile().setText("Loaded files");
 		StringBuilder names = new StringBuilder("<html><b>Loaded files:</b><br>");
-		for (String name: this.loadedFileNames)
-			names.append(name+"<br>");
+		for (String name : this.loadedFileNames)
+			names.append(name + "<br>");
 		names.append("</html>");
 		mf.getLblFile().setToolTipText(names.toString());
 	}
@@ -267,7 +269,7 @@ public class MainFrameController {
 			this.showExceptionDialog("Script export error", "An error ocurred exporting the script:", e.getMessage());
 		}
 	}
-	
+
 	public List<Metric> getSelectedMetrics(boolean unSelectAfter) {
 		List<Metric> metrics = new ArrayList<Metric>();
 		for (int i = 0; i < mf.getMetricSelectPn().getComponentCount(); i++) {
@@ -279,7 +281,7 @@ public class MainFrameController {
 		}
 		return metrics;
 	}
-	
+
 	public void populateStatisticsPanel() {
 		JPanel statsPanel = mf.getStatisticSelectPane();
 		JTextArea result = mf.getTxtStatsResult();
@@ -287,13 +289,36 @@ public class MainFrameController {
 			JButton btn = new JButton(statistic);
 			btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String res = statistic+":\n";
+					String res = statistic + ":\n";
 					res += Statistics.getStatistic(statistic, getSelectedMetrics(false));
 					result.setText(res);
 				}
 			});
 			btn.setAlignmentX(Component.CENTER_ALIGNMENT);
 			statsPanel.add(btn);
+		}
+	}
+
+	public void mergeFiles() {
+		String[] options = { "Average files", "Merge by last line", "Cancel" };
+		int optionSelected = JOptionPane.showOptionDialog(this.mf, "Select file merging method", "Merging files",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+		if (optionSelected == 2) // Cancel
+			return;
+		JFileChooser chooser = new JFileChooser();
+		chooser.setCurrentDirectory(new java.io.File("."));
+		chooser.setDialogTitle("Select directory to merge");
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		chooser.setAcceptAllFileFilterUsed(false);
+		if (chooser.showOpenDialog(this.mf) != JFileChooser.APPROVE_OPTION)
+			return;
+		File directory = chooser.getCurrentDirectory();
+
+		if (optionSelected == 0) { // Merge by average
+			FileMerger.mergeByAverage(directory.getPath());
+		}
+		if (optionSelected == 1) { // Merge by last line
+			FileMerger.mergeByLastLine(directory.getPath());
 		}
 	}
 
