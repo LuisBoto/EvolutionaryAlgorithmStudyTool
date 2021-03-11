@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Metric {
-
-	public static final String[] STATISTICS = { "Name", "Best", "Average", "Standard Deviation" };
+	
 	private String name;
 	private List<String> values;
 

@@ -25,7 +25,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
@@ -33,7 +32,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import logic.scripter.Metric;
 
 public class MainFrame extends JFrame {
 
@@ -76,7 +74,6 @@ public class MainFrame extends JFrame {
 	private JButton btnEditSave;
 	private JTextArea textAreaScript;
 	private JPanel statisticsPreviewPn;
-	private JTable statisticsTable;
 	private JLabel lblStatistics;
 	private JPanel plotPreviewPn;
 	private JLabel lblPlotPreview;
@@ -85,6 +82,8 @@ public class MainFrame extends JFrame {
 	private JScrollPane plotSelectScrollPane;
 	private JScrollPane plotListScrollPane;
 	private JScrollPane textAreaScrollPane;
+	private JScrollPane statisticSelectScroll;
+	private JPanel statisticSelectPane;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -503,7 +502,7 @@ public class MainFrame extends JFrame {
 			statisticsPreviewPn = new JPanel();
 			statisticsPreviewPn.setLayout(new BoxLayout(statisticsPreviewPn, BoxLayout.Y_AXIS));
 			statisticsPreviewPn.add(getLblStatistics());
-			statisticsPreviewPn.add(new JScrollPane(getStatisticsTable()));
+			statisticsPreviewPn.add(getStatisticSelectScroll());
 
 		}
 		return statisticsPreviewPn;
@@ -515,17 +514,6 @@ public class MainFrame extends JFrame {
 			lblStatistics.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblStatistics;
-	}
-
-	protected JTable getStatisticsTable() {
-		if (statisticsTable == null) {
-			String[] columnNames = Metric.STATISTICS;
-			// TODO: Figure these out
-			Object[][] data = { { "Fitness", 5000, 80, 70 }, { "Crosses", 7000, 90, 76 } };
-			statisticsTable = new JTable(data, columnNames);
-			statisticsTable.setRowHeight(40);
-		}
-		return statisticsTable;
 	}
 
 	protected JScrollPane getMetricSelectScrollPane() {
@@ -564,5 +552,22 @@ public class MainFrame extends JFrame {
 			textAreaScrollPane.setViewportView(this.getTextAreaScript());
 		}
 		return textAreaScrollPane;
+	}
+	protected JScrollPane getStatisticSelectScroll() {
+		if (statisticSelectScroll == null) {
+			statisticSelectScroll = new JScrollPane();
+			statisticSelectScroll.setViewportView(getStatisticSelectPane());
+		}
+		return statisticSelectScroll;
+	}
+	protected JPanel getStatisticSelectPane() {
+		if (statisticSelectPane == null) {
+			statisticSelectPane = new JPanel();
+			statisticSelectPane.setLayout(new BoxLayout(statisticSelectPane, BoxLayout.Y_AXIS));
+			statisticSelectPane.setVisible(false);
+			controller.populateStatisticsPanel();
+			statisticSelectPane.add(Box.createVerticalGlue());
+		}
+		return statisticSelectPane;
 	}
 }

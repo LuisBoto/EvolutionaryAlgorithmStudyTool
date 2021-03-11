@@ -6,7 +6,32 @@ import logic.scripter.Metric;
 
 public class Statistics {
 
-	public static double standardDeviation(List<Metric> metrics) {
+	public static final String[] STATISTICS = { "Best", "Average", "Standard Deviation" };
+
+	public static double getStatistic(String name, List<Metric> metrics) {
+		switch (name) {
+		case "Best":
+			return best(metrics);
+		case "Average":
+			return average(metrics);
+		case "Standard Deviation":
+			return standardDeviation(metrics);
+		default:
+			return -1;
+		}
+	}
+	
+	private static double best(List<Metric> metrics) {
+		double[] v = getValues(metrics);
+		double max = 0.0;
+		for (double value:v) {
+			if (value > max)
+				max=value;
+		}
+		return max;
+	}
+
+	private static double standardDeviation(List<Metric> metrics) {
 		double[] v = getValues(metrics);
 		double prom, sum = 0;
 		int i, n = v.length;
@@ -16,7 +41,7 @@ public class Statistics {
 		return Math.sqrt(sum / (double) n);
 	}
 
-	public static double average(List<Metric> metrics) {
+	private static double average(List<Metric> metrics) {
 		double[] v = getValues(metrics);
 		double prom = 0.0;
 		for (int i = 0; i < v.length; i++)

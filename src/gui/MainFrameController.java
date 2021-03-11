@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -14,6 +16,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -25,14 +28,13 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
+import logic.Statistics;
 import logic.fileManager.FileParser;
 import logic.scripter.Metric;
 import logic.scripter.RScriptRunner;
 import logic.scripter.Scripter;
-import logic.scripter.graphs.BoxPlot;
 import logic.scripter.graphs.GraphCommand;
 import logic.scripter.graphs.GraphFactory;
-import logic.scripter.graphs.Plot;
 
 public class MainFrameController {
 
@@ -66,6 +68,8 @@ public class MainFrameController {
 		mf.getMetricSelectPn().removeAll();
 		mf.getPlotsSelectPn().removeAll();
 		mf.getPlotListPn().removeAll();
+		
+		mf.getStatisticSelectPane().setVisible(false);
 
 		this.metrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
@@ -127,6 +131,7 @@ public class MainFrameController {
 		mf.getBtnAddPlot().setEnabled(true);
 		mf.getBtnRemovePlot().setEnabled(true);
 		mf.getBtnGenerateScript().setEnabled(true);
+		mf.getStatisticSelectPane().setVisible(true);
 	}
 
 	public void removePlot() {
@@ -139,13 +144,7 @@ public class MainFrameController {
 
 	public void addPlot() {
 		// TODO: Ask for pdf name/parameters
-		List<Metric> plotMetrics = new ArrayList<Metric>();
-		for (int i = 0; i < mf.getMetricSelectPn().getComponentCount(); i++) {
-			if (((JCheckBox) mf.getMetricSelectPn().getComponent(i)).isSelected()) {
-				((JCheckBox) mf.getMetricSelectPn().getComponent(i)).setSelected(false);
-				plotMetrics.add(this.metrics.get(i));
-			}
-		}
+		List<Metric> plotMetrics = this.getSelectedMetrics(true);
 
 		String plotName = "";
 		for (int i = 0; i < mf.getPlotsSelectPn().getComponentCount(); i++) {
@@ -250,6 +249,31 @@ public class MainFrameController {
 					"Script export completed to " + path, JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException e) {
 			this.showExceptionDialog("Script export error", "An error ocurred exporting the script:", e.getMessage());
+		}
+	}
+	
+	public List<Metric> getSelectedMetrics(boolean unSelectAfter) {
+		List<Metric> metrics = new ArrayList<Metric>();
+		for (int i = 0; i < mf.getMetricSelectPn().getComponentCount(); i++) {
+			if (((JCheckBox) mf.getMetricSelectPn().getComponent(i)).isSelected()) {
+				if (unSelectAfter)
+					((JCheckBox) mf.getMetricSelectPn().getComponent(i)).setSelected(false);
+				metrics.add(this.metrics.get(i));
+			}
+		}
+		return metrics;
+	}
+	
+	public void populateStatisticsPanel() {
+		JPanel statsPanel = mf.getStatisticSelectPane();
+		for (String statistic : Statistics.STATISTICS) {
+			JButton btn = new JButton(statistic);
+			btn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Statistics.getStatistic(statistic, getSelectedMetrics(false));
+				}
+			});
+			statsPanel.add(btn);
 		}
 	}
 
