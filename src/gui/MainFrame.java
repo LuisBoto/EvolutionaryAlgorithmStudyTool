@@ -84,6 +84,7 @@ public class MainFrame extends JFrame {
 	private JScrollPane textAreaScrollPane;
 	private JScrollPane statisticSelectScroll;
 	private JPanel statisticSelectPane;
+	private JTextArea txtStatsResult;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -503,6 +504,7 @@ public class MainFrame extends JFrame {
 			statisticsPreviewPn.setLayout(new BoxLayout(statisticsPreviewPn, BoxLayout.Y_AXIS));
 			statisticsPreviewPn.add(getLblStatistics());
 			statisticsPreviewPn.add(getStatisticSelectScroll());
+			statisticsPreviewPn.add(getTxtStatsResult());
 
 		}
 		return statisticsPreviewPn;
@@ -535,6 +537,7 @@ public class MainFrame extends JFrame {
 		}
 		return plotSelectScrollPane;
 	}
+
 	protected JScrollPane getPlotListScrollPane() {
 		if (plotListScrollPane == null) {
 			plotListScrollPane = new JScrollPane();
@@ -544,6 +547,7 @@ public class MainFrame extends JFrame {
 		}
 		return plotListScrollPane;
 	}
+
 	protected JScrollPane getTextAreaScrollPane() {
 		if (textAreaScrollPane == null) {
 			textAreaScrollPane = new JScrollPane();
@@ -553,6 +557,7 @@ public class MainFrame extends JFrame {
 		}
 		return textAreaScrollPane;
 	}
+
 	protected JScrollPane getStatisticSelectScroll() {
 		if (statisticSelectScroll == null) {
 			statisticSelectScroll = new JScrollPane();
@@ -560,14 +565,25 @@ public class MainFrame extends JFrame {
 		}
 		return statisticSelectScroll;
 	}
+
 	protected JPanel getStatisticSelectPane() {
 		if (statisticSelectPane == null) {
 			statisticSelectPane = new JPanel();
 			statisticSelectPane.setLayout(new BoxLayout(statisticSelectPane, BoxLayout.Y_AXIS));
 			statisticSelectPane.setVisible(false);
 			controller.populateStatisticsPanel();
-			statisticSelectPane.add(Box.createVerticalGlue());
+			//statisticSelectPane.add(Box.createVerticalGlue());
 		}
 		return statisticSelectPane;
+	}
+	protected JTextArea getTxtStatsResult() {
+		if (txtStatsResult == null) {
+			txtStatsResult = new JTextArea();
+			txtStatsResult.setEditable(false);
+			txtStatsResult.setFont(new Font("Monospaced", Font.BOLD, 16));
+			txtStatsResult.setLineWrap(true);
+			txtStatsResult.setWrapStyleWord(true);
+		}
+		return txtStatsResult;
 	}
 }

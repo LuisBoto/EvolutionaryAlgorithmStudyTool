@@ -282,13 +282,17 @@ public class MainFrameController {
 	
 	public void populateStatisticsPanel() {
 		JPanel statsPanel = mf.getStatisticSelectPane();
+		JTextArea result = mf.getTxtStatsResult();
 		for (String statistic : Statistics.STATISTICS) {
 			JButton btn = new JButton(statistic);
 			btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					Statistics.getStatistic(statistic, getSelectedMetrics(false));
+					String res = statistic+":\n";
+					res += Statistics.getStatistic(statistic, getSelectedMetrics(false));
+					result.setText(res);
 				}
 			});
+			btn.setAlignmentX(Component.CENTER_ALIGNMENT);
 			statsPanel.add(btn);
 		}
 	}
