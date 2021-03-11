@@ -31,6 +31,7 @@ import logic.scripter.RScriptRunner;
 import logic.scripter.Scripter;
 import logic.scripter.graphs.BoxPlot;
 import logic.scripter.graphs.GraphCommand;
+import logic.scripter.graphs.GraphFactory;
 import logic.scripter.graphs.Plot;
 
 public class MainFrameController {
@@ -156,20 +157,8 @@ public class MainFrameController {
 		if (plotName.equals("") || plotMetrics.size() <= 0)
 			return;
 
-		this.createGraphObject(plotName, plotName, plotMetrics);
+		this.plots.add(GraphFactory.createGraphObject(plotName, plotName, plotMetrics));
 		this.addPlotLabel(plotName);
-	}
-
-	private void createGraphObject(String graphType, String pdfName, List<Metric> plotMetrics) {
-		// Factory method that creates GraphCommand objects
-		switch (graphType) {
-		case "BoxPlot":
-			this.plots.add(new BoxPlot(pdfName, plotMetrics));
-			break;
-		case "Plot":
-			this.plots.add(new Plot(pdfName, plotMetrics));
-			break;
-		}
 	}
 
 	public void addPlotLabel(String name) {
