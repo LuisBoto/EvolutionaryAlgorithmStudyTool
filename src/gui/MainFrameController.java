@@ -73,6 +73,8 @@ public class MainFrameController {
 
 		this.metrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
+		this.loadedFileNames = new ArrayList<String>();
+		this.updateLoadedFileLabel();
 		this.script = "";
 	}
 
@@ -81,7 +83,6 @@ public class MainFrameController {
 		if (fc.showOpenDialog(mf) != JFileChooser.APPROVE_OPTION)
 			return;
 		// A file has been selected
-		// TODO: Load file names to file label
 		File f = fc.getSelectedFile();
 		if (!f.getName().endsWith(".csv")) {
 			JOptionPane.showMessageDialog(this.mf, "Non supported file format", "Error", JOptionPane.ERROR_MESSAGE);
@@ -95,12 +96,27 @@ public class MainFrameController {
 			parsedMetrics = FileParser.parseMetrics(loadedFileNames.size(), filepath);
 			this.populateMetricPanel(parsedMetrics);
 			this.populatePlotSelectPanel();
+			this.updateLoadedFileLabel();
 			this.enableButtons();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this.mf, "An error has ocurred opening the file", "Error reading file",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+	}
+	
+	public void updateLoadedFileLabel() {
+		if (this.loadedFileNames.size()<=0) {
+			mf.getLblFile().setText("File: None");
+			mf.getLblFile().setToolTipText(null); //Turns off
+			return;
+		}
+		mf.getLblFile().setText("Loaded files");
+		StringBuilder names = new StringBuilder("<html><b>Loaded files:</b><br>");
+		for (String name: this.loadedFileNames)
+			names.append(name+"<br>");
+		names.append("</html>");
+		mf.getLblFile().setToolTipText(names.toString());
 	}
 
 	public void populateMetricPanel(List<Metric> parsedMetrics) {
