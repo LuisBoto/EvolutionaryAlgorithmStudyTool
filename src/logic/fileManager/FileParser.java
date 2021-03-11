@@ -12,7 +12,7 @@ public class FileParser {
 
 	private static List<Metric> parsedMetrics = new ArrayList<Metric>();
 
-	public static List<Metric> parseMetrics(String fileUrl) throws IOException {
+	public static List<Metric> parseMetrics(int id, String fileUrl) throws IOException {
 		parsedMetrics = new ArrayList<Metric>();
 		FileReader fr;
 
@@ -21,7 +21,7 @@ public class FileParser {
 		String line = bf.readLine();
 		// First line is composed of metric names
 		for (int i = 0; i < line.split(";").length; i++) {
-			parsedMetrics.add(new Metric(line.split(";")[i]));
+			parsedMetrics.add(new Metric(line.split(";")[i]+id));
 		}
 		// Now onto parsing values
 		while ((line = bf.readLine()) != null) {

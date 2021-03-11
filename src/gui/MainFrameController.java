@@ -82,17 +82,18 @@ public class MainFrameController {
 			JOptionPane.showMessageDialog(this.mf, "Non supported file format", "Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-				
+
 		String filepath = f.getPath();
 		this.loadedFileNames.add(f.getName());
 		List<Metric> parsedMetrics;
 		try {
-			parsedMetrics = FileParser.parseMetrics(filepath);
+			parsedMetrics = FileParser.parseMetrics(loadedFileNames.size(), filepath);
 			this.populateMetricPanel(parsedMetrics);
 			this.populatePlotSelectPanel();
 			this.enableButtons();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this.mf,"An error has ocurred opening the file","Error reading file",  JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this.mf, "An error has ocurred opening the file", "Error reading file",
+					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 	}
@@ -117,7 +118,7 @@ public class MainFrameController {
 			group.add(btnPlot);
 			plotsPanel.add(btnPlot);
 		}
-		((JRadioButton)plotsPanel.getComponent(0)).setSelected(true);
+		((JRadioButton) plotsPanel.getComponent(0)).setSelected(true);
 		this.refreshUI(mf.getMetricsPlotsPn());
 	}
 
@@ -128,7 +129,7 @@ public class MainFrameController {
 	}
 
 	public void removePlot() {
-		if (this.plots.size()<=0)
+		if (this.plots.size() <= 0)
 			return;
 		this.plots.remove(this.plots.size() - 1);
 		mf.getPlotListPn().remove(mf.getPlotListPn().getComponentCount() - 1);
@@ -205,7 +206,7 @@ public class MainFrameController {
 	}
 
 	public void runScript() {
-		if (this.script.equals("")) 
+		if (this.script.equals(""))
 			return;
 		int res = JOptionPane.showConfirmDialog(this.mf, "Execute current script?");
 		if (res != 0)
