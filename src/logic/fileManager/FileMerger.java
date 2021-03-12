@@ -13,8 +13,8 @@ public class FileMerger {
 
 	protected static String directory;
 	protected static final String MERGED_OUTPUT_FOLDER = "/merged/";
-	protected static List<String> fileNames = new ArrayList<String>();
-	protected static List<String> fileContents = new ArrayList<String>();
+	protected static List<String> fileNames;
+	protected static List<String> fileContents;
 
 	public static void mergeByLastLine(String dir) {
 		// dir = directory containing csv files to be merged
@@ -68,6 +68,8 @@ public class FileMerger {
 	}
 
 	private static List<String> cargarFicheros() {
+		fileNames = new ArrayList<String>();
+		fileContents = new ArrayList<String>();
 		File file = new File(directory);
 		if (file.isDirectory()) {
 			File[] ficheros = file.listFiles();

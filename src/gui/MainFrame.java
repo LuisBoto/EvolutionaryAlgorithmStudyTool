@@ -149,6 +149,7 @@ public class MainFrame extends JFrame {
 		return mnHelp;
 	}
 
+	@SuppressWarnings("deprecation")
 	protected JMenuItem getMenuFileExit() {
 		if (menuFileExit == null) {
 			menuFileExit = new JMenuItem("Exit");
@@ -162,6 +163,7 @@ public class MainFrame extends JFrame {
 		return menuFileExit;
 	}
 
+	@SuppressWarnings("deprecation")
 	protected JMenuItem getMenuFileNew() {
 		if (menuFileNew == null) {
 			menuFileNew = new JMenuItem("New");
@@ -182,6 +184,7 @@ public class MainFrame extends JFrame {
 		return fileMenuSeparator;
 	}
 
+	@SuppressWarnings("deprecation")
 	protected JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem("About...");

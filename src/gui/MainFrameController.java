@@ -319,6 +319,8 @@ public class MainFrameController {
 		if (optionSelected == 1) { // Merge by last line
 			FileMerger.mergeByLastLine(path);
 		}
+		JOptionPane.showMessageDialog(this.mf, "Merging completed successfully", "File merge completed",
+				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void refreshUI(JPanel panel) {
