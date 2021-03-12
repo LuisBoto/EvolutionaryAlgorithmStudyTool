@@ -168,6 +168,7 @@ public class MainFrameController {
 			return;
 
 		PlotParameterDialog dialog = new PlotParameterDialog(this.mf);
+		dialog.setLocationRelativeTo(this.mf);
 		dialog.setVisible(true);
 	}
 

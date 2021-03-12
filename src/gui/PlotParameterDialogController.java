@@ -36,6 +36,8 @@ public class PlotParameterDialogController {
 	}
 	
 	public void removeParameter() {
+		if (this.parameters.size()<=0)
+			return;
 		this.parameters.remove(this.parameters.size()-1);
 		this.updateParameterLabel();
 	}
@@ -48,6 +50,10 @@ public class PlotParameterDialogController {
 		}
 		MainFrameController mfControl = this.pd.getMainFrame().getController();
 		mfControl.createPlotObject(mfControl.getSelectedPlot(), pdfName, mfControl.getSelectedMetrics(true), this.parameters);
+		this.pd.dispose();
+	}
+	
+	public void cancel() {
 		this.pd.dispose();
 	}
 

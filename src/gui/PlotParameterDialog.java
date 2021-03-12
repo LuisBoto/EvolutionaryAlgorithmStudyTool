@@ -48,9 +48,8 @@ public class PlotParameterDialog extends JDialog {
 		this.controller = new PlotParameterDialogController(this);
 		setResizable(false);
 		setAlwaysOnTop(true);
-		setLocationRelativeTo(this.mf);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 250);
+		setBounds(100, 100, 450, 300);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(PlotParameterDialog.class.getResource("/gui/img/dnaIcon.png")));
@@ -72,6 +71,7 @@ public class PlotParameterDialog extends JDialog {
 	protected JButton getBtnFinish() {
 		if (btnFinish == null) {
 			btnFinish = new JButton("Finish");
+			btnFinish.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnFinish.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.finish();
@@ -85,6 +85,12 @@ public class PlotParameterDialog extends JDialog {
 	protected JButton getBtnCancel() {
 		if (btnCancel == null) {
 			btnCancel = new JButton("Cancel");
+			btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.cancel();
+				}
+			});
 			btnCancel.setMnemonic('c');
 		}
 		return btnCancel;
@@ -113,6 +119,7 @@ public class PlotParameterDialog extends JDialog {
 	protected JLabel getLblPlotName() {
 		if (lblPlotName == null) {
 			lblPlotName = new JLabel("Plot name:");
+			lblPlotName.setFont(new Font("Tahoma", Font.BOLD, 12));
 			lblPlotName.setLabelFor(getTxtName());
 		}
 		return lblPlotName;
@@ -143,6 +150,7 @@ public class PlotParameterDialog extends JDialog {
 	protected JLabel getLblParameterName() {
 		if (lblParameterName == null) {
 			lblParameterName = new JLabel("Parameter name:");
+			lblParameterName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblParameterName.setLabelFor(getTxtParameterName());
 		}
 		return lblParameterName;
@@ -159,6 +167,7 @@ public class PlotParameterDialog extends JDialog {
 	protected JLabel getLblParameterValue() {
 		if (lblParameterValue == null) {
 			lblParameterValue = new JLabel("Parameter value:");
+			lblParameterValue.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblParameterValue.setLabelFor(getTxtParameterValue());
 		}
 		return lblParameterValue;
@@ -196,6 +205,7 @@ public class PlotParameterDialog extends JDialog {
 	protected JButton getBtnAdd() {
 		if (btnAdd == null) {
 			btnAdd = new JButton("Add parameter");
+			btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.addParameter();
@@ -209,6 +219,7 @@ public class PlotParameterDialog extends JDialog {
 	protected JButton getBtnRemove() {
 		if (btnRemove == null) {
 			btnRemove = new JButton("Remove parameter");
+			btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnRemove.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.removeParameter();
