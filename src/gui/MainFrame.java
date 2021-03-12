@@ -272,7 +272,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnExportScript() {
 		if (btnExportScript == null) {
-			btnExportScript = new JButton("Export Script");
+			btnExportScript = new JButton("Export Script...");
 			btnExportScript.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.exportScript();
@@ -394,7 +394,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnAddPlot() {
 		if (btnAddPlot == null) {
-			btnAddPlot = new JButton("Add Plot");
+			btnAddPlot = new JButton("Add Plot...");
 			btnAddPlot.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.addPlot();

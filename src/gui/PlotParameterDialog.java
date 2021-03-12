@@ -3,11 +3,19 @@ package gui;
 import javax.swing.JDialog;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 import java.awt.BorderLayout;
 import javax.swing.JButton;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Font;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 public class PlotParameterDialog extends JDialog {
 
@@ -29,12 +37,17 @@ public class PlotParameterDialog extends JDialog {
 	private JLabel lblParameterValue;
 	private JTextField txtParameterValue;
 	private JPanel parameterListPanel;
-	private JLabel lblParameterList;
+	private JTextArea txtParameterList;
 	private JButton btnAdd;
 	private JButton btnRemove;
+	private JScrollPane scrollParamList;
 
 	public PlotParameterDialog() {
 		this.controller = new PlotParameterDialogController(this);
+		setResizable(false);
+		setAlwaysOnTop(true);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 250);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(PlotParameterDialog.class.getResource("/gui/img/dnaIcon.png")));
@@ -56,6 +69,11 @@ public class PlotParameterDialog extends JDialog {
 	protected JButton getBtnFinish() {
 		if (btnFinish == null) {
 			btnFinish = new JButton("Finish");
+			btnFinish.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.finish();
+				}
+			});
 			btnFinish.setMnemonic('f');
 		}
 		return btnFinish;
@@ -108,6 +126,7 @@ public class PlotParameterDialog extends JDialog {
 	protected JPanel getParameterPanel() {
 		if (parameterPanel == null) {
 			parameterPanel = new JPanel();
+			parameterPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 			parameterPanel.add(getLblParameterName());
 			parameterPanel.add(getTxtParameterName());
 			parameterPanel.add(getLblParameterValue());
@@ -153,21 +172,32 @@ public class PlotParameterDialog extends JDialog {
 	protected JPanel getParameterListPanel() {
 		if (parameterListPanel == null) {
 			parameterListPanel = new JPanel();
-			parameterListPanel.add(getLblParameterList());
+			parameterListPanel.add(getScrollParamList());
 		}
 		return parameterListPanel;
 	}
 
-	protected JLabel getLblParameterList() {
-		if (lblParameterList == null) {
-			lblParameterList = new JLabel("");
+	protected JTextArea getTxtParameterList() {
+		if (txtParameterList == null) {
+			txtParameterList = new JTextArea("");
+			txtParameterList.setRows(3);
+			txtParameterList.setWrapStyleWord(true);
+			txtParameterList.setLineWrap(true);
+			txtParameterList.setColumns(40);
+			txtParameterList.setEditable(false);
+			txtParameterList.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
-		return lblParameterList;
+		return txtParameterList;
 	}
 
 	protected JButton getBtnAdd() {
 		if (btnAdd == null) {
 			btnAdd = new JButton("Add parameter");
+			btnAdd.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.addParameter();
+				}
+			});
 			btnAdd.setMnemonic('a');
 		}
 		return btnAdd;
@@ -176,8 +206,22 @@ public class PlotParameterDialog extends JDialog {
 	protected JButton getBtnRemove() {
 		if (btnRemove == null) {
 			btnRemove = new JButton("Remove parameter");
+			btnRemove.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.removeParameter();
+				}
+			});
 			btnRemove.setMnemonic('r');
 		}
 		return btnRemove;
+	}
+	protected JScrollPane getScrollParamList() {
+		if (scrollParamList == null) {
+			scrollParamList = new JScrollPane();
+			scrollParamList.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollParamList.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollParamList.setViewportView(getTxtParameterList());
+		}
+		return scrollParamList;
 	}
 }

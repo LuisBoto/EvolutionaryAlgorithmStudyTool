@@ -173,6 +173,10 @@ public class MainFrameController {
 
 		if (plotName.equals("") || plotMetrics.size() <= 0)
 			return;
+		
+		PlotParameterDialog dialog = new PlotParameterDialog();
+		dialog.setLocationRelativeTo(this.mf);
+		dialog.setVisible(true);
 
 		this.plots.add(GraphFactory.createGraphObject(plotName, plotName, plotMetrics));
 		this.addPlotLabel(plotName);
