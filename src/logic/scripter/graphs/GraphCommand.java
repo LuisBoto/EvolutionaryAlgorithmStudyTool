@@ -1,5 +1,6 @@
 package logic.scripter.graphs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import logic.scripter.Metric;
@@ -12,10 +13,18 @@ public abstract class GraphCommand {
 
 	private String pdfName;
 	private List<Metric> metrics;
+	private List<Parameter> parameters;
 
 	public GraphCommand(String pdfName, List<Metric> metrics) {
 		this.setPdfName(pdfName);
 		this.setMetrics(metrics);
+		this.parameters = new ArrayList<Parameter>();
+	}
+	
+	public GraphCommand(String pdfName, List<Metric> metrics, List<Parameter> params) {
+		this.setPdfName(pdfName);
+		this.setMetrics(metrics);
+		this.setParameters(params);
 	}
 
 	public String generateScriptCode() {
@@ -43,4 +52,27 @@ public abstract class GraphCommand {
 		this.pdfName = pdfName;
 	}
 
+	public void addParameter(Parameter param) {
+		this.parameters.add(param);
+	}
+
+	public void addParameter(String name, String value) {
+		this.parameters.add(new Parameter(name, value));
+	}
+
+	public List<Parameter> getParameters() {
+		return this.parameters;
+	}
+	
+	public void setParameters(List<Parameter> params) {
+		this.parameters = params;
+	}
+	
+	protected String stringifyParameters() {
+		StringBuilder pars = new StringBuilder("");
+		for (Parameter param: this.parameters) {
+			pars.append(param.toString());
+		}
+		return pars.toString();
+	}
 }

@@ -24,7 +24,9 @@ public class BoxPlot extends GraphCommand {
 		for (int i = 0; i < this.getMetrics().size() - 1; i++) {
 			res.append(this.getMetrics().get(i).getName().concat("','"));
 		}
-		res.append(this.getMetrics().get(this.getMetrics().size() - 1).getName()).append("'))");
+		res.append(this.getMetrics().get(this.getMetrics().size() - 1).getName()).append("')");
+		res.append(this.stringifyParameters()+")");
+		
 		return res.toString();
 	}
 
