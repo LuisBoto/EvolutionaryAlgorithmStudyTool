@@ -252,6 +252,7 @@ public class MainFrameController {
 
 	public void exportScript() {
 		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(new java.io.File("."));
 		if (fc.showSaveDialog(mf) != JFileChooser.APPROVE_OPTION)
 			return;
 		File file = fc.getSelectedFile();
@@ -305,6 +306,8 @@ public class MainFrameController {
 				JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 		if (optionSelected == 2) // Cancel
 			return;
+
+		// Selecting directory to merge
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new java.io.File("."));
 		chooser.setDialogTitle("Select directory to merge");
@@ -312,15 +315,28 @@ public class MainFrameController {
 		if (chooser.showOpenDialog(this.mf) != JFileChooser.APPROVE_OPTION)
 			return;
 		File directory = chooser.getSelectedFile();
-		String path = directory.getPath().replace('\\', '/');
-		if (optionSelected == 0) { // Merge by average
-			FileMerger.mergeByAverage(path);
+		String path = directory.getPath().replace('\\', '/') + "/";
+
+		// Selecting where to save merged result
+		JFileChooser chooserSave = new JFileChooser();
+		chooserSave.setCurrentDirectory(new java.io.File("."));
+		chooserSave.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		if (chooserSave.showSaveDialog(mf) != JFileChooser.APPROVE_OPTION)
+			return;
+		File fileSave = chooserSave.getSelectedFile();
+		String pathSave = fileSave.getPath().replace('\\', '/') + "/";
+
+		// Merging
+		try {
+			if (optionSelected == 0) // Merge by average
+				FileMerger.mergeByAverage(path, pathSave);
+			if (optionSelected == 1) // Merge by last line
+				FileMerger.mergeByLastLine(path, pathSave);
+			JOptionPane.showMessageDialog(this.mf, "Merging completed successfully", "File merge completed",
+					JOptionPane.INFORMATION_MESSAGE);
+		} catch (IllegalArgumentException | IOException e) {
+			this.showExceptionDialog("File merging error", "An error ocurred performing the merge:", e.getMessage());
 		}
-		if (optionSelected == 1) { // Merge by last line
-			FileMerger.mergeByLastLine(path);
-		}
-		JOptionPane.showMessageDialog(this.mf, "Merging completed successfully", "File merge completed",
-				JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void refreshUI(JPanel panel) {

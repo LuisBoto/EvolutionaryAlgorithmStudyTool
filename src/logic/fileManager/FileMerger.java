@@ -12,13 +12,12 @@ import java.util.Scanner;
 public class FileMerger {
 
 	protected static String directory;
-	protected static final String MERGED_OUTPUT_FOLDER = "/merged/";
 	protected static List<String> fileNames;
 	protected static List<String> fileContents;
 
-	public static void mergeByLastLine(String dir) {
+	public static void mergeByLastLine(String dir, String saveDir) throws IllegalArgumentException, IOException {
 		// dir = directory containing csv files to be merged
-		directory = dir+"/";
+		directory = dir;
 		cargarFicheros();
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "Cabecera;";
@@ -33,12 +32,12 @@ public class FileMerger {
 			fichero += lines[lines.length - 1]; // Last line
 			fichero += "\n";
 		}
-		guardarFichero(fichero, "resumenUltimaLinea");
+		guardarFichero(fichero, "resumenUltimaLinea", saveDir);
 	}
 
-	public static void mergeByAverage(String dir) throws IllegalArgumentException {
+	public static void mergeByAverage(String dir, String saveDir) throws IllegalArgumentException, IOException {
 		// dir = directory containing csv files to be merged
-		directory = dir+"/";
+		directory = dir;
 		cargarFicheros();
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "";
@@ -64,21 +63,23 @@ public class FileMerger {
 			}
 			fichero += "\n";
 		}
-		guardarFichero(fichero, "resumenPromedios");
+		guardarFichero(fichero, "resumenPromedios", saveDir);
 	}
 
-	private static List<String> cargarFicheros() {
+	private static List<String> cargarFicheros() throws IOException {
 		fileNames = new ArrayList<String>();
 		fileContents = new ArrayList<String>();
 		File file = new File(directory);
 		if (file.isDirectory()) {
 			File[] ficheros = file.listFiles();
 			for (File fichero : ficheros)
-				if (!fichero.isDirectory())
+				if (!fichero.isDirectory() && fichero.getName().endsWith(".csv"))
 					fileNames.add(directory + fichero.getName());
 		}
 		for (String fichero : fileNames)
 			fileContents.add(cargaFichero(fichero));
+		if (fileContents.size() <= 0 || fileNames.size() <= 0)
+			throw new IllegalArgumentException("Directory contains no valid files");
 		return fileContents;
 	}
 
@@ -98,16 +99,13 @@ public class FileMerger {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void guardarFichero(String fichero, String nombre) {
+	private static void guardarFichero(String contents, String name, String saveDir) throws IOException {
 		BufferedWriter bw;
-		try {
-			bw = new BufferedWriter(new FileWriter(new File(directory + MERGED_OUTPUT_FOLDER + nombre + " "
-					+ new Date().toGMTString().replace(':', '-') + ".csv")));
-			bw.write(fichero);
-			bw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		bw = new BufferedWriter(
+				new FileWriter(new File(saveDir + name + " " + new Date().toGMTString().replace(':', '-') + ".csv")));
+		bw.write(contents);
+		bw.close();
+
 	}
 
 	private static double average(double[] values) {
