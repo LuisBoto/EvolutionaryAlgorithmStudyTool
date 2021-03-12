@@ -299,8 +299,11 @@ public class MainFrameController {
 			JButton btn = new JButton(statistic);
 			btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					List<Metric> selected = getSelectedMetrics(false);
+					if (selected.size()<=0)
+						return;
 					String res = statistic + ":\n";
-					res += Statistics.getStatistic(statistic, getSelectedMetrics(false));
+					res += Statistics.getStatistic(statistic, selected);
 					result.setText(res);
 				}
 			});

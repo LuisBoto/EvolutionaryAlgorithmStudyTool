@@ -217,6 +217,7 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnOpenFile() {
 		if (btnOpenFile == null) {
 			btnOpenFile = new JButton("Load File...");
+			btnOpenFile.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnOpenFile.setMnemonic('o');
 			btnOpenFile.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -231,6 +232,7 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnMergeFiles() {
 		if (btnMergeFiles == null) {
 			btnMergeFiles = new JButton("Merge files...");
+			btnMergeFiles.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnMergeFiles.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.mergeFiles();
@@ -245,6 +247,7 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnGenerateScript() {
 		if (btnGenerateScript == null) {
 			btnGenerateScript = new JButton("Generate Script");
+			btnGenerateScript.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnGenerateScript.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.generateScript();
@@ -259,6 +262,7 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnRunScript() {
 		if (btnRunScript == null) {
 			btnRunScript = new JButton("Run Script");
+			btnRunScript.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnRunScript.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.runScript();
@@ -273,6 +277,7 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnExportScript() {
 		if (btnExportScript == null) {
 			btnExportScript = new JButton("Export Script...");
+			btnExportScript.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnExportScript.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.exportScript();
@@ -337,6 +342,7 @@ public class MainFrame extends JFrame {
 	protected JLabel getLblFile() {
 		if (lblFile == null) {
 			lblFile = new JLabel("File: None");
+			lblFile.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblFile.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblFile;
@@ -395,6 +401,7 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnAddPlot() {
 		if (btnAddPlot == null) {
 			btnAddPlot = new JButton("Add Plot...");
+			btnAddPlot.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnAddPlot.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.addPlot();
@@ -409,6 +416,7 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnRemovePlot() {
 		if (btnRemovePlot == null) {
 			btnRemovePlot = new JButton("Remove Plot");
+			btnRemovePlot.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnRemovePlot.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.removePlot();
@@ -432,6 +440,7 @@ public class MainFrame extends JFrame {
 	protected JLabel getLblPlots() {
 		if (lblPlots == null) {
 			lblPlots = new JLabel("Plots:");
+			lblPlots.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblPlots.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblPlots;
@@ -451,6 +460,7 @@ public class MainFrame extends JFrame {
 	protected JLabel getLblGeneratedScript() {
 		if (lblGeneratedScript == null) {
 			lblGeneratedScript = new JLabel("Generated Script");
+			lblGeneratedScript.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return lblGeneratedScript;
 	}
@@ -458,6 +468,7 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnEditSave() {
 		if (btnEditSave == null) {
 			btnEditSave = new JButton("Edit");
+			btnEditSave.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnEditSave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.editSaveScriptArea();
@@ -495,6 +506,7 @@ public class MainFrame extends JFrame {
 	protected JLabel getLblPlotPreview() {
 		if (lblPlotPreview == null) {
 			lblPlotPreview = new JLabel("Plot preview");
+			lblPlotPreview.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblPlotPreview.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblPlotPreview;
@@ -524,6 +536,7 @@ public class MainFrame extends JFrame {
 	protected JLabel getLblStatistics() {
 		if (lblStatistics == null) {
 			lblStatistics = new JLabel("Statistics");
+			lblStatistics.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblStatistics.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblStatistics;
