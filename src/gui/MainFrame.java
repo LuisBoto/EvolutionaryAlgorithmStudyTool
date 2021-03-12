@@ -393,6 +393,7 @@ public class MainFrame extends JFrame {
 			plotButtonsPn = new JPanel();
 			plotButtonsPn.setLayout(new BoxLayout(plotButtonsPn, BoxLayout.X_AXIS));
 			plotButtonsPn.add(getBtnAddPlot());
+			plotButtonsPn.add(Box.createRigidArea(new Dimension(5, 5)));
 			plotButtonsPn.add(getBtnRemovePlot());
 		}
 		return plotButtonsPn;
@@ -613,7 +614,7 @@ public class MainFrame extends JFrame {
 		}
 		return txtStatsResult;
 	}
-	
+
 	protected MainFrameController getController() {
 		return this.controller;
 	}
