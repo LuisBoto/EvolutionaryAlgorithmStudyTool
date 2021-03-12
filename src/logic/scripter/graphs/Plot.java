@@ -6,8 +6,8 @@ import logic.scripter.Metric;
 
 public class Plot extends GraphCommand {
 
-	public Plot(String pdfName, List<Metric> metrics) {
-		super(pdfName, metrics);
+	public Plot(String pdfName, List<Metric> metrics, List<Parameter> params) {
+		super(pdfName, metrics, params);
 	}
 
 	@Override

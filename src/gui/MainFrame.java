@@ -600,4 +600,8 @@ public class MainFrame extends JFrame {
 		}
 		return txtStatsResult;
 	}
+	
+	protected MainFrameController getController() {
+		return this.controller;
+	}
 }

@@ -6,8 +6,8 @@ import logic.scripter.Metric;
 
 public class BoxPlot extends GraphCommand {
 
-	public BoxPlot(String pdfName, List<Metric> metrics) {
-		super(pdfName, metrics);
+	public BoxPlot(String pdfName, List<Metric> metrics, List<Parameter> params) {
+		super(pdfName, metrics, params);
 	}
 
 	@Override

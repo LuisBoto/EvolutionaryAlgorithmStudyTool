@@ -3,6 +3,8 @@ package gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import logic.scripter.graphs.Parameter;
 
 public class PlotParameterDialogController {
@@ -39,7 +41,14 @@ public class PlotParameterDialogController {
 	}
 	
 	public void finish() {
-		
+		String pdfName = this.pd.getTxtName().getText();
+		if (pdfName.equals("")) {
+			JOptionPane.showMessageDialog(this.pd, "Please input a plot name", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		MainFrameController mfControl = this.pd.getMainFrame().getController();
+		mfControl.createPlotObject(mfControl.getSelectedPlot(), pdfName, mfControl.getSelectedMetrics(true), this.parameters);
+		this.pd.dispose();
 	}
 
 }

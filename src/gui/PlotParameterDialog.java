@@ -23,6 +23,7 @@ public class PlotParameterDialog extends JDialog {
 	
 	// Controller to manage component events and operations
 	private PlotParameterDialogController controller;
+	private MainFrame mf;
 	
 	private JPanel btnPanel;
 	private JButton btnFinish;
@@ -42,10 +43,12 @@ public class PlotParameterDialog extends JDialog {
 	private JButton btnRemove;
 	private JScrollPane scrollParamList;
 
-	public PlotParameterDialog() {
+	public PlotParameterDialog(MainFrame mf) {
+		this.mf = mf;
 		this.controller = new PlotParameterDialogController(this);
 		setResizable(false);
 		setAlwaysOnTop(true);
+		setLocationRelativeTo(this.mf);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 250);
 		setModalityType(ModalityType.APPLICATION_MODAL);
@@ -223,5 +226,9 @@ public class PlotParameterDialog extends JDialog {
 			scrollParamList.setViewportView(getTxtParameterList());
 		}
 		return scrollParamList;
+	}
+	
+	protected MainFrame getMainFrame() {
+		return this.mf;
 	}
 }

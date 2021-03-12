@@ -36,6 +36,7 @@ import logic.scripter.RScriptRunner;
 import logic.scripter.Scripter;
 import logic.scripter.graphs.GraphCommand;
 import logic.scripter.graphs.GraphFactory;
+import logic.scripter.graphs.Parameter;
 
 public class MainFrameController {
 
@@ -161,25 +162,18 @@ public class MainFrameController {
 	}
 
 	public void addPlot() {
-		// TODO: Ask for pdf name/parameters
-		List<Metric> plotMetrics = this.getSelectedMetrics(true);
-
-		String plotName = "";
-		for (int i = 0; i < mf.getPlotsSelectPn().getComponentCount(); i++) {
-			if (((JRadioButton) mf.getPlotsSelectPn().getComponent(i)).isSelected()) {
-				plotName = ((JRadioButton) mf.getPlotsSelectPn().getComponent(i)).getText();
-			}
-		}
-
+		List<Metric> plotMetrics = this.getSelectedMetrics(false); // Only uncheck after plot creation
+		String plotName = this.getSelectedPlot();
 		if (plotName.equals("") || plotMetrics.size() <= 0)
 			return;
-		
-		PlotParameterDialog dialog = new PlotParameterDialog();
-		dialog.setLocationRelativeTo(this.mf);
-		dialog.setVisible(true);
 
-		this.plots.add(GraphFactory.createGraphObject(plotName, plotName, plotMetrics));
-		this.addPlotLabel(plotName);
+		PlotParameterDialog dialog = new PlotParameterDialog(this.mf);
+		dialog.setVisible(true);
+	}
+
+	protected void createPlotObject(String plotType, String pdfName, List<Metric> metrics, List<Parameter> params) {
+		this.plots.add(GraphFactory.createGraphObject(plotType, pdfName, metrics, params));
+		this.addPlotLabel(pdfName);
 	}
 
 	public void addPlotLabel(String name) {
@@ -285,6 +279,16 @@ public class MainFrameController {
 			}
 		}
 		return metrics;
+	}
+
+	public String getSelectedPlot() {
+		String plotName = "";
+		for (int i = 0; i < mf.getPlotsSelectPn().getComponentCount(); i++) {
+			if (((JRadioButton) mf.getPlotsSelectPn().getComponent(i)).isSelected()) {
+				plotName = ((JRadioButton) mf.getPlotsSelectPn().getComponent(i)).getText();
+			}
+		}
+		return plotName;
 	}
 
 	public void populateStatisticsPanel() {
