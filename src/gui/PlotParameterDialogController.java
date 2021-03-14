@@ -27,21 +27,21 @@ public class PlotParameterDialogController {
 		this.pd.getTxtParameterValue().setText("");
 		this.updateParameterLabel();
 	}
-	
+
 	public void updateParameterLabel() {
 		StringBuilder stb = new StringBuilder("Parameters: ");
-		for (Parameter param: this.parameters)
+		for (Parameter param : this.parameters)
 			stb.append(param.toString());
-		this.pd.getTxtParameterList().setText(stb.toString());
+		this.pd.getTxtParameterList().setText(stb.toString().replace(": , ", ": ")); // Substring to cut first comma
 	}
-	
+
 	public void removeParameter() {
-		if (this.parameters.size()<=0)
+		if (this.parameters.size() <= 0)
 			return;
-		this.parameters.remove(this.parameters.size()-1);
+		this.parameters.remove(this.parameters.size() - 1);
 		this.updateParameterLabel();
 	}
-	
+
 	public void finish() {
 		String pdfName = this.pd.getTxtName().getText();
 		if (pdfName.equals("")) {
@@ -49,10 +49,11 @@ public class PlotParameterDialogController {
 			return;
 		}
 		MainFrameController mfControl = this.pd.getMainFrame().getController();
-		mfControl.createPlotObject(mfControl.getSelectedPlot(), pdfName, mfControl.getSelectedMetrics(true), this.parameters);
+		mfControl.createPlotObject(mfControl.getSelectedPlot(), pdfName, mfControl.getSelectedMetrics(true),
+				this.parameters);
 		this.pd.dispose();
 	}
-	
+
 	public void cancel() {
 		this.pd.dispose();
 	}

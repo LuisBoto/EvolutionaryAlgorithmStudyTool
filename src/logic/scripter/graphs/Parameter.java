@@ -28,7 +28,7 @@ public class Parameter {
 	
 	@Override
 	public String toString() {
-		return ","+this.getName()+"="+this.getValue();
+		return ", "+this.getName()+"="+this.getValue();
 	}
 
 }

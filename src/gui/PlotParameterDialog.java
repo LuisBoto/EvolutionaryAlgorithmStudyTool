@@ -1,30 +1,34 @@
 package gui;
 
-import javax.swing.JDialog;
-import java.awt.Toolkit;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
 import java.awt.BorderLayout;
-import javax.swing.JButton;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.border.BevelBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class PlotParameterDialog extends JDialog {
 
 	private static final long serialVersionUID = 2749878461051136512L;
-	
+
 	// Controller to manage component events and operations
 	private PlotParameterDialogController controller;
 	private MainFrame mf;
-	
+
 	private JPanel btnPanel;
 	private JButton btnFinish;
 	private JButton btnCancel;
@@ -33,15 +37,17 @@ public class PlotParameterDialog extends JDialog {
 	private JLabel lblPlotName;
 	private JTextField txtName;
 	private JPanel parameterPanel;
+	private JPanel parameterListPanel;
+	private JTextArea txtParameterList;
+	private JScrollPane scrollParamList;
+	private JPanel paramInputsPn;
+	private JPanel paramManagementButtonsPn;
+	private JButton btnAdd;
+	private JButton btnRemove;
 	private JLabel lblParameterName;
 	private JTextField txtParameterName;
 	private JLabel lblParameterValue;
 	private JTextField txtParameterValue;
-	private JPanel parameterListPanel;
-	private JTextArea txtParameterList;
-	private JButton btnAdd;
-	private JButton btnRemove;
-	private JScrollPane scrollParamList;
 
 	public PlotParameterDialog(MainFrame mf) {
 		this.mf = mf;
@@ -136,55 +142,20 @@ public class PlotParameterDialog extends JDialog {
 	protected JPanel getParameterPanel() {
 		if (parameterPanel == null) {
 			parameterPanel = new JPanel();
-			parameterPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-			parameterPanel.add(getLblParameterName());
-			parameterPanel.add(getTxtParameterName());
-			parameterPanel.add(getLblParameterValue());
-			parameterPanel.add(getTxtParameterValue());
-			parameterPanel.add(getBtnAdd());
-			parameterPanel.add(getBtnRemove());
+			parameterPanel.setLayout(new BoxLayout(parameterPanel, BoxLayout.Y_AXIS));
+			parameterPanel.add(getParamInputsPn());
+			parameterPanel.add(getParamManagementButtonsPn());
 		}
 		return parameterPanel;
-	}
-
-	protected JLabel getLblParameterName() {
-		if (lblParameterName == null) {
-			lblParameterName = new JLabel("Parameter name:");
-			lblParameterName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblParameterName.setLabelFor(getTxtParameterName());
-		}
-		return lblParameterName;
-	}
-
-	protected JTextField getTxtParameterName() {
-		if (txtParameterName == null) {
-			txtParameterName = new JTextField();
-			txtParameterName.setColumns(10);
-		}
-		return txtParameterName;
-	}
-
-	protected JLabel getLblParameterValue() {
-		if (lblParameterValue == null) {
-			lblParameterValue = new JLabel("Parameter value:");
-			lblParameterValue.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			lblParameterValue.setLabelFor(getTxtParameterValue());
-		}
-		return lblParameterValue;
-	}
-
-	protected JTextField getTxtParameterValue() {
-		if (txtParameterValue == null) {
-			txtParameterValue = new JTextField();
-			txtParameterValue.setColumns(10);
-		}
-		return txtParameterValue;
 	}
 
 	protected JPanel getParameterListPanel() {
 		if (parameterListPanel == null) {
 			parameterListPanel = new JPanel();
+			parameterListPanel.setLayout(new BoxLayout(parameterListPanel, BoxLayout.X_AXIS));
+			parameterListPanel.add(Box.createRigidArea(new Dimension(5,5)));
 			parameterListPanel.add(getScrollParamList());
+			parameterListPanel.add(Box.createRigidArea(new Dimension(5,5)));
 		}
 		return parameterListPanel;
 	}
@@ -202,33 +173,6 @@ public class PlotParameterDialog extends JDialog {
 		return txtParameterList;
 	}
 
-	protected JButton getBtnAdd() {
-		if (btnAdd == null) {
-			btnAdd = new JButton("Add parameter");
-			btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btnAdd.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					controller.addParameter();
-				}
-			});
-			btnAdd.setMnemonic('a');
-		}
-		return btnAdd;
-	}
-
-	protected JButton getBtnRemove() {
-		if (btnRemove == null) {
-			btnRemove = new JButton("Remove parameter");
-			btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 12));
-			btnRemove.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					controller.removeParameter();
-				}
-			});
-			btnRemove.setMnemonic('r');
-		}
-		return btnRemove;
-	}
 	protected JScrollPane getScrollParamList() {
 		if (scrollParamList == null) {
 			scrollParamList = new JScrollPane();
@@ -238,8 +182,89 @@ public class PlotParameterDialog extends JDialog {
 		}
 		return scrollParamList;
 	}
-	
+
 	protected MainFrame getMainFrame() {
 		return this.mf;
+	}
+
+	protected JPanel getParamInputsPn() {
+		if (paramInputsPn == null) {
+			paramInputsPn = new JPanel();
+			paramInputsPn.setBorder(new LineBorder(new Color(0, 0, 0)));
+			paramInputsPn.add(getLblParameterName_1());
+			paramInputsPn.add(getTxtParameterName());
+			paramInputsPn.add(getLblParameterValue_1());
+			paramInputsPn.add(getTxtParameterValue());
+		}
+		return paramInputsPn;
+	}
+
+	protected JPanel getParamManagementButtonsPn() {
+		if (paramManagementButtonsPn == null) {
+			paramManagementButtonsPn = new JPanel();
+			paramManagementButtonsPn.add(getBtnAdd_1());
+			paramManagementButtonsPn.add(getBtnRemove_1());
+		}
+		return paramManagementButtonsPn;
+	}
+
+	protected JButton getBtnAdd_1() {
+		if (btnAdd == null) {
+			btnAdd = new JButton("Add parameter");
+			btnAdd.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.addParameter();
+				}
+			});
+			btnAdd.setMnemonic('a');
+			btnAdd.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnAdd;
+	}
+
+	protected JButton getBtnRemove_1() {
+		if (btnRemove == null) {
+			btnRemove = new JButton("Remove parameter");
+			btnRemove.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.removeParameter();
+				}
+			});
+			btnRemove.setMnemonic('r');
+			btnRemove.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnRemove;
+	}
+
+	protected JLabel getLblParameterName_1() {
+		if (lblParameterName == null) {
+			lblParameterName = new JLabel("Parameter name:");
+			lblParameterName.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return lblParameterName;
+	}
+
+	protected JTextField getTxtParameterName() {
+		if (txtParameterName == null) {
+			txtParameterName = new JTextField();
+			txtParameterName.setColumns(10);
+		}
+		return txtParameterName;
+	}
+
+	protected JLabel getLblParameterValue_1() {
+		if (lblParameterValue == null) {
+			lblParameterValue = new JLabel("Parameter value:");
+			lblParameterValue.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return lblParameterValue;
+	}
+
+	protected JTextField getTxtParameterValue() {
+		if (txtParameterValue == null) {
+			txtParameterValue = new JTextField();
+			txtParameterValue.setColumns(10);
+		}
+		return txtParameterValue;
 	}
 }
