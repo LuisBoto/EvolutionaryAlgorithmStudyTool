@@ -17,7 +17,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 
@@ -55,7 +54,7 @@ public class PlotParameterDialog extends JDialog {
 		setResizable(false);
 		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 475, 300);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(PlotParameterDialog.class.getResource("/gui/img/dnaIcon.png")));
@@ -191,9 +190,9 @@ public class PlotParameterDialog extends JDialog {
 		if (paramInputsPn == null) {
 			paramInputsPn = new JPanel();
 			paramInputsPn.setBorder(new LineBorder(new Color(0, 0, 0)));
-			paramInputsPn.add(getLblParameterName_1());
+			paramInputsPn.add(getLblParameterName());
 			paramInputsPn.add(getTxtParameterName());
-			paramInputsPn.add(getLblParameterValue_1());
+			paramInputsPn.add(getLblParameterValue());
 			paramInputsPn.add(getTxtParameterValue());
 		}
 		return paramInputsPn;
@@ -236,7 +235,7 @@ public class PlotParameterDialog extends JDialog {
 		return btnRemove;
 	}
 
-	protected JLabel getLblParameterName_1() {
+	protected JLabel getLblParameterName() {
 		if (lblParameterName == null) {
 			lblParameterName = new JLabel("Parameter name:");
 			lblParameterName.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -247,12 +246,12 @@ public class PlotParameterDialog extends JDialog {
 	protected JTextField getTxtParameterName() {
 		if (txtParameterName == null) {
 			txtParameterName = new JTextField();
-			txtParameterName.setColumns(10);
+			txtParameterName.setColumns(8);
 		}
 		return txtParameterName;
 	}
 
-	protected JLabel getLblParameterValue_1() {
+	protected JLabel getLblParameterValue() {
 		if (lblParameterValue == null) {
 			lblParameterValue = new JLabel("Parameter value:");
 			lblParameterValue.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -263,7 +262,7 @@ public class PlotParameterDialog extends JDialog {
 	protected JTextField getTxtParameterValue() {
 		if (txtParameterValue == null) {
 			txtParameterValue = new JTextField();
-			txtParameterValue.setColumns(10);
+			txtParameterValue.setColumns(8);
 		}
 		return txtParameterValue;
 	}
