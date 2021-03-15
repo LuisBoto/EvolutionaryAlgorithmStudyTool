@@ -84,6 +84,7 @@ public class MainFrame extends JFrame {
 	private JScrollPane statisticSelectScroll;
 	private JPanel statisticSelectPane;
 	private JTextArea txtStatsResult;
+	private JButton btnClear;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -454,6 +455,8 @@ public class MainFrame extends JFrame {
 			scriptEditPn.add(getLblGeneratedScript());
 			scriptEditPn.add(Box.createRigidArea(new Dimension(30, 0)));
 			scriptEditPn.add(getBtnEditSave());
+			scriptEditPn.add(Box.createRigidArea(new Dimension(5, 0)));
+			scriptEditPn.add(getBtnClear());
 		}
 		return scriptEditPn;
 	}
@@ -617,5 +620,19 @@ public class MainFrame extends JFrame {
 
 	protected MainFrameController getController() {
 		return this.controller;
+	}
+	protected JButton getBtnClear() {
+		if (btnClear == null) {
+			btnClear = new JButton("Clear");
+			btnClear.setEnabled(false);
+			btnClear.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.clearScript();
+				}
+			});
+			btnClear.setMnemonic('c');
+			btnClear.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnClear;
 	}
 }

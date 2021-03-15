@@ -63,6 +63,7 @@ public class MainFrameController {
 		mf.getTextAreaScript().setEditable(false);
 		mf.getBtnEditSave().setText("Edit");
 		mf.getBtnEditSave().setEnabled(false);
+		mf.getBtnClear().setEnabled(false);
 
 		mf.getBtnAddPlot().setEnabled(false);
 		mf.getBtnRemovePlot().setEnabled(false);
@@ -206,6 +207,7 @@ public class MainFrameController {
 		this.script = Scripter.createScript(this.metrics, this.plots);
 		mf.getTextAreaScript().setText(this.script);
 		mf.getBtnEditSave().setEnabled(true);
+		mf.getBtnClear().setEnabled(true);
 		mf.getBtnRunScript().setEnabled(true);
 		mf.getBtnExportScript().setEnabled(true);
 	}
@@ -349,6 +351,11 @@ public class MainFrameController {
 		} catch (IllegalArgumentException | IOException e) {
 			this.showExceptionDialog("File merging error", "An error ocurred performing the merge:", e.getMessage());
 		}
+	}
+	
+	public void clearScript() {
+		this.script = "";
+		mf.getTextAreaScript().setText(this.script);
 	}
 
 	private void refreshUI(JPanel panel) {
