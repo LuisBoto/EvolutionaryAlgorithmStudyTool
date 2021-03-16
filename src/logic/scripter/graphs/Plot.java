@@ -14,18 +14,29 @@ public class Plot extends GraphCommand {
 	public String execute() {
 		// plot method call, should return
 		// plot(value1, value2, parameters...)
+		// lines(value3, value4) etc
 		StringBuilder res;
-		if (this.getMetrics().size() != 2) // TODO: Plot can only use two metrics...
+		boolean lines = this.getMetrics().size() > 2;
+		int mainCallMetrics = 2; // Will either be 2, or 1 on invalid calls
+		if (this.getMetrics().size() < 2) {// Plot can only use two metrics minimum...
 			res = new StringBuilder("#plot(");
-		else
+			mainCallMetrics = 1;
+		} else
 			res = new StringBuilder("plot(");
-		// Concatenation of data parameters
-		int metricSize = this.getMetrics().size();
-		for (int i = 0; i < metricSize - 1; i++) {
+
+		// Concatenation of data parameters on main call
+		for (int i = 0; i < mainCallMetrics - 1; i++) {
 			res.append(this.getMetrics().get(i).getName().concat(","));
 		}
-		res.append(this.getMetrics().get(metricSize - 1).getName());
+		res.append(this.getMetrics().get(mainCallMetrics - 1).getName());
 		res.append(this.stringifyParameters() + ")");
+
+		// Concatenation of lines() calls
+		if (lines) {
+			for (int i = 2; i < this.getMetrics().size(); i++) {
+				res.append("\nlines(" + this.getMetrics().get(i).getName() + ")");
+			}
+		}
 
 		return res.toString();
 	}
