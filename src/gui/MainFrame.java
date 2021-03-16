@@ -352,6 +352,7 @@ public class MainFrame extends JFrame {
 	protected JPanel getMetricsPlotsPn() {
 		if (metricsPlotsPn == null) {
 			metricsPlotsPn = new JPanel();
+			metricsPlotsPn.setVisible(false);
 			metricsPlotsPn.setAlignmentY(Component.TOP_ALIGNMENT);
 			metricsPlotsPn.setLayout(new BoxLayout(metricsPlotsPn, BoxLayout.X_AXIS));
 			metricsPlotsPn.add(getMetricSelectScrollPane());
@@ -392,6 +393,7 @@ public class MainFrame extends JFrame {
 	protected JPanel getPlotButtonsPn() {
 		if (plotButtonsPn == null) {
 			plotButtonsPn = new JPanel();
+			plotButtonsPn.setVisible(false);
 			plotButtonsPn.setLayout(new BoxLayout(plotButtonsPn, BoxLayout.X_AXIS));
 			plotButtonsPn.add(getBtnAddPlot());
 			plotButtonsPn.add(Box.createRigidArea(new Dimension(5, 5)));
@@ -600,8 +602,8 @@ public class MainFrame extends JFrame {
 	protected JPanel getStatisticSelectPane() {
 		if (statisticSelectPane == null) {
 			statisticSelectPane = new JPanel();
-			statisticSelectPane.setLayout(new BoxLayout(statisticSelectPane, BoxLayout.Y_AXIS));
 			statisticSelectPane.setVisible(false);
+			statisticSelectPane.setLayout(new BoxLayout(statisticSelectPane, BoxLayout.Y_AXIS));
 			controller.populateStatisticsPanel();
 		}
 		return statisticSelectPane;

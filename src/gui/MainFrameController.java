@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
@@ -55,6 +56,7 @@ public class MainFrameController {
 	}
 
 	public void initialize() {
+		this.showPanels(false);
 		mf.getBtnGenerateScript().setEnabled(false);
 		mf.getBtnRunScript().setEnabled(false);
 		mf.getBtnExportScript().setEnabled(false);
@@ -71,8 +73,6 @@ public class MainFrameController {
 		mf.getMetricSelectPn().removeAll();
 		mf.getPlotsSelectPn().removeAll();
 		mf.getPlotListPn().removeAll();
-
-		mf.getStatisticSelectPane().setVisible(false);
 
 		this.metrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
@@ -98,7 +98,7 @@ public class MainFrameController {
 		List<Metric> parsedMetrics;
 		try {
 			parsedMetrics = FileParser.parseMetrics(loadedFileNames.size(), filepath);
-			this.populateMetricPanel(parsedMetrics);
+			this.populateMetricPanel(parsedMetrics, f.getName());
 			this.populatePlotSelectPanel();
 			this.updateLoadedFileLabel();
 			this.enableButtons();
@@ -118,17 +118,23 @@ public class MainFrameController {
 		mf.getLblFile().setText("Loaded files");
 		StringBuilder names = new StringBuilder("<html><b>Loaded files:</b><br>");
 		for (String name : this.loadedFileNames)
-			names.append(name + "<br>");
+			names.append("· " + name + "<br>");
 		names.append("</html>");
 		mf.getLblFile().setToolTipText(names.toString());
 	}
 
-	public void populateMetricPanel(List<Metric> parsedMetrics) {
+	public void populateMetricPanel(List<Metric> parsedMetrics, String newMetricsFilename) {
 		this.metrics.addAll(parsedMetrics);
 		JPanel metricsPanel = mf.getMetricSelectPn();
-		metricsPanel.removeAll();
-		for (int i = 0; i < this.metrics.size(); i++) {
-			JCheckBox checkMet = new JCheckBox(this.metrics.get(i).getName());
+
+		if (this.loadedFileNames.size() > 1)
+			metricsPanel.add(new JSeparator());
+
+		JLabel fileName = new JLabel(newMetricsFilename);
+		fileName.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		metricsPanel.add(fileName);
+		for (int i = 0; i < parsedMetrics.size(); i++) {
+			JCheckBox checkMet = new JCheckBox(parsedMetrics.get(i).getName());
 			metricsPanel.add(checkMet);
 		}
 		this.refreshUI(mf.getMetricsPlotsPn());
@@ -148,10 +154,10 @@ public class MainFrameController {
 	}
 
 	public void enableButtons() {
+		this.showPanels(true);
 		mf.getBtnAddPlot().setEnabled(true);
 		mf.getBtnRemovePlot().setEnabled(true);
 		mf.getBtnGenerateScript().setEnabled(true);
-		mf.getStatisticSelectPane().setVisible(true);
 	}
 
 	public void removePlot() {
@@ -274,12 +280,16 @@ public class MainFrameController {
 
 	public List<Metric> getSelectedMetrics(boolean unSelectAfter) {
 		List<Metric> metrics = new ArrayList<Metric>();
-		for (int i = 0; i < mf.getMetricSelectPn().getComponentCount(); i++) {
-			if (((JCheckBox) mf.getMetricSelectPn().getComponent(i)).isSelected()) {
+		int metricCounter = 0;
+		for (Component comp : mf.getMetricSelectPn().getComponents()) {
+			if (!(comp instanceof JCheckBox))
+				continue;
+			if (((JCheckBox) comp).isSelected()) {
 				if (unSelectAfter)
-					((JCheckBox) mf.getMetricSelectPn().getComponent(i)).setSelected(false);
-				metrics.add(this.metrics.get(i));
+					((JCheckBox) comp).setSelected(false);
+				metrics.add(this.metrics.get(metricCounter));
 			}
+			metricCounter++;
 		}
 		return metrics;
 	}
@@ -302,7 +312,7 @@ public class MainFrameController {
 			btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					List<Metric> selected = getSelectedMetrics(false);
-					if (selected.size()<=0)
+					if (selected.size() <= 0)
 						return;
 					String res = statistic + ":\n";
 					res += Statistics.getStatistic(statistic, selected);
@@ -352,15 +362,21 @@ public class MainFrameController {
 			this.showExceptionDialog("File merging error", "An error ocurred performing the merge:", e.getMessage());
 		}
 	}
-	
+
 	public void clearScript() {
 		this.script = "";
-		mf.getTextAreaScript().setText(this.script);
+		mf.getTextAreaScript().setText("No script generated yet");
 	}
 
 	private void refreshUI(JPanel panel) {
 		panel.repaint();
 		panel.validate();
+	}
+
+	private void showPanels(boolean show) {
+		mf.getPlotButtonsPn().setVisible(show);
+		mf.getMetricsPlotsPn().setVisible(show);
+		mf.getStatisticSelectPane().setVisible(show);
 	}
 
 	public void closeProgram() {
