@@ -130,7 +130,10 @@ public class MainFrameController {
 		if (this.loadedFileNames.size() > 1)
 			metricsPanel.add(new JSeparator());
 
-		JLabel fileName = new JLabel(newMetricsFilename);
+		String fileNameLabel = newMetricsFilename.substring(0, 28);
+		if (newMetricsFilename.length() > 28)
+			fileNameLabel += "...";
+		JLabel fileName = new JLabel(fileNameLabel);
 		fileName.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		metricsPanel.add(fileName);
 		for (int i = 0; i < parsedMetrics.size(); i++) {
