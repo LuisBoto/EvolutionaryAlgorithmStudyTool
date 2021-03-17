@@ -7,15 +7,18 @@ import logic.scripter.Metric;
 
 public class Statistics {
 
-	public static final String[] STATISTICS = { "Best", "Average", "Standard Deviation" };
+	public static final String[] STATISTICS = { "Maximum", "Minimum", "Average", "Standard Deviation" };
 
 	public static String getStatistic(String name, List<Metric> metrics) {
 		if (metrics.size() <= 0)
 			return "";
 		double result = -1;
 		switch (name) {
-		case "Best":
-			result = best(metrics);
+		case "Maximum":
+			result = best(metrics, true);
+			break;
+		case "Minimum":
+			result = best(metrics, false);
 			break;
 		case "Average":
 			result = average(metrics);
@@ -28,14 +31,17 @@ public class Statistics {
 		return numberFormat.format(result);
 	}
 
-	private static double best(List<Metric> metrics) {
+	private static double best(List<Metric> metrics, boolean isMax) {
 		double[] v = getValues(metrics);
-		double max = 0.0;
+		double best = v[0];
 		for (double value : v) {
-			if (value > max)
-				max = value;
+			if (isMax) {
+				if (value > best)
+					best = value;
+			} else if (value < best)
+				best = value;
 		}
-		return max;
+		return best;
 	}
 
 	private static double standardDeviation(List<Metric> metrics) {

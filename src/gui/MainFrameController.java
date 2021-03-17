@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -25,6 +27,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
 import logic.Statistics;
@@ -44,6 +47,7 @@ public class MainFrameController {
 	private List<String> loadedFileNames;
 	private List<GraphCommand> plots;
 	private String script;
+	private Timer statisticsAutoupdate;
 
 	public MainFrameController(MainFrame mf) {
 		this.mf = mf;
@@ -51,6 +55,13 @@ public class MainFrameController {
 		this.loadedFileNames = new ArrayList<String>();
 		this.plots = new ArrayList<GraphCommand>();
 		this.script = "";
+
+		this.statisticsAutoupdate = new Timer(500, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				populateStatisticsPanel();
+			}
+		});
+		statisticsAutoupdate.start();
 	}
 
 	public void initialize() {
@@ -312,7 +323,10 @@ public class MainFrameController {
 			JLabel label = new JLabel(statistic);
 			List<Metric> selected = getSelectedMetrics(false);
 			JTextField txtField = new JTextField(Statistics.getStatistic(statistic, selected));
+			txtField.setEditable(false);
+			txtField.setColumns(8);
 			label.setLabelFor(txtField);
+			label.setAlignmentX(Component.CENTER_ALIGNMENT);
 			statsPanel.add(label);
 			statsPanel.add(txtField);
 		}

@@ -327,11 +327,11 @@ public class MainFrame extends JFrame {
 		if (previewPn == null) {
 			previewPn = new JPanel();
 			previewPn.setVisible(false);
-			previewPn.setAlignmentY(0.0f);
 			previewPn.setBorder(new LineBorder(new Color(0, 0, 0)));
 			previewPn.setLayout(new BoxLayout(previewPn, BoxLayout.Y_AXIS));
 			previewPn.add(getLblStatistics());
 			previewPn.add(getStatisticsPreviewPn());
+			previewPn.add(Box.createRigidArea(new Dimension(0, 20)));
 			previewPn.add(getLblPlotPreview());
 			previewPn.add(Box.createRigidArea(new Dimension(0, 20)));
 			previewPn.add(getPlotPreviewPn());
@@ -512,7 +512,7 @@ public class MainFrame extends JFrame {
 	protected JLabel getLblPlotPreview() {
 		if (lblPlotPreview == null) {
 			lblPlotPreview = new JLabel("Plot preview");
-			lblPlotPreview.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblPlotPreview.setFont(new Font("Tahoma", Font.BOLD, 12));
 			lblPlotPreview.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblPlotPreview;
@@ -539,7 +539,7 @@ public class MainFrame extends JFrame {
 	protected JLabel getLblStatistics() {
 		if (lblStatistics == null) {
 			lblStatistics = new JLabel("Statistics");
-			lblStatistics.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			lblStatistics.setFont(new Font("Tahoma", Font.BOLD, 12));
 			lblStatistics.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblStatistics;
