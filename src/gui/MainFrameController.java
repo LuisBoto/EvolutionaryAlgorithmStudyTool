@@ -220,7 +220,7 @@ public class MainFrameController {
 			mf.getTextAreaScript().setEditable(false);
 			mf.getBtnEditSave().setText(Internationalization.get("EDIT"));
 			this.script = mf.getTextAreaScript().getText();
-			mf.getTextAreaScript().setBackground(new Color(255, 255, 255));
+			mf.getTextAreaScript().setBackground(new Color(199, 190, 165));
 		}
 	}
 
@@ -323,16 +323,18 @@ public class MainFrameController {
 	public void updateStatisticsPanel() {
 		JPanel statsPanel = mf.getStatisticsPreviewPn();
 		statsPanel.removeAll();
+		int index = 0;
 		for (String statistic : Statistics.STATISTICS) {
 			JLabel label = new JLabel(statistic);
 			List<Metric> selected = getSelectedMetrics(false);
-			JTextField txtField = new JTextField(Statistics.getStatistic(statistic, selected));
+			JTextField txtField = new JTextField(Statistics.getStatistic(index, selected));
 			txtField.setEditable(false);
 			txtField.setColumns(8);
 			label.setLabelFor(txtField);
 			label.setAlignmentX(Component.CENTER_ALIGNMENT);
 			statsPanel.add(label);
 			statsPanel.add(txtField);
+			index++;
 		}
 		this.refreshUI(statsPanel);
 	}

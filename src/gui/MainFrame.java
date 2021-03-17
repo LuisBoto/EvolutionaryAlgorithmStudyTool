@@ -95,7 +95,7 @@ public class MainFrame extends JFrame {
 					} catch (Exception e) {
 						System.out.println(Internationalization.get("SUBSTANCE_FAIL"));
 					}
-					Internationalization.setEnglish(); //TODO: Do via GUI
+					Internationalization.setSpanish(); //TODO: Do via GUI
 					MainFrame frame = new MainFrame();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
@@ -497,6 +497,7 @@ public class MainFrame extends JFrame {
 			textAreaScript.setColumns(50);
 			textAreaScript.setText(Internationalization.get("NO_SCRIPT_YET"));
 			textAreaScript.setEditable(false);
+			textAreaScript.setBackground(new Color(199, 190, 165));
 		}
 		return textAreaScript;
 	}

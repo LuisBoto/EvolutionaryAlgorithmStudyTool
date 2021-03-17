@@ -3,27 +3,30 @@ package logic;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import internationalization.Internationalization;
 import logic.scripter.Metric;
 
 public class Statistics {
 
-	public static final String[] STATISTICS = { "Maximum", "Minimum", "Average", "Standard Deviation" };
+	public static final String[] STATISTICS = { Internationalization.get("MAXIMUM"),
+			Internationalization.get("MINIMUM"), Internationalization.get("AVERAGE"),
+			Internationalization.get("STANDARD_DEVIATION") };
 
-	public static String getStatistic(String name, List<Metric> metrics) {
+	public static String getStatistic(int statisticCode, List<Metric> metrics) {
 		if (metrics.size() <= 0)
 			return "";
 		double result = -1;
-		switch (name) {
-		case "Maximum":
+		switch (statisticCode) {
+		case 0:
 			result = best(metrics, true);
 			break;
-		case "Minimum":
+		case 1:
 			result = best(metrics, false);
 			break;
-		case "Average":
+		case 2:
 			result = average(metrics);
 			break;
-		case "Standard Deviation":
+		case 3:
 			result = standardDeviation(metrics);
 			break;
 		}
