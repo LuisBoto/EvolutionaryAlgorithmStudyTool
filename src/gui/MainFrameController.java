@@ -58,7 +58,7 @@ public class MainFrameController {
 
 		this.statisticsAutoupdate = new Timer(500, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				populateStatisticsPanel();
+				updateStatisticsPanel();
 			}
 		});
 		statisticsAutoupdate.start();
@@ -316,7 +316,7 @@ public class MainFrameController {
 		return plotName;
 	}
 
-	public void populateStatisticsPanel() {
+	public void updateStatisticsPanel() {
 		JPanel statsPanel = mf.getStatisticsPreviewPn();
 		statsPanel.removeAll();
 		for (String statistic : Statistics.STATISTICS) {
