@@ -127,8 +127,7 @@ public class MainFrameController {
 			return;
 		}
 		mf.getLblFile().setText(Internationalization.get("LOADED_FILES"));
-		StringBuilder names = new StringBuilder(
-				"<html><b>" + Internationalization.get("LOADED_FILES") + ":</b><br>");
+		StringBuilder names = new StringBuilder("<html><b>" + Internationalization.get("LOADED_FILES") + ":</b><br>");
 		for (String name : this.loadedFileNames)
 			names.append("· " + name + "<br>");
 		names.append("</html>");
@@ -340,8 +339,8 @@ public class MainFrameController {
 	}
 
 	public void mergeFiles() {
-		String[] options = { Internationalization.get("AVERAGE_FILES"),
-				Internationalization.get("MERGE_BY_LINE"), Internationalization.get("CANCEL") };
+		String[] options = { Internationalization.get("AVERAGE_FILES"), Internationalization.get("MERGE_BY_LINE"),
+				Internationalization.get("CANCEL") };
 		int optionSelected = JOptionPane.showOptionDialog(this.mf, Internationalization.get("MERGE_METHOD"),
 				Internationalization.get("MERGE_METHOD_TITLE"), JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
@@ -395,6 +394,27 @@ public class MainFrameController {
 		mf.getPlotButtonsPn().setVisible(show);
 		mf.getMetricsPlotsPn().setVisible(show);
 		mf.getPreviewPn().setVisible(show);
+	}
+
+	public void changeLanguage() {
+		String[] options = { Internationalization.get("ENGLISH"), Internationalization.get("SPANISH"),
+				Internationalization.get("CANCEL") };
+		int optionSelected = JOptionPane.showOptionDialog(this.mf, Internationalization.get("SELECT_LANGUAGE"),
+				Internationalization.get("LANGUAGE"), JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+				options, options[0]);
+		switch (optionSelected) {
+		case 2: // Cancel
+			return;
+		case 0:
+			Internationalization.setEnglish();
+			break;
+		case 1:
+			Internationalization.setSpanish();
+			break;
+		}
+		String[] args = { optionSelected + "" };
+		this.mf.dispose();
+		MainFrame.main(args);
 	}
 
 	public void closeProgram() {

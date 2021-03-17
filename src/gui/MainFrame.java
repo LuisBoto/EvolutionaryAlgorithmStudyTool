@@ -84,18 +84,32 @@ public class MainFrame extends JFrame {
 	private JScrollPane plotListScrollPane;
 	private JScrollPane textAreaScrollPane;
 	private JButton btnClear;
+	private JMenuItem mntmLanguaje;
+	private JSeparator helpMenuSeparator;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					if (args.length != 0) { // Language parameter is present
+						switch (args[0]) {
+						case "1": // Spanish
+							Internationalization.setSpanish();
+							break;
+						default: // English
+							Internationalization.setEnglish();
+							break;
+						}
+					} else
+						Internationalization.setEnglish();
+
 					try {
 						UIManager.setLookAndFeel(
 								"org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
 					} catch (Exception e) {
 						System.out.println(Internationalization.get("SUBSTANCE_FAIL"));
 					}
-					Internationalization.setSpanish(); //TODO: Do via GUI
+
 					MainFrame frame = new MainFrame();
 					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
@@ -144,6 +158,8 @@ public class MainFrame extends JFrame {
 	protected JMenu getMnHelp() {
 		if (mnHelp == null) {
 			mnHelp = new JMenu(Internationalization.get("HELP"));
+			mnHelp.add(getMntmLanguaje());
+			mnHelp.add(getHelpMenuSeparator());
 			mnHelp.add(getMntmAbout());
 		}
 		return mnHelp;
@@ -592,6 +608,7 @@ public class MainFrame extends JFrame {
 	protected MainFrameController getController() {
 		return this.controller;
 	}
+
 	protected JButton getBtnClear() {
 		if (btnClear == null) {
 			btnClear = new JButton(Internationalization.get("CLEAR"));
@@ -605,5 +622,24 @@ public class MainFrame extends JFrame {
 			btnClear.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return btnClear;
+	}
+
+	protected JMenuItem getMntmLanguaje() {
+		if (mntmLanguaje == null) {
+			mntmLanguaje = new JMenuItem(Internationalization.get("LANGUAGE"));
+			mntmLanguaje.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.changeLanguage();
+				}
+			});
+		}
+		return mntmLanguaje;
+	}
+
+	protected JSeparator getHelpMenuSeparator() {
+		if (helpMenuSeparator == null) {
+			helpMenuSeparator = new JSeparator();
+		}
+		return helpMenuSeparator;
 	}
 }

@@ -68,6 +68,10 @@ public class Internationalization {
 		keys.put("MINIMUM", "Minimum");
 		keys.put("AVERAGE", "Average");
 		keys.put("STANDARD_DEVIATION", "Standard Deviation");
+		keys.put("LANGUAGE", "Language...");
+		keys.put("ENGLISH", "English");
+		keys.put("SPANISH", "Spanish");
+		keys.put("SELECT_LANGUAGE", "Select language");
 	}
 	
 	public static void setSpanish() {
@@ -75,7 +79,7 @@ public class Internationalization {
 		keys.put("SUBSTANCE_FAIL", "Substance look and feel falló al inicializarse");
 		keys.put("TITLE_TOOLNAME", "Herramienta de estudio de algoritmos evolutivos");
 		keys.put("FILE", "Archivo");
-		keys.put("HELP", "Ayudo");
+		keys.put("HELP", "Ayuda");
 		keys.put("EXIT", "Salir");
 		keys.put("NEW", "Nuevo");
 		keys.put("ABOUT", "Acerca de...");
@@ -132,6 +136,10 @@ public class Internationalization {
 		keys.put("MINIMUM", "Mínimo");
 		keys.put("AVERAGE", "Promedio");
 		keys.put("STANDARD_DEVIATION", "Desviación estándar");
+		keys.put("LANGUAGE", "Idioma...");
+		keys.put("ENGLISH", "Inglés");
+		keys.put("SPANISH", "Español");
+		keys.put("SELECT_LANGUAGE", "Seleccionar idioma");
 	}
 
 	public static String get(String key) {
