@@ -10,28 +10,30 @@ public class Statistics {
 	public static final String[] STATISTICS = { "Best", "Average", "Standard Deviation" };
 
 	public static String getStatistic(String name, List<Metric> metrics) {
+		if (metrics.size() <= 0)
+			return "";
 		double result = -1;
 		switch (name) {
 		case "Best":
-			result= best(metrics);
+			result = best(metrics);
 			break;
 		case "Average":
-			result= average(metrics);
+			result = average(metrics);
 			break;
 		case "Standard Deviation":
-			result= standardDeviation(metrics);
+			result = standardDeviation(metrics);
 			break;
 		}
 		DecimalFormat numberFormat = new DecimalFormat("#.######");
 		return numberFormat.format(result);
 	}
-	
+
 	private static double best(List<Metric> metrics) {
 		double[] v = getValues(metrics);
 		double max = 0.0;
-		for (double value:v) {
+		for (double value : v) {
 			if (value > max)
-				max=value;
+				max = value;
 		}
 		return max;
 	}

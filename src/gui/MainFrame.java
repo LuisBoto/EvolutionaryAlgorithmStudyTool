@@ -81,9 +81,6 @@ public class MainFrame extends JFrame {
 	private JScrollPane plotSelectScrollPane;
 	private JScrollPane plotListScrollPane;
 	private JScrollPane textAreaScrollPane;
-	private JScrollPane statisticSelectScroll;
-	private JPanel statisticSelectPane;
-	private JTextArea txtStatsResult;
 	private JButton btnClear;
 
 	public static void main(String[] args) {
@@ -329,8 +326,11 @@ public class MainFrame extends JFrame {
 	protected JPanel getPreviewPn() {
 		if (previewPn == null) {
 			previewPn = new JPanel();
+			previewPn.setVisible(false);
+			previewPn.setAlignmentY(0.0f);
 			previewPn.setBorder(new LineBorder(new Color(0, 0, 0)));
 			previewPn.setLayout(new BoxLayout(previewPn, BoxLayout.Y_AXIS));
+			previewPn.add(getLblStatistics());
 			previewPn.add(getStatisticsPreviewPn());
 			previewPn.add(getLblPlotPreview());
 			previewPn.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -531,9 +531,6 @@ public class MainFrame extends JFrame {
 		if (statisticsPreviewPn == null) {
 			statisticsPreviewPn = new JPanel();
 			statisticsPreviewPn.setLayout(new BoxLayout(statisticsPreviewPn, BoxLayout.Y_AXIS));
-			statisticsPreviewPn.add(getLblStatistics());
-			statisticsPreviewPn.add(getStatisticSelectScroll());
-			statisticsPreviewPn.add(getTxtStatsResult());
 
 		}
 		return statisticsPreviewPn;
@@ -587,37 +584,6 @@ public class MainFrame extends JFrame {
 			textAreaScrollPane.setViewportView(this.getTextAreaScript());
 		}
 		return textAreaScrollPane;
-	}
-
-	protected JScrollPane getStatisticSelectScroll() {
-		if (statisticSelectScroll == null) {
-			statisticSelectScroll = new JScrollPane();
-			statisticSelectScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-			statisticSelectScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			statisticSelectScroll.setViewportView(getStatisticSelectPane());
-		}
-		return statisticSelectScroll;
-	}
-
-	protected JPanel getStatisticSelectPane() {
-		if (statisticSelectPane == null) {
-			statisticSelectPane = new JPanel();
-			statisticSelectPane.setVisible(false);
-			statisticSelectPane.setLayout(new BoxLayout(statisticSelectPane, BoxLayout.Y_AXIS));
-			controller.populateStatisticsPanel();
-		}
-		return statisticSelectPane;
-	}
-
-	protected JTextArea getTxtStatsResult() {
-		if (txtStatsResult == null) {
-			txtStatsResult = new JTextArea();
-			txtStatsResult.setEditable(false);
-			txtStatsResult.setFont(new Font("Monospaced", Font.BOLD, 16));
-			txtStatsResult.setLineWrap(true);
-			txtStatsResult.setWrapStyleWord(true);
-		}
-		return txtStatsResult;
 	}
 
 	protected MainFrameController getController() {

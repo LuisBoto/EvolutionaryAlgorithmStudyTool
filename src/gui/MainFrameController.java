@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -16,7 +14,6 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -26,6 +23,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 
@@ -308,23 +306,17 @@ public class MainFrameController {
 	}
 
 	public void populateStatisticsPanel() {
-		JPanel statsPanel = mf.getStatisticSelectPane();
-		JTextArea result = mf.getTxtStatsResult();
+		JPanel statsPanel = mf.getStatisticsPreviewPn();
+		statsPanel.removeAll();
 		for (String statistic : Statistics.STATISTICS) {
-			JButton btn = new JButton(statistic);
-			btn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					List<Metric> selected = getSelectedMetrics(false);
-					if (selected.size() <= 0)
-						return;
-					String res = statistic + ":\n";
-					res += Statistics.getStatistic(statistic, selected);
-					result.setText(res);
-				}
-			});
-			btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-			statsPanel.add(btn);
+			JLabel label = new JLabel(statistic);
+			List<Metric> selected = getSelectedMetrics(false);
+			JTextField txtField = new JTextField(Statistics.getStatistic(statistic, selected));
+			label.setLabelFor(txtField);
+			statsPanel.add(label);
+			statsPanel.add(txtField);
 		}
+		this.refreshUI(statsPanel);
 	}
 
 	public void mergeFiles() {
@@ -379,7 +371,7 @@ public class MainFrameController {
 	private void showPanels(boolean show) {
 		mf.getPlotButtonsPn().setVisible(show);
 		mf.getMetricsPlotsPn().setVisible(show);
-		mf.getStatisticSelectPane().setVisible(show);
+		mf.getPreviewPn().setVisible(show);
 	}
 
 	public void closeProgram() {
