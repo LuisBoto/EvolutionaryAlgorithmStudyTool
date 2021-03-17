@@ -30,7 +30,31 @@ public class Internationalization {
 		keys.put("PLOT_PREVIEW", "Plot Preview");
 		keys.put("STATISTICS", "Statistics");
 		keys.put("CLEAR", "Clear");
-		
+		keys.put("NON_SUPPORTED_FORMAT", "Non supported file format");
+		keys.put("ERROR", "Error");
+		keys.put("ERROR_OPENING_FILE", "An error has ocurred opening the file");
+		keys.put("ERROR_READING_FILE", "Error reading file");
+		keys.put("LOADED_FILES", "Loaded files");
+		keys.put("SAVE", "Save");
+		keys.put("EXECUTE_CONFIRMATION", "Execute current script?");
+		keys.put("EXECUTION_COMPLETED", "Execution completed successfully");
+		keys.put("EXECUTION_COMPLETED_TITLE", "Script execution completed");
+		keys.put("EXECUTION_ERROR", "An exception ocurred while executing the script:");
+		keys.put("EXECUTION_ERROR_TITLE", "Script execution error");
+		keys.put("EXPORT_COMPLETED", "Export completed successfully");
+		keys.put("EXPORT_COMPLETED_PATH", "Script export completed to ");
+		keys.put("EXPORT_ERROR_TITLE", "Script export error");
+		keys.put("EXPORT_ERROR", "An error ocurred exporting the script:");
+		keys.put("AVERAGE_FILES", "Average files");
+		keys.put("MERGE_BY_LINE", "Merge by last line");
+		keys.put("CANCEL", "Cancel");
+		keys.put("MERGE_METHOD", "Select file merging method");
+		keys.put("MERGE_METHOD_TITLE", "Merging files");
+		keys.put("DIRECTORY_TO_MERGE", "Select directory to merge");
+		keys.put("MERGE_COMPLETED", "Merging completed successfully");
+		keys.put("MERGE_COMPLETED_TITLE", "File merge completed");
+		keys.put("MERGE_ERROR", "File merging error");
+		keys.put("MERGE_ERROR_TITLE", "An error ocurred performing the merge:");
 		return keys;
 	}
 }
