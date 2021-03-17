@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public class Internationalization {
 
-	public static HashMap<String, String> keys = new HashMap<String, String>();
+	private static HashMap<String, String> keys = new HashMap<String, String>();
 
-	public static HashMap<String, String> setEnglish() {
+	public static void setEnglish() {
 		keys.clear();
 		keys.put("SUBSTANCE_FAIL", "Substance look and feel failed to initialize");
 		keys.put("TITLE_TOOLNAME", "Evolutive algorithm study tool");
@@ -55,6 +55,18 @@ public class Internationalization {
 		keys.put("MERGE_COMPLETED_TITLE", "File merge completed");
 		keys.put("MERGE_ERROR", "File merging error");
 		keys.put("MERGE_ERROR_TITLE", "An error ocurred performing the merge:");
-		return keys;
+		keys.put("PLOT_DATA", "Plot data");
+		keys.put("FINISH", "Finish");
+		keys.put("PLOT_NAME", "Plot name:");
+		keys.put("ADD_PARAMETER", "Add parameter");
+		keys.put("REMOVE_PARAMETER", "Remove parameter");
+		keys.put("PARAMETER_NAME", "Parameter name:");
+		keys.put("PARAMETER_VALUE", "Parameter value:");
+		keys.put("PARAMETERS", "Parameters: ");
+		keys.put("PLOT_NAME_ERROR", "Please input a plot name");
+	}
+
+	public static String get(String key) {
+		return keys.get(key);
 	}
 }

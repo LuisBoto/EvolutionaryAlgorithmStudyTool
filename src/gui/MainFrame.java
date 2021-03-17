@@ -93,7 +93,7 @@ public class MainFrame extends JFrame {
 						UIManager.setLookAndFeel(
 								"org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
 					} catch (Exception e) {
-						System.out.println(Internationalization.keys.get("SUBSTANCE_FAIL"));
+						System.out.println(Internationalization.get("SUBSTANCE_FAIL"));
 					}
 					Internationalization.setEnglish(); //TODO: Do via GUI
 					MainFrame frame = new MainFrame();
@@ -109,7 +109,7 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		this.controller = new MainFrameController(this);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/gui/img/dnaIcon.png")));
-		setTitle(Internationalization.keys.get("TITLE_TOOLNAME"));
+		setTitle(Internationalization.get("TITLE_TOOLNAME"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 950, 600);
 		setJMenuBar(getMenuBar_1());
@@ -133,7 +133,7 @@ public class MainFrame extends JFrame {
 
 	protected JMenu getMnFile() {
 		if (mnFile == null) {
-			mnFile = new JMenu(Internationalization.keys.get("FILE"));
+			mnFile = new JMenu(Internationalization.get("FILE"));
 			mnFile.add(getMenuFileNew());
 			mnFile.add(getFileMenuSeparator());
 			mnFile.add(getMenuFileExit());
@@ -143,7 +143,7 @@ public class MainFrame extends JFrame {
 
 	protected JMenu getMnHelp() {
 		if (mnHelp == null) {
-			mnHelp = new JMenu(Internationalization.keys.get("HELP"));
+			mnHelp = new JMenu(Internationalization.get("HELP"));
 			mnHelp.add(getMntmAbout());
 		}
 		return mnHelp;
@@ -152,7 +152,7 @@ public class MainFrame extends JFrame {
 	@SuppressWarnings("deprecation")
 	protected JMenuItem getMenuFileExit() {
 		if (menuFileExit == null) {
-			menuFileExit = new JMenuItem(Internationalization.keys.get("EXIT"));
+			menuFileExit = new JMenuItem(Internationalization.get("EXIT"));
 			menuFileExit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.closeProgram();
@@ -166,7 +166,7 @@ public class MainFrame extends JFrame {
 	@SuppressWarnings("deprecation")
 	protected JMenuItem getMenuFileNew() {
 		if (menuFileNew == null) {
-			menuFileNew = new JMenuItem(Internationalization.keys.get("NEW"));
+			menuFileNew = new JMenuItem(Internationalization.get("NEW"));
 			menuFileNew.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.initialize();
@@ -187,7 +187,7 @@ public class MainFrame extends JFrame {
 	@SuppressWarnings("deprecation")
 	protected JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
-			mntmAbout = new JMenuItem(Internationalization.keys.get("ABOUT"));
+			mntmAbout = new JMenuItem(Internationalization.get("ABOUT"));
 			mntmAbout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
 		}
 		return mntmAbout;
@@ -216,7 +216,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnOpenFile() {
 		if (btnOpenFile == null) {
-			btnOpenFile = new JButton(Internationalization.keys.get("LOAD_FILE"));
+			btnOpenFile = new JButton(Internationalization.get("LOAD_FILE"));
 			btnOpenFile.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnOpenFile.setMnemonic('o');
 			btnOpenFile.addActionListener(new ActionListener() {
@@ -231,7 +231,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnMergeFiles() {
 		if (btnMergeFiles == null) {
-			btnMergeFiles = new JButton(Internationalization.keys.get("MERGE_FILES"));
+			btnMergeFiles = new JButton(Internationalization.get("MERGE_FILES"));
 			btnMergeFiles.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnMergeFiles.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -246,7 +246,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnGenerateScript() {
 		if (btnGenerateScript == null) {
-			btnGenerateScript = new JButton(Internationalization.keys.get("GENERATE_SCRIPT"));
+			btnGenerateScript = new JButton(Internationalization.get("GENERATE_SCRIPT"));
 			btnGenerateScript.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnGenerateScript.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -261,7 +261,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnRunScript() {
 		if (btnRunScript == null) {
-			btnRunScript = new JButton(Internationalization.keys.get("RUN_SCRIPT"));
+			btnRunScript = new JButton(Internationalization.get("RUN_SCRIPT"));
 			btnRunScript.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnRunScript.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -276,7 +276,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnExportScript() {
 		if (btnExportScript == null) {
-			btnExportScript = new JButton(Internationalization.keys.get("EXPORT_SCRIPT"));
+			btnExportScript = new JButton(Internationalization.get("EXPORT_SCRIPT"));
 			btnExportScript.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnExportScript.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -344,7 +344,7 @@ public class MainFrame extends JFrame {
 
 	protected JLabel getLblFile() {
 		if (lblFile == null) {
-			lblFile = new JLabel(Internationalization.keys.get("FILE_NONE"));
+			lblFile = new JLabel(Internationalization.get("FILE_NONE"));
 			lblFile.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblFile.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
@@ -406,7 +406,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnAddPlot() {
 		if (btnAddPlot == null) {
-			btnAddPlot = new JButton(Internationalization.keys.get("ADD_PLOT"));
+			btnAddPlot = new JButton(Internationalization.get("ADD_PLOT"));
 			btnAddPlot.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnAddPlot.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -421,7 +421,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnRemovePlot() {
 		if (btnRemovePlot == null) {
-			btnRemovePlot = new JButton(Internationalization.keys.get("REMOVE_PLOT"));
+			btnRemovePlot = new JButton(Internationalization.get("REMOVE_PLOT"));
 			btnRemovePlot.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnRemovePlot.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -445,7 +445,7 @@ public class MainFrame extends JFrame {
 
 	protected JLabel getLblPlots() {
 		if (lblPlots == null) {
-			lblPlots = new JLabel(Internationalization.keys.get("PLOTS"));
+			lblPlots = new JLabel(Internationalization.get("PLOTS"));
 			lblPlots.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			lblPlots.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
@@ -467,7 +467,7 @@ public class MainFrame extends JFrame {
 
 	protected JLabel getLblGeneratedScript() {
 		if (lblGeneratedScript == null) {
-			lblGeneratedScript = new JLabel(Internationalization.keys.get("GENERATED_SCRIPT"));
+			lblGeneratedScript = new JLabel(Internationalization.get("GENERATED_SCRIPT"));
 			lblGeneratedScript.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return lblGeneratedScript;
@@ -475,7 +475,7 @@ public class MainFrame extends JFrame {
 
 	protected JButton getBtnEditSave() {
 		if (btnEditSave == null) {
-			btnEditSave = new JButton(Internationalization.keys.get("EDIT"));
+			btnEditSave = new JButton(Internationalization.get("EDIT"));
 			btnEditSave.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnEditSave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -495,7 +495,7 @@ public class MainFrame extends JFrame {
 			textAreaScript.setWrapStyleWord(true);
 			textAreaScript.setLineWrap(true);
 			textAreaScript.setColumns(50);
-			textAreaScript.setText(Internationalization.keys.get("NO_SCRIPT_YET"));
+			textAreaScript.setText(Internationalization.get("NO_SCRIPT_YET"));
 			textAreaScript.setEditable(false);
 		}
 		return textAreaScript;
@@ -513,7 +513,7 @@ public class MainFrame extends JFrame {
 
 	protected JLabel getLblPlotPreview() {
 		if (lblPlotPreview == null) {
-			lblPlotPreview = new JLabel(Internationalization.keys.get("PLOT_PREVIEW"));
+			lblPlotPreview = new JLabel(Internationalization.get("PLOT_PREVIEW"));
 			lblPlotPreview.setFont(new Font("Tahoma", Font.BOLD, 12));
 			lblPlotPreview.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
@@ -540,7 +540,7 @@ public class MainFrame extends JFrame {
 
 	protected JLabel getLblStatistics() {
 		if (lblStatistics == null) {
-			lblStatistics = new JLabel(Internationalization.keys.get("STATISTICS"));
+			lblStatistics = new JLabel(Internationalization.get("STATISTICS"));
 			lblStatistics.setFont(new Font("Tahoma", Font.BOLD, 12));
 			lblStatistics.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
@@ -593,7 +593,7 @@ public class MainFrame extends JFrame {
 	}
 	protected JButton getBtnClear() {
 		if (btnClear == null) {
-			btnClear = new JButton(Internationalization.keys.get("CLEAR"));
+			btnClear = new JButton(Internationalization.get("CLEAR"));
 			btnClear.setEnabled(false);
 			btnClear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {

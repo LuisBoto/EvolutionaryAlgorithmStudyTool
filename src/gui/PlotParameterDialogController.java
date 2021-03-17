@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import internationalization.Internationalization;
 import logic.scripter.graphs.Parameter;
 
 public class PlotParameterDialogController {
@@ -29,7 +30,7 @@ public class PlotParameterDialogController {
 	}
 
 	public void updateParameterLabel() {
-		StringBuilder stb = new StringBuilder("Parameters: ");
+		StringBuilder stb = new StringBuilder(Internationalization.get("PARAMETERS"));
 		for (Parameter param : this.parameters)
 			stb.append(param.toString());
 		this.pd.getTxtParameterList().setText(stb.toString().replace(": , ", ": ")); // Substring to cut first comma
@@ -45,7 +46,8 @@ public class PlotParameterDialogController {
 	public void finish() {
 		String pdfName = this.pd.getTxtName().getText();
 		if (pdfName.equals("")) {
-			JOptionPane.showMessageDialog(this.pd, "Please input a plot name", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this.pd, Internationalization.get("PLOT_NAME_ERROR"),
+					Internationalization.get("ERROR"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		MainFrameController mfControl = this.pd.getMainFrame().getController();

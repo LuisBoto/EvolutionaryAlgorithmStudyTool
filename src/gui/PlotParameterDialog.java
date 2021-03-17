@@ -18,6 +18,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
+
+import internationalization.Internationalization;
+
 import java.awt.Color;
 
 public class PlotParameterDialog extends JDialog {
@@ -58,7 +61,7 @@ public class PlotParameterDialog extends JDialog {
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setIconImage(
 				Toolkit.getDefaultToolkit().getImage(PlotParameterDialog.class.getResource("/gui/img/dnaIcon.png")));
-		setTitle("Plot data");
+		setTitle(Internationalization.get("PLOT_DATA"));
 		getContentPane().add(getBtnPanel(), BorderLayout.SOUTH);
 		getContentPane().add(getMainPanel(), BorderLayout.CENTER);
 
@@ -75,7 +78,7 @@ public class PlotParameterDialog extends JDialog {
 
 	protected JButton getBtnFinish() {
 		if (btnFinish == null) {
-			btnFinish = new JButton("Finish");
+			btnFinish = new JButton(Internationalization.get("FINISH"));
 			btnFinish.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnFinish.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -89,7 +92,7 @@ public class PlotParameterDialog extends JDialog {
 
 	protected JButton getBtnCancel() {
 		if (btnCancel == null) {
-			btnCancel = new JButton("Cancel");
+			btnCancel = new JButton(Internationalization.get("CANCEL"));
 			btnCancel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 			btnCancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -123,7 +126,7 @@ public class PlotParameterDialog extends JDialog {
 
 	protected JLabel getLblPlotName() {
 		if (lblPlotName == null) {
-			lblPlotName = new JLabel("Plot name:");
+			lblPlotName = new JLabel(Internationalization.get("PLOT_NAME"));
 			lblPlotName.setFont(new Font("Tahoma", Font.BOLD, 12));
 			lblPlotName.setLabelFor(getTxtName());
 		}
@@ -152,9 +155,9 @@ public class PlotParameterDialog extends JDialog {
 		if (parameterListPanel == null) {
 			parameterListPanel = new JPanel();
 			parameterListPanel.setLayout(new BoxLayout(parameterListPanel, BoxLayout.X_AXIS));
-			parameterListPanel.add(Box.createRigidArea(new Dimension(5,5)));
+			parameterListPanel.add(Box.createRigidArea(new Dimension(5, 5)));
 			parameterListPanel.add(getScrollParamList());
-			parameterListPanel.add(Box.createRigidArea(new Dimension(5,5)));
+			parameterListPanel.add(Box.createRigidArea(new Dimension(5, 5)));
 		}
 		return parameterListPanel;
 	}
@@ -209,7 +212,7 @@ public class PlotParameterDialog extends JDialog {
 
 	protected JButton getBtnAdd_1() {
 		if (btnAdd == null) {
-			btnAdd = new JButton("Add parameter");
+			btnAdd = new JButton(Internationalization.get("ADD_PARAMETER"));
 			btnAdd.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.addParameter();
@@ -223,7 +226,7 @@ public class PlotParameterDialog extends JDialog {
 
 	protected JButton getBtnRemove_1() {
 		if (btnRemove == null) {
-			btnRemove = new JButton("Remove parameter");
+			btnRemove = new JButton(Internationalization.get("REMOVE_PARAMETER"));
 			btnRemove.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.removeParameter();
@@ -237,7 +240,7 @@ public class PlotParameterDialog extends JDialog {
 
 	protected JLabel getLblParameterName() {
 		if (lblParameterName == null) {
-			lblParameterName = new JLabel("Parameter name:");
+			lblParameterName = new JLabel(Internationalization.get("PARAMETER_NAME"));
 			lblParameterName.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return lblParameterName;
@@ -253,7 +256,7 @@ public class PlotParameterDialog extends JDialog {
 
 	protected JLabel getLblParameterValue() {
 		if (lblParameterValue == null) {
-			lblParameterValue = new JLabel("Parameter value:");
+			lblParameterValue = new JLabel(Internationalization.get("PARAMETER_VALUE"));
 			lblParameterValue.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return lblParameterValue;

@@ -71,9 +71,9 @@ public class MainFrameController {
 		mf.getBtnRunScript().setEnabled(false);
 		mf.getBtnExportScript().setEnabled(false);
 
-		mf.getTextAreaScript().setText(Internationalization.keys.get("NO_SCRIPT_YET"));
+		mf.getTextAreaScript().setText(Internationalization.get("NO_SCRIPT_YET"));
 		mf.getTextAreaScript().setEditable(false);
-		mf.getBtnEditSave().setText(Internationalization.keys.get("EDIT"));
+		mf.getBtnEditSave().setText(Internationalization.get("EDIT"));
 		mf.getBtnEditSave().setEnabled(false);
 		mf.getBtnClear().setEnabled(false);
 
@@ -99,8 +99,8 @@ public class MainFrameController {
 		// A file has been selected
 		File f = fc.getSelectedFile();
 		if (!f.getName().endsWith(".csv")) {
-			JOptionPane.showMessageDialog(this.mf, Internationalization.keys.get("NON_SUPPORTED_FORMAT"),
-					Internationalization.keys.get("ERROR"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this.mf, Internationalization.get("NON_SUPPORTED_FORMAT"),
+					Internationalization.get("ERROR"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -114,21 +114,21 @@ public class MainFrameController {
 			this.updateLoadedFileLabel();
 			this.enableButtons();
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this.mf, Internationalization.keys.get("ERROR_OPENING_FILE"),
-					Internationalization.keys.get("ERROR_READING_FILE"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this.mf, Internationalization.get("ERROR_OPENING_FILE"),
+					Internationalization.get("ERROR_READING_FILE"), JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 	}
 
 	public void updateLoadedFileLabel() {
 		if (this.loadedFileNames.size() <= 0) {
-			mf.getLblFile().setText(Internationalization.keys.get("FILE_NONE"));
+			mf.getLblFile().setText(Internationalization.get("FILE_NONE"));
 			mf.getLblFile().setToolTipText(null); // Turns off
 			return;
 		}
-		mf.getLblFile().setText(Internationalization.keys.get("LOADED_FILES"));
+		mf.getLblFile().setText(Internationalization.get("LOADED_FILES"));
 		StringBuilder names = new StringBuilder(
-				"<html><b>" + Internationalization.keys.get("LOADED_FILES") + ":</b><br>");
+				"<html><b>" + Internationalization.get("LOADED_FILES") + ":</b><br>");
 		for (String name : this.loadedFileNames)
 			names.append("· " + name + "<br>");
 		names.append("</html>");
@@ -212,13 +212,13 @@ public class MainFrameController {
 	}
 
 	public void editSaveScriptArea() {
-		if (mf.getBtnEditSave().getText().equals(Internationalization.keys.get("EDIT"))) {
+		if (mf.getBtnEditSave().getText().equals(Internationalization.get("EDIT"))) {
 			mf.getTextAreaScript().setEditable(true);
-			mf.getBtnEditSave().setText(Internationalization.keys.get("SAVE"));
+			mf.getBtnEditSave().setText(Internationalization.get("SAVE"));
 			mf.getTextAreaScript().setBackground(new Color(255, 247, 230));
 		} else { // Saving functionality
 			mf.getTextAreaScript().setEditable(false);
-			mf.getBtnEditSave().setText(Internationalization.keys.get("EDIT"));
+			mf.getBtnEditSave().setText(Internationalization.get("EDIT"));
 			this.script = mf.getTextAreaScript().getText();
 			mf.getTextAreaScript().setBackground(new Color(255, 255, 255));
 		}
@@ -236,16 +236,16 @@ public class MainFrameController {
 	public void runScript() {
 		if (this.script.equals(""))
 			return;
-		int res = JOptionPane.showConfirmDialog(this.mf, Internationalization.keys.get("EXECUTE_CONFIRMATION"));
+		int res = JOptionPane.showConfirmDialog(this.mf, Internationalization.get("EXECUTE_CONFIRMATION"));
 		if (res != 0)
 			return;
 		try {
 			RScriptRunner.runRScript(this.script);
-			JOptionPane.showMessageDialog(this.mf, Internationalization.keys.get("EXECUTION_COMPLETED"),
-					Internationalization.keys.get("EXECUTION_COMPLETED_TITLE"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this.mf, Internationalization.get("EXECUTION_COMPLETED"),
+					Internationalization.get("EXECUTION_COMPLETED_TITLE"), JOptionPane.INFORMATION_MESSAGE);
 		} catch (Exception e) {
-			this.showExceptionDialog(Internationalization.keys.get("EXECUTION_ERROR_TITLE"),
-					Internationalization.keys.get("EXECUTION_ERROR"), e.getMessage());
+			this.showExceptionDialog(Internationalization.get("EXECUTION_ERROR_TITLE"),
+					Internationalization.get("EXECUTION_ERROR"), e.getMessage());
 			return;
 		}
 	}
@@ -286,11 +286,11 @@ public class MainFrameController {
 			bf.write(this.script);
 			bf.close();
 			fw.close();
-			JOptionPane.showMessageDialog(this.mf, Internationalization.keys.get("EXPORT_COMPLETED"),
-					Internationalization.keys.get("EXPORT_COMPLETED_PATH") + path, JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this.mf, Internationalization.get("EXPORT_COMPLETED"),
+					Internationalization.get("EXPORT_COMPLETED_PATH") + path, JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException e) {
-			this.showExceptionDialog(Internationalization.keys.get("EXPORT_ERROR_TITLE"),
-					Internationalization.keys.get("EXPORT_ERROR"), e.getMessage());
+			this.showExceptionDialog(Internationalization.get("EXPORT_ERROR_TITLE"),
+					Internationalization.get("EXPORT_ERROR"), e.getMessage());
 		}
 	}
 
@@ -338,10 +338,10 @@ public class MainFrameController {
 	}
 
 	public void mergeFiles() {
-		String[] options = { Internationalization.keys.get("AVERAGE_FILES"),
-				Internationalization.keys.get("MERGE_BY_LINE"), Internationalization.keys.get("CANCEL") };
-		int optionSelected = JOptionPane.showOptionDialog(this.mf, Internationalization.keys.get("MERGE_METHOD"),
-				Internationalization.keys.get("MERGE_METHOD_TITLE"), JOptionPane.DEFAULT_OPTION,
+		String[] options = { Internationalization.get("AVERAGE_FILES"),
+				Internationalization.get("MERGE_BY_LINE"), Internationalization.get("CANCEL") };
+		int optionSelected = JOptionPane.showOptionDialog(this.mf, Internationalization.get("MERGE_METHOD"),
+				Internationalization.get("MERGE_METHOD_TITLE"), JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 		if (optionSelected == 2) // Cancel
 			return;
@@ -349,7 +349,7 @@ public class MainFrameController {
 		// Selecting directory to merge
 		JFileChooser chooser = new JFileChooser();
 		chooser.setCurrentDirectory(new java.io.File("."));
-		chooser.setDialogTitle(Internationalization.keys.get("DIRECTORY_TO_MERGE"));
+		chooser.setDialogTitle(Internationalization.get("DIRECTORY_TO_MERGE"));
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		if (chooser.showOpenDialog(this.mf) != JFileChooser.APPROVE_OPTION)
 			return;
@@ -371,17 +371,17 @@ public class MainFrameController {
 				FileMerger.mergeByAverage(path, pathSave);
 			if (optionSelected == 1) // Merge by last line
 				FileMerger.mergeByLastLine(path, pathSave);
-			JOptionPane.showMessageDialog(this.mf, Internationalization.keys.get("MERGE_COMPLETED"),
-					Internationalization.keys.get("MERGE_COMPLETED_TITLE"), JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this.mf, Internationalization.get("MERGE_COMPLETED"),
+					Internationalization.get("MERGE_COMPLETED_TITLE"), JOptionPane.INFORMATION_MESSAGE);
 		} catch (IllegalArgumentException | IOException e) {
-			this.showExceptionDialog(Internationalization.keys.get("MERGE_ERROR_TITLE"),
-					Internationalization.keys.get("MERGE_ERROR"), e.getMessage());
+			this.showExceptionDialog(Internationalization.get("MERGE_ERROR_TITLE"),
+					Internationalization.get("MERGE_ERROR"), e.getMessage());
 		}
 	}
 
 	public void clearScript() {
 		this.script = "";
-		mf.getTextAreaScript().setText(Internationalization.keys.get("NO_SCRIPT_YET"));
+		mf.getTextAreaScript().setText(Internationalization.get("NO_SCRIPT_YET"));
 	}
 
 	private void refreshUI(JPanel panel) {
