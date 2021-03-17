@@ -84,7 +84,7 @@ public class MainFrame extends JFrame {
 	private JScrollPane plotListScrollPane;
 	private JScrollPane textAreaScrollPane;
 	private JButton btnClear;
-	private JMenuItem mntmLanguaje;
+	private JMenuItem mntmLanguage;
 	private JSeparator helpMenuSeparator;
 
 	public static void main(String[] args) {
@@ -158,7 +158,7 @@ public class MainFrame extends JFrame {
 	protected JMenu getMnHelp() {
 		if (mnHelp == null) {
 			mnHelp = new JMenu(Internationalization.get("HELP"));
-			mnHelp.add(getMntmLanguaje());
+			mnHelp.add(getMntmLanguage());
 			mnHelp.add(getHelpMenuSeparator());
 			mnHelp.add(getMntmAbout());
 		}
@@ -204,6 +204,11 @@ public class MainFrame extends JFrame {
 	protected JMenuItem getMntmAbout() {
 		if (mntmAbout == null) {
 			mntmAbout = new JMenuItem(Internationalization.get("ABOUT"));
+			mntmAbout.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.showAbout();
+				}
+			});
 			mntmAbout.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
 		}
 		return mntmAbout;
@@ -624,16 +629,18 @@ public class MainFrame extends JFrame {
 		return btnClear;
 	}
 
-	protected JMenuItem getMntmLanguaje() {
-		if (mntmLanguaje == null) {
-			mntmLanguaje = new JMenuItem(Internationalization.get("LANGUAGE"));
-			mntmLanguaje.addActionListener(new ActionListener() {
+	@SuppressWarnings("deprecation")
+	protected JMenuItem getMntmLanguage() {
+		if (mntmLanguage == null) {
+			mntmLanguage = new JMenuItem(Internationalization.get("LANGUAGE"));	
+			mntmLanguage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));
+			mntmLanguage.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.changeLanguage();
 				}
 			});
 		}
-		return mntmLanguaje;
+		return mntmLanguage;
 	}
 
 	protected JSeparator getHelpMenuSeparator() {

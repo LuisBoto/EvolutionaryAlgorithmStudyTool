@@ -72,8 +72,10 @@ public class Internationalization {
 		keys.put("ENGLISH", "English");
 		keys.put("SPANISH", "Spanish");
 		keys.put("SELECT_LANGUAGE", "Select language");
+		keys.put("ABOUT_MESSAGE",
+				"Evolutive algorithm study tool.\nUniversity of Oviedo, Software Engineering, end of degree project.\nLuis Boto Fernández 2021");
 	}
-	
+
 	public static void setSpanish() {
 		keys.clear();
 		keys.put("SUBSTANCE_FAIL", "Substance look and feel falló al inicializarse");
@@ -140,6 +142,8 @@ public class Internationalization {
 		keys.put("ENGLISH", "Inglés");
 		keys.put("SPANISH", "Español");
 		keys.put("SELECT_LANGUAGE", "Seleccionar idioma");
+		keys.put("ABOUT_MESSAGE",
+				"Herramienta de estudio de algoritmos evolutivos.\nUniversidad de Oviedo, Ingeniería del Software, trabajo de fin de grado.\nLuis Boto Fernández 2021");
 	}
 
 	public static String get(String key) {

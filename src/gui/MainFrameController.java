@@ -417,6 +417,11 @@ public class MainFrameController {
 		MainFrame.main(args);
 	}
 
+	public void showAbout() {
+		JOptionPane.showMessageDialog(this.mf, Internationalization.get("ABOUT_MESSAGE"),
+				Internationalization.get("ABOUT"), JOptionPane.INFORMATION_MESSAGE);
+	}
+
 	public void closeProgram() {
 		System.exit(0);
 	}
