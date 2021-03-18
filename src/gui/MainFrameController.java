@@ -242,11 +242,22 @@ public class MainFrameController {
 			RScriptRunner.runRScript(this.script);
 			JOptionPane.showMessageDialog(this.mf, Internationalization.get("EXECUTION_COMPLETED"),
 					Internationalization.get("EXECUTION_COMPLETED_TITLE"), JOptionPane.INFORMATION_MESSAGE);
+			showLastPDFPreview();
 		} catch (Exception e) {
 			this.showExceptionDialog(Internationalization.get("EXECUTION_ERROR_TITLE"),
 					Internationalization.get("EXECUTION_ERROR"), e.getMessage());
 			return;
 		}
+	}
+
+	private void showLastPDFPreview() {
+		String pathPDF = "./" + this.plots.get(this.plots.size() - 1).getPdfName() + ".pdf";
+		try {
+			PDFRender.renderPDF(mf.getPlotPreviewPn(), pathPDF);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.refreshUI(mf.getPlotPreviewPn());
 	}
 
 	private void showExceptionDialog(String title, String message, String exceptionMessage) {

@@ -14,7 +14,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,6 +30,8 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+
+import com.sun.pdfview.PagePanel;
 
 import internationalization.Internationalization;
 
@@ -76,9 +77,8 @@ public class MainFrame extends JFrame {
 	private JTextArea textAreaScript;
 	private JPanel statisticsPreviewPn;
 	private JLabel lblStatistics;
-	private JPanel plotPreviewPn;
+	private PagePanel plotPreviewPn;
 	private JLabel lblPlotPreview;
-	private JLabel lblPlotImage;
 	private JScrollPane metricSelectScrollPane;
 	private JScrollPane plotSelectScrollPane;
 	private JScrollPane plotListScrollPane;
@@ -523,12 +523,10 @@ public class MainFrame extends JFrame {
 		return textAreaScript;
 	}
 
-	protected JPanel getPlotPreviewPn() {
+	protected PagePanel getPlotPreviewPn() {
 		if (plotPreviewPn == null) {
-			plotPreviewPn = new JPanel();
+			plotPreviewPn = new PagePanel();
 			plotPreviewPn.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-			plotPreviewPn.setLayout(new BoxLayout(plotPreviewPn, BoxLayout.Y_AXIS));
-			plotPreviewPn.add(getLblPlotImage());
 		}
 		return plotPreviewPn;
 	}
@@ -540,15 +538,6 @@ public class MainFrame extends JFrame {
 			lblPlotPreview.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblPlotPreview;
-	}
-
-	protected JLabel getLblPlotImage() {
-		if (lblPlotImage == null) {
-			lblPlotImage = new JLabel("");
-			lblPlotImage.setIcon(new ImageIcon(MainFrame.class.getResource("/gui/img/graph.jpg")));
-			lblPlotImage.setAlignmentX(Component.CENTER_ALIGNMENT);
-		}
-		return lblPlotImage;
 	}
 
 	protected JPanel getStatisticsPreviewPn() {

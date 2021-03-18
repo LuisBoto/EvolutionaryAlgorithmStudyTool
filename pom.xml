@@ -1,39 +1,47 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>TFG-HerramientaAlgEvolutivos</groupId>
-  <artifactId>TFG-HerramientaAlgEvolutivos</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <plugins>
-      <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.0</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  <dependencies>
-  	<dependency>
-    	<groupId>org.renjin</groupId>
-    	<artifactId>renjin-script-engine</artifactId>
-	  	<version>3.5-beta43</version>
-	</dependency>
-	<!-- https://mvnrepository.com/artifact/org.java.net.substance/substance -->
-	<dependency>
-	    <groupId>org.java.net.substance</groupId>
-	    <artifactId>substance</artifactId>
-	    <version>6.0</version>
-	</dependency>
-  </dependencies>
-  <repositories>
-  	<repository>
-	    <id>bedatadriven</id>
-	    <name>bedatadriven public repo</name>
-	    <url>https://nexus.bedatadriven.com/content/groups/public/</url>
-	  </repository>
-  </repositories>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>TFG-HerramientaAlgEvolutivos</groupId>
+	<artifactId>TFG-HerramientaAlgEvolutivos</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.renjin</groupId>
+			<artifactId>renjin-script-engine</artifactId>
+			<version>3.5-beta43</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.java.net.substance/substance -->
+		<dependency>
+			<groupId>org.java.net.substance</groupId>
+			<artifactId>substance</artifactId>
+			<version>6.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.swinglabs/pdf-renderer -->
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>pdf-renderer</artifactId>
+			<version>1.0.5</version>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>bedatadriven</id>
+			<name>bedatadriven public repo</name>
+			<url>https://nexus.bedatadriven.com/content/groups/public/</url>
+		</repository>
+	</repositories>
 </project>
