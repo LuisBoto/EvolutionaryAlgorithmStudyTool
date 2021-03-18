@@ -12,8 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,8 +32,6 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
-import com.sun.pdfview.PagePanel;
 
 import internationalization.Internationalization;
 
@@ -77,7 +77,7 @@ public class MainFrame extends JFrame {
 	private JTextArea textAreaScript;
 	private JPanel statisticsPreviewPn;
 	private JLabel lblStatistics;
-	private PagePanel plotPreviewPn;
+	private JPanel plotPreviewPn;
 	private JLabel lblPlotPreview;
 	private JScrollPane metricSelectScrollPane;
 	private JScrollPane plotSelectScrollPane;
@@ -86,6 +86,7 @@ public class MainFrame extends JFrame {
 	private JButton btnClear;
 	private JMenuItem mntmLanguage;
 	private JSeparator helpMenuSeparator;
+	private JLabel lblPlotImage;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -523,10 +524,12 @@ public class MainFrame extends JFrame {
 		return textAreaScript;
 	}
 
-	protected PagePanel getPlotPreviewPn() {
+	protected JPanel getPlotPreviewPn() {
 		if (plotPreviewPn == null) {
-			plotPreviewPn = new PagePanel();
+			plotPreviewPn = new JPanel();
+			plotPreviewPn.setLayout(new BoxLayout(plotPreviewPn, BoxLayout.Y_AXIS));
 			plotPreviewPn.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+			plotPreviewPn.add(getLblPlotImage());
 		}
 		return plotPreviewPn;
 	}
@@ -621,7 +624,7 @@ public class MainFrame extends JFrame {
 	@SuppressWarnings("deprecation")
 	protected JMenuItem getMntmLanguage() {
 		if (mntmLanguage == null) {
-			mntmLanguage = new JMenuItem(Internationalization.get("LANGUAGE"));	
+			mntmLanguage = new JMenuItem(Internationalization.get("LANGUAGE"));
 			mntmLanguage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_MASK));
 			mntmLanguage.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -637,5 +640,14 @@ public class MainFrame extends JFrame {
 			helpMenuSeparator = new JSeparator();
 		}
 		return helpMenuSeparator;
+	}
+
+	protected JLabel getLblPlotImage() {
+		if (lblPlotImage == null) {
+			lblPlotImage = new JLabel("");
+			lblPlotImage.setIcon(new ImageIcon(MainFrame.class.getResource("/gui/img/graph.jpg")));
+			lblPlotImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+		}
+		return lblPlotImage;
 	}
 }

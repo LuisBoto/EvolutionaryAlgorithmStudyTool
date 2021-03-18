@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -16,6 +18,7 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -83,6 +86,7 @@ public class MainFrameController {
 		mf.getMetricSelectPn().removeAll();
 		mf.getPlotsSelectPn().removeAll();
 		mf.getPlotListPn().removeAll();
+		mf.getLblPlotImage().setIcon(new ImageIcon(MainFrame.class.getResource("/gui/img/graph.jpg")));
 
 		this.metrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
@@ -251,12 +255,13 @@ public class MainFrameController {
 	}
 
 	private void showLastPDFPreview() {
-		String pathPDF = "./" + this.plots.get(this.plots.size() - 1).getPdfName() + ".pdf";
-		try {
-			PDFRender.renderPDF(mf.getPlotPreviewPn(), pathPDF);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		String pathPNG = "./" + this.plots.get(this.plots.size() - 1).getPdfName() + ".png";
+		JLabel label = mf.getLblPlotImage();
+		ImageIcon imageIcon = new ImageIcon(pathPNG);
+		Image image = imageIcon.getImage(); // transform it
+		Image newimg = image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH); 
+		imageIcon = new ImageIcon(newimg); // transform it back
+		label.setIcon(imageIcon);
 		this.refreshUI(mf.getPlotPreviewPn());
 	}
 
