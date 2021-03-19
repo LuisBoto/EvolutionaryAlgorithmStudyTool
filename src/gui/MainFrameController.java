@@ -144,7 +144,8 @@ public class MainFrameController {
 		if (this.loadedFileNames.size() > 1)
 			metricsPanel.add(new JSeparator());
 
-		String fileNameLabel = newMetricsFilename.substring(0, 28);
+		int cut = newMetricsFilename.length() < 28 ? newMetricsFilename.length() : 28;
+		String fileNameLabel = newMetricsFilename.substring(0, cut);
 		if (newMetricsFilename.length() > 28)
 			fileNameLabel += "...";
 		JLabel fileName = new JLabel(fileNameLabel);
@@ -238,7 +239,7 @@ public class MainFrameController {
 	public void runScript() {
 		if (this.script.equals("") || isScriptEditing())
 			return;
-		
+
 		int res = JOptionPane.showConfirmDialog(this.mf, Internationalization.get("EXECUTE_CONFIRMATION"));
 		if (res != 0)
 			return;
@@ -253,7 +254,7 @@ public class MainFrameController {
 			return;
 		}
 	}
-	
+
 	private boolean isScriptEditing() {
 		if (!mf.getBtnEditSave().getText().equals(Internationalization.get("EDIT")))
 			JOptionPane.showMessageDialog(mf, Internationalization.get("SAVE_FIRST"));
@@ -265,7 +266,7 @@ public class MainFrameController {
 		JLabel label = mf.getLblPlotImage();
 		ImageIcon imageIcon = new ImageIcon(pathPNG);
 		Image image = imageIcon.getImage(); // transform it
-		Image newimg = image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH); 
+		Image newimg = image.getScaledInstance(200, 200, java.awt.Image.SCALE_SMOOTH);
 		imageIcon = new ImageIcon(newimg); // transform it back
 		label.setIcon(imageIcon);
 		this.refreshUI(mf.getPlotPreviewPn());
