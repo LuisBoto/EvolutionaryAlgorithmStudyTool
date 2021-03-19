@@ -30,7 +30,7 @@ public class TSPParser {
 					readingCoords = true;
 					continue;
 				}
-				parts = line.replace("  ", " ").split(" ");
+				parts = line.trim().replaceAll("\\s+", " ").split(" ");
 				Point point = new Point(parts[0], Double.parseDouble(parts[1]), Double.parseDouble(parts[2]));
 				points.add(point);
 			}
