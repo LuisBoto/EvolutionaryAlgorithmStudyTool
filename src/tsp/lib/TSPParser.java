@@ -18,6 +18,7 @@ public class TSPParser {
 			String line = "";
 			String[] parts;
 			boolean readingCoords = false;
+			System.out.println("Parsing TSP instance");
 			while ((line = bf.readLine()) != null) {
 				if (line.equals("EOF"))
 					break;
@@ -29,8 +30,8 @@ public class TSPParser {
 					readingCoords = true;
 					continue;
 				}
-				parts = line.split(" ");
-				Point point = new Point(parts[0], Integer.parseInt(parts[1]), Integer.parseInt(parts[2]));
+				parts = line.replace("  ", " ").split(" ");
+				Point point = new Point(parts[0], Double.parseDouble(parts[1]), Double.parseDouble(parts[2]));
 				points.add(point);
 			}
 			bf.close();
@@ -57,10 +58,10 @@ public class TSPParser {
 	private static class Point {
 
 		private String name;
-		private int x;
-		private int y;
+		private double x;
+		private double y;
 
-		Point(String name, int x, int y) {
+		Point(String name, double x, double y) {
 			this.name = name;
 			this.x = x;
 			this.y = y;
@@ -70,15 +71,15 @@ public class TSPParser {
 			return this.name;
 		}
 
-		int getX() {
+		double getX() {
 			return this.x;
 		}
 
-		int getY() {
+		double getY() {
 			return this.y;
 		}
 
-		int getDistance(Point destination) {
+		double getDistance(Point destination) {
 			return Math.abs(this.x - destination.getX()) + Math.abs(this.y - destination.getY());
 		}
 	}
