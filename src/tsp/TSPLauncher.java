@@ -13,12 +13,13 @@ import tsp.geneticAlgorithm.Individual;
 import tsp.geneticAlgorithm.TSPFunctions;
 import tsp.geneticAlgorithm.TSPFunctions.TSPFitnessFunction;
 import tsp.lib.Graph;
+import tsp.lib.TSPParser;
 
 public class TSPLauncher {
 
 	public static void main(String[] args) throws ScriptException {
 		//City graph construction
-		Graph<String> cities = new Graph<String>(5);
+		/*Graph<String> cities = new Graph<String>(5);
 		cities.addNode("A");
 		cities.addNode("B");
 		cities.addNode("C");
@@ -31,7 +32,8 @@ public class TSPLauncher {
 		cities.addEdge("B", "D", 25.0);
 		cities.addEdge("C", "D", 30.0);
 		cities.addEdge("E", "A", 100.0);
-		cities.addEdge("E", "D", 1.0);
+		cities.addEdge("E", "D", 1.0);*/
+		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/ali535.tsp");
 
 		// Parameters
 		int popSize = 150;
