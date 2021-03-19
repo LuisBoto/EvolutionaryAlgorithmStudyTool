@@ -20,7 +20,7 @@ public abstract class GraphCommand {
 		this.setMetrics(metrics);
 		this.parameters = new ArrayList<Parameter>();
 	}
-	
+
 	public GraphCommand(String pdfName, List<Metric> metrics, List<Parameter> params) {
 		this.setPdfName(pdfName);
 		this.setMetrics(metrics);
@@ -29,7 +29,12 @@ public abstract class GraphCommand {
 
 	public String generateScriptCode() {
 		StringBuilder res = new StringBuilder("pdf('").append(this.pdfName).append(".pdf')\n");
+		res.append(pdfName + "Device<-dev.cur()\n");
+		res.append("png('").append(this.pdfName).append(".png')\n");
+		res.append("dev.control('enable')\n");
 		res.append(this.execute()).append("\n");
+		res.append("dev.copy(which=" + pdfName + "Device)\n");
+		res.append("dev.off()\n");
 		res.append("dev.off()");
 		return res.toString();
 	}
@@ -63,14 +68,14 @@ public abstract class GraphCommand {
 	public List<Parameter> getParameters() {
 		return this.parameters;
 	}
-	
+
 	public void setParameters(List<Parameter> params) {
 		this.parameters = params;
 	}
-	
+
 	protected String stringifyParameters() {
 		StringBuilder pars = new StringBuilder("");
-		for (Parameter param: this.parameters) {
+		for (Parameter param : this.parameters) {
 			pars.append(param.toString());
 		}
 		return pars.toString();
