@@ -53,6 +53,6 @@ public class FileParser {
 
 	public static boolean isNumeric(String value) {
 		// Checks if a metric value is numeric
-		return value.matches("-?\\d+(\\.\\d+)?");
+		return value.matches("-?\\d+(\\.\\d+)?(E.+)?");
 	}
 }
