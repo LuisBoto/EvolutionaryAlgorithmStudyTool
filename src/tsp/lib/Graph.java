@@ -38,11 +38,11 @@ public class Graph<T> {
 	
 	public int addNode(T node) {
 		/**
-		 * Método que añade un nuevo nodo al grafo. Falla si el nodo ya existe en el
+		 * Mï¿½todo que aï¿½ade un nuevo nodo al grafo. Falla si el nodo ya existe en el
 		 * grafo o no cabe
 		 * 
-		 * @param node el nodo que se desea añadir
-		 * @return int 0 si el nodo es añadido correctamente; -1 si existe el nodo; -2
+		 * @param node el nodo que se desea aï¿½adir
+		 * @return int 0 si el nodo es aï¿½adido correctamente; -1 si existe el nodo; -2
 		 *         si no hay sitio, -3 si el nodo a insertar es nulo
 		 */
 
@@ -71,10 +71,10 @@ public class Graph<T> {
 
 	public int getNode(T node) {
 		/**
-		 * Método que devuelve la posición de un nodo en el vector nodes
+		 * Mï¿½todo que devuelve la posiciï¿½n de un nodo en el vector nodes
 		 * 
 		 * @param node el nodo a buscar
-		 * @return int la posición del nodo a buscar, devuelve -1 en caso de que no se
+		 * @return int la posiciï¿½n del nodo a buscar, devuelve -1 en caso de que no se
 		 *         encuentre o el nodo que se le pase es null
 		 */
 
@@ -87,7 +87,7 @@ public class Graph<T> {
 
 	public int removeNode(T node) {
 		/**
-		 * Método que elimina un nodo del grafo
+		 * Mï¿½todo que elimina un nodo del grafo
 		 *
 		 * @param node el nodo a eliminar
 		 * @return int 0 si ha sido posible eliminarlo; -1 en caso contrario
@@ -114,7 +114,7 @@ public class Graph<T> {
 
 	public boolean existNode(T node) {
 		/**
-		 * Método que comprueba si el nodo pasado como parámetro existe en grafo
+		 * Mï¿½todo que comprueba si el nodo pasado como parï¿½metro existe en grafo
 		 *
 		 * @param node el nodo a comprobar
 		 * @return boolean true si existe el nodo
@@ -124,7 +124,7 @@ public class Graph<T> {
 
 	public double getEdge(T source, T target) {
 		/**
-		 * /** Método que devuelve el peso de la arista entre dos nodos. @ return -1 no
+		 * /** Mï¿½todo que devuelve el peso de la arista entre dos nodos. @ return -1 no
 		 * existe nodo origen, -2 no existe nodo destino, -3 no existen ninguno, -4 no
 		 * existe la arista.
 		 *
@@ -146,7 +146,7 @@ public class Graph<T> {
 
 	public boolean existEdge(T source, T target) {
 		/**
-		 * Método que comprueba si existe arista entre dos nodos
+		 * Mï¿½todo que comprueba si existe arista entre dos nodos
 		 *
 		 * @param source el nodo origen
 		 * @param target el nodo destino
@@ -161,12 +161,12 @@ public class Graph<T> {
 
 	public int addEdge(T source, T target, double weight) {
 		/**
-		 * Método que añade una arista entre dos nodos
+		 * Mï¿½todo que aï¿½ade una arista entre dos nodos
 		 *
 		 * @param source el nodo origen
 		 * @param target el nodo destino
 		 * @param weight el peso de la arista que une al nodo origen y al nodo destino
-		 * @return int 0 si se ha añadido la arista; @ return -1 no existe nodo origen,
+		 * @return int 0 si se ha aï¿½adido la arista; @ return -1 no existe nodo origen,
 		 *         -2 no existe nodo destino, @ -3 no existen ninguno, -4 ya existe la
 		 *         arista, -5 peso negativo
 		 */
@@ -192,7 +192,7 @@ public class Graph<T> {
 
 	public int removeEdge(T source, T target) {
 		/**
-		 * Método que elimina una arista del grafo en caso de que esta exista
+		 * Mï¿½todo que elimina una arista del grafo en caso de que esta exista
 		 *
 		 * @param source el nodo origen
 		 * @param target el nodo destino
@@ -218,7 +218,7 @@ public class Graph<T> {
 
 	public double[] dijkstraIterativo(T source) {
 		/**
-		 * Método que implementa Dijkstra Iterativo
+		 * Mï¿½todo que implementa Dijkstra Iterativo
 		 * 
 		 * @param boolean[] el vector S de aristas
 		 * @param double[] el vector D de pesos
@@ -267,7 +267,7 @@ public class Graph<T> {
 
 	private double[] initializeDijkstraD(T node) {
 		/**
-		 * Método auxiliar que genera un vector D inicializado para el Algoritmo de
+		 * Mï¿½todo auxiliar que genera un vector D inicializado para el Algoritmo de
 		 * Dijkstra
 		 *
 		 * @param node Nodo para el que se desea inicializar el vector D
@@ -289,7 +289,7 @@ public class Graph<T> {
 	@SuppressWarnings("unchecked")
 	private T[] initializeDijkstraP(T node) {
 		/**
-		 * Método auxiliar que genera un vector P inicializado para el Algoritmo de
+		 * Mï¿½todo auxiliar que genera un vector P inicializado para el Algoritmo de
 		 * Dijkstra
 		 *
 		 * @param node Nodo para el que se desea inicializar el vector
@@ -309,7 +309,7 @@ public class Graph<T> {
 	public int floyd() {
 		/**
 		 * Aplica el algoritmo de Floyd al grafo y devuelve 0 si lo aplica y genera
-		 * matrices A y P; y –1 si no lo hace
+		 * matrices A y P; y ï¿½1 si no lo hace
 		 */
 		if (this.size == 0 || this.nodes == null)
 			return -1;
@@ -352,7 +352,7 @@ public class Graph<T> {
 
 	private T[][] initializeFloydP() {
 		/**
-		 * Método que inicializa la matriz de caminos P para el Algoritmo de Floyd
+		 * Mï¿½todo que inicializa la matriz de caminos P para el Algoritmo de Floyd
 		 *
 		 * @return T[][] la matriz de caminos / return int[][] la matriz de caminos
 		 */
@@ -370,7 +370,7 @@ public class Graph<T> {
 
 	private double[][] initializeFloydA() {
 		/**
-		 * Método que inicializa la matriz de pesos A para el Algoritmo de Floyd
+		 * Mï¿½todo que inicializa la matriz de pesos A para el Algoritmo de Floyd
 		 *
 		 * @return double[][] la matriz de pesos
 		 */
@@ -391,9 +391,9 @@ public class Graph<T> {
 
 	public double minCostPath(T origen, T destino) {
 		/**
-		 * Devuelve el coste del camino de coste mínimo entre origen y destino según
-		 * Floyd. Si no están generadas las matrices de Floyd, las genera. Si no puede
-		 * obtener el valor por alguna razón, devuelve –1 (OJO que es distinto de
+		 * Devuelve el coste del camino de coste mï¿½nimo entre origen y destino segï¿½n
+		 * Floyd. Si no estï¿½n generadas las matrices de Floyd, las genera. Si no puede
+		 * obtener el valor por alguna razï¿½n, devuelve ï¿½1 (OJO que es distinto de
 		 * infinito)
 		 **/
 		int posOr = getNode(origen);
@@ -407,12 +407,12 @@ public class Graph<T> {
 
 	public String path(T origen, T destino) {
 		/**
-		 * Indica el camino entre los nodos que se le pasan como parámetros de esta
+		 * Indica el camino entre los nodos que se le pasan como parï¿½metros de esta
 		 * forma:
 		 *
 		 * Origen<tab>(coste0)<tab>Intermedio1<tab>(coste1)...IntermedioN<tab>(costeN)
 		 * Destino Si no hay camino: Origen<tab>(Infinity)<tab>Destino Si Origen y
-		 * Destino coinciden: Origen Si no existen los 2 nodos devuelve una cadena vacía
+		 * Destino coinciden: Origen Si no existen los 2 nodos devuelve una cadena vacï¿½a
 		 *
 		 * @param origen
 		 * @param destino
@@ -423,7 +423,7 @@ public class Graph<T> {
 		int posDes = getNode(destino);
 
 		if (posOr == -1 || posDes == -1)
-			return res; // Cadena vacía
+			return res; // Cadena vacï¿½a
 
 		if (origen.equals(destino)) {
 			res = origen.toString();
@@ -443,7 +443,7 @@ public class Graph<T> {
 
 	private void pathFloydIntermedios(T origen, T destino) {
 		/**
-		 * Método auxiliar que muestra el camino mínimo entre 2 nodos usando las
+		 * Mï¿½todo auxiliar que muestra el camino mï¿½nimo entre 2 nodos usando las
 		 * matrices de Floyd y devuelve el camino en un string global creado para
 		 * devolver el camino de Floyd
 		 *
@@ -462,8 +462,8 @@ public class Graph<T> {
 	public String recorridoProfundidad(T nodo) {
 		/**
 		 * Lanza el recorrido en profundidad de un grafo desde un nodo determinado, No
-		 * necesariamente recorre todos los nodos. Al recorrer cada nodo añade el
-		 * toString del nodo y un tabulador Se puede usar un método privado recursivo...
+		 * necesariamente recorre todos los nodos. Al recorrer cada nodo aï¿½ade el
+		 * toString del nodo y un tabulador Se puede usar un mï¿½todo privado recursivo...
 		 * Si no existe el nodo devuelve una cadena vacia
 		 */
 		if (getNode(nodo) == -1)
@@ -476,13 +476,13 @@ public class Graph<T> {
 
 	private void recursivoProfundidad(T source, boolean[] visited) {
 		/**
-		 * Método auxiliar que implementa el Recorrido en Profundidad: Desde un nodo
-		 * pasado como parámetro, actualiza el vector de nodos visitados con dicho nodo
+		 * Mï¿½todo auxiliar que implementa el Recorrido en Profundidad: Desde un nodo
+		 * pasado como parï¿½metro, actualiza el vector de nodos visitados con dicho nodo
 		 * y comprueba si existe camino para el resto de nodos que no se encuentren
 		 * visitados. En caso de que exista camino, repite el mismo proceso para el
 		 * nuevo nodo.
 		 *
-		 * Además, imprime el recorrido seguido en cadenaDFS
+		 * Ademï¿½s, imprime el recorrido seguido en cadenaDFS
 		 *
 		 * @param source  el nodo origen
 		 * @param visited el vector de nodos visitados

@@ -36,7 +36,7 @@ public class TSPLauncher {
 		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/ali535.tsp");
 
 		// Parameters
-		int popSize = 10;
+		int popSize = 20;
 		double mutationProbability = 0.20; 
 		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability);
 	}
