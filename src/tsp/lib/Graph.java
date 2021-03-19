@@ -153,7 +153,9 @@ public class Graph<T> {
 		 * @return boolean true si existe arista
 		 */
 		try {
-			return edges[getNode(source)][getNode(target)] || edges[getNode(target)][getNode(source)];
+			int sourcePos = getNode(source);
+			int targetPos = getNode(target);
+			return edges[sourcePos][targetPos] || edges[targetPos][sourcePos];
 		} catch (Exception e) {
 			return false;
 		}

@@ -45,7 +45,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	
 	@Override
 	protected boolean stopCondition() {
-		if (getIterations()>500) //100s max time
+		if (getIterations()>50)
 			return true;
 		return false;
 	}

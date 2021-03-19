@@ -19,30 +19,16 @@ public class TSPLauncher {
 
 	public static void main(String[] args) throws ScriptException {
 		//City graph construction
-		/*Graph<String> cities = new Graph<String>(5);
-		cities.addNode("A");
-		cities.addNode("B");
-		cities.addNode("C");
-		cities.addNode("D");
-		cities.addNode("E");
-		cities.addEdge("A", "B", 10.0);
-		cities.addEdge("A", "C", 15.0);
-		cities.addEdge("A", "D", 20.0);
-		cities.addEdge("B", "C", 35.0);
-		cities.addEdge("B", "D", 25.0);
-		cities.addEdge("C", "D", 30.0);
-		cities.addEdge("E", "A", 100.0);
-		cities.addEdge("E", "D", 1.0);*/
-		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/ali535.tsp");
+		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/a280.tsp");
 
 		// Parameters
-		int popSize = 20;
+		int popSize = 10;
 		double mutationProbability = 0.20; 
 		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability);
 	}
 
 	private static void tspAIModernGeneticAlgorithm(Graph<String> cities, int populationSize, double mutationProbability) {
-		System.out.println("--- TSP AIModern GeneticAlgorithm ---\n");
+		System.out.println("--- TSP AIModern GeneticAlgorithm ---");
 		FitnessFunction<String> fitnessFunction = TSPFunctions.getFitnessFunction();
 		((TSPFitnessFunction) fitnessFunction).setCities(cities);
 
@@ -54,6 +40,7 @@ public class TSPLauncher {
 		
 		Collection<String> alphabet = cityList;
 		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cityList.size()+1, alphabet, mutationProbability);
+		System.out.println("Starting evolution");
 		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction);
 		
 		System.out.println("\nMax time unlimited, Best Individual:\n" + bestIndividual.getRepresentation());
