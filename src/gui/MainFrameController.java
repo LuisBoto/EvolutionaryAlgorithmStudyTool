@@ -236,8 +236,9 @@ public class MainFrameController {
 	}
 
 	public void runScript() {
-		if (this.script.equals(""))
+		if (this.script.equals("") || isScriptEditing())
 			return;
+		
 		int res = JOptionPane.showConfirmDialog(this.mf, Internationalization.get("EXECUTE_CONFIRMATION"));
 		if (res != 0)
 			return;
@@ -251,6 +252,12 @@ public class MainFrameController {
 					Internationalization.get("EXECUTION_ERROR"), e.getMessage());
 			return;
 		}
+	}
+	
+	private boolean isScriptEditing() {
+		if (!mf.getBtnEditSave().getText().equals(Internationalization.get("EDIT")))
+			JOptionPane.showMessageDialog(mf, Internationalization.get("SAVE_FIRST"));
+		return !mf.getBtnEditSave().getText().equals(Internationalization.get("EDIT"));
 	}
 
 	private void showLastPDFPreview() {
@@ -287,6 +294,8 @@ public class MainFrameController {
 	}
 
 	public void exportScript() {
+		if (isScriptEditing())
+			return;
 		JFileChooser fc = new JFileChooser();
 		fc.setCurrentDirectory(new java.io.File("."));
 		if (fc.showSaveDialog(mf) != JFileChooser.APPROVE_OPTION)
