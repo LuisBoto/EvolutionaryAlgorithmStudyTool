@@ -45,7 +45,7 @@ public class PlotParameterDialogController {
 
 	public void finish() {
 		String pdfName = this.pd.getTxtName().getText();
-		if (pdfName.equals("")) {
+		if (pdfName.equals("") || !checkPDFName()) {
 			JOptionPane.showMessageDialog(this.pd, Internationalization.get("PLOT_NAME_ERROR"),
 					Internationalization.get("ERROR"), JOptionPane.ERROR_MESSAGE);
 			return;
@@ -56,6 +56,11 @@ public class PlotParameterDialogController {
 		this.pd.dispose();
 	}
 
+	private boolean checkPDFName() {
+		String pdfName = this.pd.getTxtName().getText();
+		return pdfName.matches("[a-zA-Z]+");
+	}
+	
 	public void cancel() {
 		this.pd.dispose();
 	}
