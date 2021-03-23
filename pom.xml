@@ -19,11 +19,28 @@
 		</plugins>
 	</build>
 	<dependencies>
+	<!-- Renjin and R packages dependencies -->
 		<dependency>
 			<groupId>org.renjin</groupId>
 			<artifactId>renjin-script-engine</artifactId>
 			<version>3.5-beta43</version>
 		</dependency>
+		<dependency>
+			<groupId>org.renjin.cran</groupId>
+			<artifactId>PMCMR</artifactId>
+			<version>4.3-b1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.renjin.cran</groupId>
+			<artifactId>exactRankTests</artifactId>
+			<version>0.8-30-b1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.renjin.cran</groupId>
+			<artifactId>reshape</artifactId>
+			<version>0.8.8-b1</version>
+		</dependency>
+		<!-- End of Renjin and R packages -->
 		<!-- https://mvnrepository.com/artifact/org.java.net.substance/substance -->
 		<dependency>
 			<groupId>org.java.net.substance</groupId>

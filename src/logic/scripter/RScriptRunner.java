@@ -16,7 +16,7 @@ public class RScriptRunner {
 	private static ScriptEngine commonEngine = new ScriptEngineManager().getEngineByName("Renjin");
 
 	public static void main(String[] args) throws EvalException, ScriptException {
-		// Main method to test individual scripts
+		// TODO: Main method to test individual scripts, remove later
 
 		String[] fitness = { "0.0789", "0.0799", "0.0801", "0.0818", "0.0822" };
 		Metric m1 = new Metric("Fitness1", Arrays.asList(fitness));
@@ -26,9 +26,9 @@ public class RScriptRunner {
 		ms.add(m1);
 		ms.add(m2);
 
-		ListVector r = kruskalWalisTest(ms);
-		System.out.println(r.toString());
-		System.out.println(r.getElementAsString(2));
+		//Double r = kruskalWalisTest(ms);
+		System.out.println();
+		wilcoxMannTest(m1, m2, true);
 	}
 
 	public static void runRScript(String script) throws ScriptException, EvalException {
@@ -46,15 +46,13 @@ public class RScriptRunner {
 
 	public static double normalityTest(Metric metric) throws ScriptException {
 		// Only one metric
-		ScriptEngine engine = commonEngine;
 		cleanEngine();
-		engine.eval(metric.toString());
-		ListVector res = (ListVector) engine.eval("shapiro.test(" + metric.getName() + ")");
+		commonEngine.eval(metric.toString());
+		ListVector res = (ListVector) commonEngine.eval("shapiro.test(" + metric.getName() + ")");
 		return res.getElementAsDouble(1);
 	}
 
-	public static ListVector kruskalWalisTest(List<Metric> metrics) throws ScriptException {
-		ScriptEngine engine = commonEngine;
+	public static double kruskalWalisTest(List<Metric> metrics) throws ScriptException {
 		cleanEngine();
 		StringBuilder group = new StringBuilder("group<-factor(c(");
 		int index = 0;
@@ -86,22 +84,34 @@ public class RScriptRunner {
 		commonEngine.eval(data.toString());
 
 		commonEngine.eval("krus<-kruskal.test(data, group)");
-		//System.out.println(commonEngine.eval("krus"));
-		//commonEngine.eval("df_kruskal<-data.frame(krus$method,krus$data.name,krus$statistic,krus$parameter,krus$p.value)");
-		//System.out.println(commonEngine.eval("df_kruskal"));
-		//commonEngine.eval("names(df_kruskal)<-c('Method', 'Name', 'chi-squared', 'Statistic', 'p-value')");
+		// System.out.println(commonEngine.eval("krus"));
+		// commonEngine.eval("df_kruskal<-data.frame(krus$method,krus$data.name,krus$statistic,krus$parameter,krus$p.value)");
+		// System.out.println(commonEngine.eval("df_kruskal"));
+		// commonEngine.eval("names(df_kruskal)<-c('Method', 'Name', 'chi-squared',
+		// 'Statistic', 'p-value')");
 		ListVector res = (ListVector) commonEngine.eval("krus");
-		return res;
+		return res.getElementAsDouble(0); // TODO: only returns chi squared atm
+	}
+
+	public static void wilcoxMannTest(Metric m1, Metric m2, boolean paired) throws ScriptException {
+		cleanEngine();
+		commonEngine.eval(m1.toString());
+		commonEngine.eval(m2.toString());
+		String pairedText = paired ? "TRUE" : "FALSE";
+		
+		Object o = commonEngine.eval("test<-wilcox.exact(" + m1.toString() + ", " + m2.toString() + ", paired = " + pairedText
+				+ ", exact = T, alternative = 't',conf.int = 0.95)");
+		System.out.println(o);
+		// TODO: returns nothing lol
 	}
 
 	private static void cleanEngine() throws ScriptException {
 		commonEngine.eval("rm(list=ls())");
 		commonEngine.eval("graphics.off()");
-		commonEngine.eval("require(tidyverse)");
-		commonEngine.eval("require(xlsx)");
-		commonEngine.eval("require(reshape)");
-		commonEngine.eval("require(PMCMRplus)");
-		commonEngine.eval("require(exactRankTests)");
+		// commonEngine.eval("library(tidyverse)"); // Seems to be unused for our purposes
+		commonEngine.eval("library(reshape)");
+		commonEngine.eval("library(PMCMR)"); // PMCMRplus not available yet on Renjin so PMCMR will do
+		commonEngine.eval("library(exactRankTests)");
 	}
 
 }
