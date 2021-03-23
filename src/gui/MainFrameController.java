@@ -380,23 +380,30 @@ public class MainFrameController {
 		if (chooser.showOpenDialog(this.mf) != JFileChooser.APPROVE_OPTION)
 			return;
 		File directory = chooser.getSelectedFile();
-		String path = directory.getPath().replace('\\', '/') + "/";
+		String mergePath = directory.getPath().replace('\\', '/') + "/";
 
-		// Selecting where to save merged result
-		JFileChooser chooserSave = new JFileChooser();
-		chooserSave.setCurrentDirectory(new java.io.File("."));
-		chooserSave.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		if (chooserSave.showSaveDialog(mf) != JFileChooser.APPROVE_OPTION)
-			return;
-		File fileSave = chooserSave.getSelectedFile();
-		String pathSave = fileSave.getPath().replace('\\', '/') + "/";
-
-		// Merging
 		try {
+			// Selecting line parameter to merge
+			int topBound = FileMerger.getLineMergeUpperBound(mergePath);
+			int selectedLine = Integer.parseInt(
+					JOptionPane.showInputDialog(Internationalization.get("SELECTED_LINE_DIALOG") + topBound + "]"));
+			if (selectedLine < 0 || selectedLine > topBound)
+				return;
+
+			// Selecting where to save merged result
+			JFileChooser chooserSave = new JFileChooser();
+			chooserSave.setCurrentDirectory(new java.io.File("."));
+			chooserSave.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			if (chooserSave.showSaveDialog(mf) != JFileChooser.APPROVE_OPTION)
+				return;
+			File fileSave = chooserSave.getSelectedFile();
+			String pathSave = fileSave.getPath().replace('\\', '/') + "/";
+
+			// Merging
 			if (optionSelected == 0) // Merge by average
-				FileMerger.mergeByAverage(path, pathSave);
+				FileMerger.mergeByAverage(mergePath, pathSave);
 			if (optionSelected == 1) // Merge by last line
-				FileMerger.mergeByLastLine(path, pathSave);
+				FileMerger.mergeByLine(mergePath, pathSave, selectedLine);
 			JOptionPane.showMessageDialog(this.mf, Internationalization.get("MERGE_COMPLETED"),
 					Internationalization.get("MERGE_COMPLETED_TITLE"), JOptionPane.INFORMATION_MESSAGE);
 		} catch (IllegalArgumentException | IOException e) {

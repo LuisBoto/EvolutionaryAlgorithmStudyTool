@@ -15,7 +15,16 @@ public class FileMerger {
 	protected static List<String> fileNames;
 	protected static List<String> fileContents;
 
-	public static void mergeByLastLine(String dir, String saveDir) throws IllegalArgumentException, IOException {
+	public static int getLineMergeUpperBound(String dir) throws IOException {
+		directory = dir;
+		cargarFicheros();
+		return fileContents.get(0).split("\n").length-1;
+	}
+	
+	public static void mergeByLine(String dir, String saveDir, int selectedLine)
+			throws IllegalArgumentException, IOException {
+		if (selectedLine < 0)
+			throw new IllegalArgumentException("Out of bounds line parameter");
 		// dir = directory containing csv files to be merged
 		directory = dir;
 		cargarFicheros();
@@ -25,11 +34,13 @@ public class FileMerger {
 		for (int j = 0; j < lineasFichero[0].split(";").length; j++)
 			fichero += lineasFichero[0].split(";")[j] + ";";
 		fichero += "\n";
-		// Adding last line
+		// Adding selected line
 		for (int i = 0; i < fileNames.size(); i++) {
 			fichero += fileNames.get(i) + ";"; // File name
 			String[] lines = fileContents.get(i).split("\n");
-			fichero += lines[lines.length - 1]; // Last line
+			if (selectedLine >= lines.length)
+				throw new IllegalArgumentException("Out of bounds line parameter");
+			fichero += lines[selectedLine]; // Line parameter
 			fichero += "\n";
 		}
 		guardarFichero(fichero, "resumenUltimaLinea", saveDir);
