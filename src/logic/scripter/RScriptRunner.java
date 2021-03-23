@@ -26,9 +26,8 @@ public class RScriptRunner {
 		ms.add(m1);
 		ms.add(m2);
 
-		//Double r = kruskalWalisTest(ms);
-		System.out.println();
-		wilcoxMannTest(m1, m2, true);
+		// Double r = kruskalWalisTest(ms);
+		friedmanTest(ms);
 	}
 
 	public static void runRScript(String script) throws ScriptException, EvalException {
@@ -49,10 +48,13 @@ public class RScriptRunner {
 		cleanEngine();
 		commonEngine.eval(metric.toString());
 		ListVector res = (ListVector) commonEngine.eval("shapiro.test(" + metric.getName() + ")");
-		return res.getElementAsDouble(1);
+		return res.getElementAsDouble(1); // P value
 	}
 
-	public static double kruskalWalisTest(List<Metric> metrics) throws ScriptException {
+	public static String kruskalWalisTest(List<Metric> metrics) throws ScriptException {
+		/**
+		 * @return String containing chi-squared and p value
+		 */
 		cleanEngine();
 		StringBuilder group = new StringBuilder("group<-factor(c(");
 		int index = 0;
@@ -90,19 +92,58 @@ public class RScriptRunner {
 		// commonEngine.eval("names(df_kruskal)<-c('Method', 'Name', 'chi-squared',
 		// 'Statistic', 'p-value')");
 		ListVector res = (ListVector) commonEngine.eval("krus");
-		return res.getElementAsDouble(0); // TODO: only returns chi squared atm
+		return "chi-squared: " + res.getElementAsDouble(0) + ", p-value: " + res.getElementAsDouble(2);
+	}
+	
+	public static String friedmanTest(List<Metric> metrics) throws ScriptException {
+		cleanEngine();
+		StringBuilder group = new StringBuilder("group<-factor(c(");
+		int index = 0;
+		// Building group factor with metric names
+		for (Metric metric : metrics) {
+			group.append("rep('" + metric.getName() + "'," + metric.getSize() + ")");
+			if (index != metrics.size() - 1)
+				group.append(",");
+			else
+				group.append("))");
+			index++;
+		}
+		StringBuilder data = new StringBuilder("data<-c(");
+		index = 0;
+		// Building data array with all metrics
+		for (Metric metric : metrics) {
+			data.append(metric.getName());
+			if (index != metrics.size() - 1)
+				data.append(",");
+			else
+				data.append(")");
+			index++;
+		}
+
+		group.toString();
+		commonEngine.eval(group.toString());
+		for (Metric m : metrics)
+			commonEngine.eval(m.toString());
+		commonEngine.eval(data.toString());
+
+		commonEngine.eval("fried<-friedman.test(data, group, group)"); // TODO: figure this out
+		System.out.println(commonEngine.eval("fried"));
+		return "";
 	}
 
-	public static void wilcoxMannTest(Metric m1, Metric m2, boolean paired) throws ScriptException {
+	public static String wilcoxMannTest(Metric m1, Metric m2, boolean paired) throws ScriptException {
+		/**
+		 * @return String containing p-value, pointprob and paired
+		 */
 		cleanEngine();
 		commonEngine.eval(m1.toString());
 		commonEngine.eval(m2.toString());
 		String pairedText = paired ? "TRUE" : "FALSE";
-		
-		Object o = commonEngine.eval("test<-wilcox.exact(" + m1.toString() + ", " + m2.toString() + ", paired = " + pairedText
-				+ ", exact = T, alternative = 't',conf.int = 0.95)");
-		System.out.println(o);
-		// TODO: returns nothing lol
+
+		ListVector res = (ListVector) commonEngine.eval("test<-wilcox.exact(" + m1.toString() + ", " + m2.toString()
+				+ ", paired = " + pairedText + ", exact = T, alternative = 't', conf.int = 0.95)");
+		return "p-value: " + res.getElementAsDouble(2) + ", pointprob: " + res.getElementAsDouble(1) + ", paired: "
+				+ pairedText;
 	}
 
 	private static void cleanEngine() throws ScriptException {
