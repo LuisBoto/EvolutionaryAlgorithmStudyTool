@@ -131,7 +131,7 @@ public class RScriptRunner {
 		return "";
 	}
 
-	public static String wilcoxMannTest(Metric m1, Metric m2, boolean paired) throws ScriptException {
+	public static String wilcoxonMannTest(Metric m1, Metric m2, boolean paired) throws ScriptException {
 		/**
 		 * @return String containing p-value, pointprob and paired
 		 */

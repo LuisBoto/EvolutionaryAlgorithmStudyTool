@@ -8,7 +8,7 @@ import logic.scripter.Metric;
 
 public class Statistics {
 
-	public static final String[] STATISTICS = { Internationalization.get("MAXIMUM"),
+	public static final String[] STATISTICS_BASIC = { Internationalization.get("MAXIMUM"),
 			Internationalization.get("MINIMUM"), Internationalization.get("AVERAGE"),
 			Internationalization.get("STANDARD_DEVIATION") };
 

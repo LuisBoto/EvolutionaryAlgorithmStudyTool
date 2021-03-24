@@ -76,6 +76,12 @@ public class Internationalization {
 				"Evolutive algorithm study tool.\nUniversity of Oviedo, Software Engineering, end of degree project.\nLuis Boto Fernández 2021");
 		keys.put("SAVE_FIRST", "Please save the current script first");
 		keys.put("SELECTED_LINE_DIALOG", "Please input line index to perform merge, [0-");
+		keys.put("NORMALITY", "Normality Test");
+		keys.put("ANOVA", "Anova");
+		keys.put("WILCOXONF", "Wilcoxon Test");
+		keys.put("WILCOXONT", "Paired Wilcoxon");
+		keys.put("KRUSKAL", "Kruskal Test");
+		keys.put("FRIEDMAN", "Friedman Test");
 	}
 
 	public static void setSpanish() {
@@ -148,6 +154,12 @@ public class Internationalization {
 				"Herramienta de estudio de algoritmos evolutivos.\nUniversidad de Oviedo, Ingeniería del Software, trabajo de fin de grado.\nLuis Boto Fernández 2021");
 		keys.put("SAVE_FIRST", "Por favor, guarde el script actual primero");
 		keys.put("SELECTED_LINE_DIALOG", "Por favor introduzca índice de línea a utilizar, [0-");
+		keys.put("NORMALITY", "Test Normalidad");
+		keys.put("ANOVA", "Anova");
+		keys.put("WILCOXONF", "Test Wilcoxon");
+		keys.put("WILCOXONT", "Wilcoxon Pareado");
+		keys.put("KRUSKAL", "Test Kruskal");
+		keys.put("FRIEDMAN", "Test Friedman");
 	}
 
 	public static String get(String key) {

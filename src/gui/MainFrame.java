@@ -34,6 +34,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import internationalization.Internationalization;
+import java.awt.GridLayout;
 
 public class MainFrame extends JFrame {
 
@@ -87,6 +88,14 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmLanguage;
 	private JSeparator helpMenuSeparator;
 	private JLabel lblPlotImage;
+	private JPanel advancedStatisticsPreviewPn;
+	private JButton btnNormality;
+	private JButton btnWilcoxF;
+	private JButton btnWilcoxT;
+	private JButton btnKruskal;
+	private JButton btnFriedman;
+	private JTextArea txtAreaAdvancedStats;
+	private JButton btnAnova;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -126,7 +135,7 @@ public class MainFrame extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MainFrame.class.getResource("/gui/img/dnaIcon.png")));
 		setTitle(Internationalization.get("TITLE_TOOLNAME"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 950, 600);
+		setBounds(100, 100, 950, 650);
 		setJMenuBar(getMenuBar_1());
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -316,7 +325,9 @@ public class MainFrame extends JFrame {
 			mainPn = new JPanel();
 			mainPn.setLayout(new BoxLayout(mainPn, BoxLayout.X_AXIS));
 			mainPn.add(getPlotsPn());
+			mainPn.add(Box.createRigidArea(new Dimension(2, 0)));
 			mainPn.add(getScriptPn());
+			mainPn.add(Box.createRigidArea(new Dimension(2, 0)));
 			mainPn.add(getPreviewPn());
 		}
 		return mainPn;
@@ -355,11 +366,18 @@ public class MainFrame extends JFrame {
 			previewPn.setLayout(new BoxLayout(previewPn, BoxLayout.Y_AXIS));
 			previewPn.add(getLblStatistics());
 			previewPn.add(getStatisticsPreviewPn());
-			previewPn.add(Box.createRigidArea(new Dimension(0, 20)));
+			previewPn.add(Box.createRigidArea(new Dimension(0, 5)));
+			previewPn.add(getAdvancedStatisticsPreviewPn());
+			previewPn.add(Box.createRigidArea(new Dimension(0, 5)));
+			JScrollPane scrollPane = new JScrollPane(getTxtAreaAdvancedStats());
+			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			previewPn.add(scrollPane);
+			previewPn.add(Box.createRigidArea(new Dimension(0, 5)));
 			previewPn.add(getLblPlotPreview());
-			previewPn.add(Box.createRigidArea(new Dimension(0, 20)));
+			previewPn.add(Box.createRigidArea(new Dimension(0, 10)));
 			previewPn.add(getPlotPreviewPn());
-			previewPn.add(Box.createRigidArea(new Dimension(0, 20)));
+			previewPn.add(Box.createRigidArea(new Dimension(0, 10)));
 		}
 		return previewPn;
 	}
@@ -649,5 +667,84 @@ public class MainFrame extends JFrame {
 			lblPlotImage.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return lblPlotImage;
+	}
+
+	protected JPanel getAdvancedStatisticsPreviewPn() {
+		if (advancedStatisticsPreviewPn == null) {
+			advancedStatisticsPreviewPn = new JPanel();
+			advancedStatisticsPreviewPn.setLayout(new GridLayout(0, 3, 2, 2));
+			advancedStatisticsPreviewPn.add(getBtnNormality());
+			advancedStatisticsPreviewPn.add(getBtnAnova());
+			advancedStatisticsPreviewPn.add(getBtnWilcoxF());
+			advancedStatisticsPreviewPn.add(getBtnWilcoxT());
+			advancedStatisticsPreviewPn.add(getBtnKruskal());
+			advancedStatisticsPreviewPn.add(getBtnFriedman());
+		}
+		return advancedStatisticsPreviewPn;
+	}
+
+	protected JButton getBtnNormality() {
+		if (btnNormality == null) {
+			btnNormality = new JButton(Internationalization.get("NORMALITY"));
+			btnNormality.setMnemonic('n');
+			btnNormality.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnNormality;
+	}
+
+	protected JButton getBtnWilcoxF() {
+		if (btnWilcoxF == null) {
+			btnWilcoxF = new JButton(Internationalization.get("WILCOXONF"));
+			btnWilcoxF.setMnemonic('w');
+			btnWilcoxF.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnWilcoxF;
+	}
+
+	protected JButton getBtnWilcoxT() {
+		if (btnWilcoxT == null) {
+			btnWilcoxT = new JButton(Internationalization.get("WILCOXONT"));
+			btnWilcoxT.setMnemonic('x');
+			btnWilcoxT.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnWilcoxT;
+	}
+
+	protected JButton getBtnKruskal() {
+		if (btnKruskal == null) {
+			btnKruskal = new JButton(Internationalization.get("KRUSKAL"));
+			btnKruskal.setMnemonic('k');
+			btnKruskal.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnKruskal;
+	}
+
+	protected JButton getBtnFriedman() {
+		if (btnFriedman == null) {
+			btnFriedman = new JButton(Internationalization.get("FRIEDMAN"));
+			btnFriedman.setMnemonic('f');
+			btnFriedman.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnFriedman;
+	}
+
+	protected JTextArea getTxtAreaAdvancedStats() {
+		if (txtAreaAdvancedStats == null) {
+			txtAreaAdvancedStats = new JTextArea();
+			txtAreaAdvancedStats.setRows(2);
+			txtAreaAdvancedStats.setWrapStyleWord(true);
+			txtAreaAdvancedStats.setLineWrap(true);
+			txtAreaAdvancedStats.setEditable(false);
+		}
+		return txtAreaAdvancedStats;
+	}
+
+	protected JButton getBtnAnova() {
+		if (btnAnova == null) {
+			btnAnova = new JButton(Internationalization.get("ANOVA"));
+			btnAnova.setMnemonic('v');
+			btnAnova.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnAnova;
 	}
 }

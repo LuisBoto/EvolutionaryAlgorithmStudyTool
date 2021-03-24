@@ -144,12 +144,13 @@ public class MainFrameController {
 		if (this.loadedFileNames.size() > 1)
 			metricsPanel.add(new JSeparator());
 
-		int cut = newMetricsFilename.length() < 28 ? newMetricsFilename.length() : 28;
+		int maxNameLength = 25;
+		int cut = newMetricsFilename.length() < maxNameLength ? newMetricsFilename.length() : maxNameLength;
 		String fileNameLabel = newMetricsFilename.substring(0, cut);
-		if (newMetricsFilename.length() > 28)
+		if (newMetricsFilename.length() > maxNameLength)
 			fileNameLabel += "...";
 		JLabel fileName = new JLabel(fileNameLabel);
-		fileName.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		fileName.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		metricsPanel.add(fileName);
 		for (int i = 0; i < parsedMetrics.size(); i++) {
 			JCheckBox checkMet = new JCheckBox(parsedMetrics.get(i).getName());
@@ -348,7 +349,7 @@ public class MainFrameController {
 		JPanel statsPanel = mf.getStatisticsPreviewPn();
 		statsPanel.removeAll();
 		int index = 0;
-		for (String statistic : Statistics.STATISTICS) {
+		for (String statistic : Statistics.STATISTICS_BASIC) {
 			JLabel label = new JLabel(statistic);
 			List<Metric> selected = getSelectedMetrics(false);
 			JTextField txtField = new JTextField(Statistics.getStatistic(index, selected));
