@@ -1,7 +1,5 @@
 package logic.scripter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.script.ScriptEngine;
@@ -13,22 +11,7 @@ import org.renjin.sexp.ListVector;
 
 public class RScriptRunner {
 
-	private static ScriptEngine commonEngine = new ScriptEngineManager().getEngineByName("Renjin");
-
-	public static void main(String[] args) throws EvalException, ScriptException {
-		// TODO: Main method to test individual scripts, remove later
-
-		String[] fitness = { "0.0789", "0.0799", "0.0801", "0.0818", "0.0822" };
-		Metric m1 = new Metric("Fitness1", Arrays.asList(fitness));
-		String[] crosses = { "100", "200", "300", "400", "500" };
-		Metric m2 = new Metric("Crosses", Arrays.asList(crosses));
-		List<Metric> ms = new ArrayList<Metric>();
-		ms.add(m1);
-		ms.add(m2);
-
-		// Double r = kruskalWalisTest(ms);
-		friedmanTest(ms);
-	}
+	private static ScriptEngine commonEngine;
 
 	public static void runRScript(String script) throws ScriptException, EvalException {
 		System.out.println("Initializing R parsing engine...");
@@ -140,17 +123,16 @@ public class RScriptRunner {
 		commonEngine.eval(m2.toString());
 		String pairedText = paired ? "TRUE" : "FALSE";
 
-		ListVector res = (ListVector) commonEngine.eval("test<-wilcox.exact(" + m1.toString() + ", " + m2.toString()
+		ListVector res = (ListVector) commonEngine.eval("test<-wilcox.exact(" + m1.getName() + ", " + m2.getName()
 				+ ", paired = " + pairedText + ", exact = T, alternative = 't', conf.int = 0.95)");
 		return "p-value: " + res.getElementAsDouble(2) + ", pointprob: " + res.getElementAsDouble(1) + ", paired: "
 				+ pairedText;
 	}
 
 	private static void cleanEngine() throws ScriptException {
+		commonEngine = new ScriptEngineManager().getEngineByName("Renjin");
 		commonEngine.eval("rm(list=ls())");
 		commonEngine.eval("graphics.off()");
-		// commonEngine.eval("library(tidyverse)"); // Seems to be unused for our
-		// purposes
 		commonEngine.eval("library(reshape)");
 		commonEngine.eval("library(PMCMR)"); // PMCMRplus not available yet on Renjin so PMCMR will do
 		commonEngine.eval("library(exactRankTests)");

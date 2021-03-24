@@ -85,6 +85,8 @@ public class Internationalization {
 		keys.put("SELECT_METRIC_ERROR", "Please select some metric.");
 		keys.put("SELECT_METRIC_TWO_ERROR", "Please select two metrics.");
 		keys.put("SELECT_METRIC_TWO_MORE_ERROR", "Please select two or more metrics.");
+		keys.put("ONGOING_CALCULATION", "Statistic calculation ongoing...");
+		keys.put("STAT_CALCULATION_ERROR", "Error calculating statistic.");
 	}
 
 	public static void setSpanish() {
@@ -166,6 +168,8 @@ public class Internationalization {
 		keys.put("SELECT_METRIC_ERROR", "Por favor, selecciona alguna métrica.");
 		keys.put("SELECT_METRIC_TWO_ERROR", "Por favor, selecciona dos métricas.");
 		keys.put("SELECT_METRIC_TWO_MORE_ERROR", "Por favor, selecciona dos o más métricas.");
+		keys.put("ONGOING_CALCULATION", "Calculando estadístico...");
+		keys.put("STAT_CALCULATION_ERROR", "Error calculando estadístico.");
 	}
 
 	public static String get(String key) {

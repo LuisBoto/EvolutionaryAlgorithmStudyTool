@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.script.ScriptException;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -52,6 +51,7 @@ public class MainFrameController {
 	private List<GraphCommand> plots;
 	private String script;
 	private Timer statisticsAutoupdate;
+	private StatisticThread statsThread;
 
 	public MainFrameController(MainFrame mf) {
 		this.mf = mf;
@@ -59,6 +59,7 @@ public class MainFrameController {
 		this.loadedFileNames = new ArrayList<String>();
 		this.plots = new ArrayList<GraphCommand>();
 		this.script = "";
+		this.statsThread = null;
 
 		this.statisticsAutoupdate = new Timer(500, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -93,6 +94,9 @@ public class MainFrameController {
 		this.loadedFileNames = new ArrayList<String>();
 		this.updateLoadedFileLabel();
 		this.script = "";
+		if (this.statsThread != null)
+			this.statsThread.interrupt();
+		this.statsThread = null;
 	}
 
 	public void openFile() {
@@ -387,8 +391,11 @@ public class MainFrameController {
 		try {
 			// Selecting line parameter to merge
 			int topBound = FileMerger.getLineMergeUpperBound(mergePath);
-			int selectedLine = Integer.parseInt(
-					JOptionPane.showInputDialog(Internationalization.get("SELECTED_LINE_DIALOG") + topBound + "]"));
+			String input = JOptionPane
+					.showInputDialog(Internationalization.get("SELECTED_LINE_DIALOG") + topBound + "]");
+			if (input == null || input.equals(""))
+				return;
+			int selectedLine = Integer.parseInt(input);
 			if (selectedLine < 0 || selectedLine > topBound)
 				return;
 
@@ -461,11 +468,35 @@ public class MainFrameController {
 	}
 
 	public void calculateAdvancedStatistic(int statisticCode) {
-		JTextArea resulttxt = mf.getTxtAreaAdvancedStats();
-		try {
-			resulttxt.setText(Statistics.getAdvancedStatistic(statisticCode, this.getSelectedMetrics(false)));
-		} catch (ScriptException e) {
-			e.printStackTrace();
+		if (this.statsThread != null) {
+			this.statsThread.interrupt();
+			// this.statsThread.stop();
+		}
+		this.statsThread = new StatisticThread(statisticCode, getSelectedMetrics(false));
+		mf.getTxtAreaAdvancedStats().setText(Internationalization.get("ONGOING_CALCULATION"));
+		this.statsThread.start();
+	}
+
+	private class StatisticThread extends Thread {
+
+		private int statCode;
+		private List<Metric> selected;
+
+		public StatisticThread(int statCode, List<Metric> selectedMetrics) {
+			this.statCode = statCode;
+			this.selected = selectedMetrics;
+		}
+
+		public void run() {
+			try {
+				String result = Statistics.getAdvancedStatistic(statCode, selected);
+				mf.getTxtAreaAdvancedStats().setText(result);
+			} catch (Exception e) {
+				if (isInterrupted())
+					return;
+				e.printStackTrace();
+				mf.getTxtAreaAdvancedStats().setText(Internationalization.get("STAT_CALCULATION_ERROR"));
+			}
 		}
 	}
 

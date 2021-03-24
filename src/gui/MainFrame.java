@@ -770,7 +770,7 @@ public class MainFrame extends JFrame {
 	protected JTextArea getTxtAreaAdvancedStats() {
 		if (txtAreaAdvancedStats == null) {
 			txtAreaAdvancedStats = new JTextArea();
-			txtAreaAdvancedStats.setRows(2);
+			txtAreaAdvancedStats.setRows(3);
 			txtAreaAdvancedStats.setWrapStyleWord(true);
 			txtAreaAdvancedStats.setLineWrap(true);
 			txtAreaAdvancedStats.setEditable(false);
