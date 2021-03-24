@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.script.ScriptException;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -457,6 +458,15 @@ public class MainFrameController {
 
 	public void closeProgram() {
 		System.exit(0);
+	}
+
+	public void calculateAdvancedStatistic(int statisticCode) {
+		JTextArea resulttxt = mf.getTxtAreaAdvancedStats();
+		try {
+			resulttxt.setText(Statistics.getAdvancedStatistic(statisticCode, this.getSelectedMetrics(false)));
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

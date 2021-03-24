@@ -686,15 +686,39 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnNormality() {
 		if (btnNormality == null) {
 			btnNormality = new JButton(Internationalization.get("NORMALITY"));
+			btnNormality.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.calculateAdvancedStatistic(0);
+				}
+			});
 			btnNormality.setMnemonic('n');
 			btnNormality.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
 		return btnNormality;
 	}
 
+	protected JButton getBtnAnova() {
+		if (btnAnova == null) {
+			btnAnova = new JButton(Internationalization.get("ANOVA"));
+			btnAnova.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.calculateAdvancedStatistic(1);
+				}
+			});
+			btnAnova.setMnemonic('v');
+			btnAnova.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		}
+		return btnAnova;
+	}
+
 	protected JButton getBtnWilcoxF() {
 		if (btnWilcoxF == null) {
 			btnWilcoxF = new JButton(Internationalization.get("WILCOXONF"));
+			btnWilcoxF.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.calculateAdvancedStatistic(2);
+				}
+			});
 			btnWilcoxF.setMnemonic('w');
 			btnWilcoxF.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -704,6 +728,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnWilcoxT() {
 		if (btnWilcoxT == null) {
 			btnWilcoxT = new JButton(Internationalization.get("WILCOXONT"));
+			btnWilcoxT.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.calculateAdvancedStatistic(3);
+				}
+			});
 			btnWilcoxT.setMnemonic('x');
 			btnWilcoxT.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -713,6 +742,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnKruskal() {
 		if (btnKruskal == null) {
 			btnKruskal = new JButton(Internationalization.get("KRUSKAL"));
+			btnKruskal.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.calculateAdvancedStatistic(4);
+				}
+			});
 			btnKruskal.setMnemonic('k');
 			btnKruskal.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -722,6 +756,11 @@ public class MainFrame extends JFrame {
 	protected JButton getBtnFriedman() {
 		if (btnFriedman == null) {
 			btnFriedman = new JButton(Internationalization.get("FRIEDMAN"));
+			btnFriedman.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.calculateAdvancedStatistic(5);
+				}
+			});
 			btnFriedman.setMnemonic('f');
 			btnFriedman.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
@@ -735,16 +774,8 @@ public class MainFrame extends JFrame {
 			txtAreaAdvancedStats.setWrapStyleWord(true);
 			txtAreaAdvancedStats.setLineWrap(true);
 			txtAreaAdvancedStats.setEditable(false);
+			txtAreaAdvancedStats.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 		return txtAreaAdvancedStats;
-	}
-
-	protected JButton getBtnAnova() {
-		if (btnAnova == null) {
-			btnAnova = new JButton(Internationalization.get("ANOVA"));
-			btnAnova.setMnemonic('v');
-			btnAnova.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		}
-		return btnAnova;
 	}
 }

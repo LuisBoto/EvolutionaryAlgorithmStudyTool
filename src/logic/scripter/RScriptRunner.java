@@ -43,12 +43,12 @@ public class RScriptRunner {
 		System.out.println("R execution finished");
 	}
 
-	public static double normalityTest(Metric metric) throws ScriptException {
+	public static String normalityTest(Metric metric) throws ScriptException {
 		// Only one metric
 		cleanEngine();
 		commonEngine.eval(metric.toString());
 		ListVector res = (ListVector) commonEngine.eval("shapiro.test(" + metric.getName() + ")");
-		return res.getElementAsDouble(1); // P value
+		return "p-value: " + res.getElementAsDouble(1); // P value
 	}
 
 	public static String kruskalWalisTest(List<Metric> metrics) throws ScriptException {
@@ -94,7 +94,7 @@ public class RScriptRunner {
 		ListVector res = (ListVector) commonEngine.eval("krus");
 		return "chi-squared: " + res.getElementAsDouble(0) + ", p-value: " + res.getElementAsDouble(2);
 	}
-	
+
 	public static String friedmanTest(List<Metric> metrics) throws ScriptException {
 		cleanEngine();
 		StringBuilder group = new StringBuilder("group<-factor(c(");
@@ -149,7 +149,8 @@ public class RScriptRunner {
 	private static void cleanEngine() throws ScriptException {
 		commonEngine.eval("rm(list=ls())");
 		commonEngine.eval("graphics.off()");
-		// commonEngine.eval("library(tidyverse)"); // Seems to be unused for our purposes
+		// commonEngine.eval("library(tidyverse)"); // Seems to be unused for our
+		// purposes
 		commonEngine.eval("library(reshape)");
 		commonEngine.eval("library(PMCMR)"); // PMCMRplus not available yet on Renjin so PMCMR will do
 		commonEngine.eval("library(exactRankTests)");

@@ -82,6 +82,9 @@ public class Internationalization {
 		keys.put("WILCOXONT", "Paired Wilcoxon");
 		keys.put("KRUSKAL", "Kruskal Test");
 		keys.put("FRIEDMAN", "Friedman Test");
+		keys.put("SELECT_METRIC_ERROR", "Please select some metric.");
+		keys.put("SELECT_METRIC_TWO_ERROR", "Please select two metrics.");
+		keys.put("SELECT_METRIC_TWO_MORE_ERROR", "Please select two or more metrics.");
 	}
 
 	public static void setSpanish() {
@@ -160,6 +163,9 @@ public class Internationalization {
 		keys.put("WILCOXONT", "Wilcoxon Pareado");
 		keys.put("KRUSKAL", "Test Kruskal");
 		keys.put("FRIEDMAN", "Test Friedman");
+		keys.put("SELECT_METRIC_ERROR", "Por favor, selecciona alguna métrica.");
+		keys.put("SELECT_METRIC_TWO_ERROR", "Por favor, selecciona dos métricas.");
+		keys.put("SELECT_METRIC_TWO_MORE_ERROR", "Por favor, selecciona dos o más métricas.");
 	}
 
 	public static String get(String key) {
