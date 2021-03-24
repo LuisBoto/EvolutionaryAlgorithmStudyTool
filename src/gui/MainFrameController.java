@@ -29,6 +29,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
@@ -354,14 +355,14 @@ public class MainFrameController {
 		JPanel statsPanel = mf.getStatisticsPreviewPn();
 		statsPanel.removeAll();
 		int index = 0;
+		List<Metric> selected = getSelectedMetrics(false);
 		for (String statistic : Statistics.STATISTICS_BASIC) {
-			JLabel label = new JLabel(statistic);
-			List<Metric> selected = getSelectedMetrics(false);
+			JLabel label = new JLabel(statistic+":");
 			JTextField txtField = new JTextField(Statistics.getStatistic(index, selected));
 			txtField.setEditable(false);
 			txtField.setColumns(8);
 			label.setLabelFor(txtField);
-			label.setAlignmentX(Component.CENTER_ALIGNMENT);
+			label.setHorizontalAlignment(SwingConstants.CENTER);
 			statsPanel.add(label);
 			statsPanel.add(txtField);
 			index++;

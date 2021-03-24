@@ -564,7 +564,7 @@ public class MainFrame extends JFrame {
 	protected JPanel getStatisticsPreviewPn() {
 		if (statisticsPreviewPn == null) {
 			statisticsPreviewPn = new JPanel();
-			statisticsPreviewPn.setLayout(new BoxLayout(statisticsPreviewPn, BoxLayout.Y_AXIS));
+			statisticsPreviewPn.setLayout(new GridLayout(0, 2, 0, 2));
 
 		}
 		return statisticsPreviewPn;
