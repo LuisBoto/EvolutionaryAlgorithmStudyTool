@@ -114,8 +114,8 @@ public class MainFrame extends JFrame {
 						Internationalization.setEnglish();
 
 					try {
-						UIManager.setLookAndFeel(
-								"org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
+						//UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
+						UIManager.setLookAndFeel ( "com.alee.laf.WebLookAndFeel" );
 					} catch (Exception e) {
 						System.out.println(Internationalization.get("SUBSTANCE_FAIL"));
 					}
@@ -537,7 +537,7 @@ public class MainFrame extends JFrame {
 			textAreaScript.setColumns(50);
 			textAreaScript.setText(Internationalization.get("NO_SCRIPT_YET"));
 			textAreaScript.setEditable(false);
-			textAreaScript.setBackground(new Color(199, 190, 165));
+			textAreaScript.setBackground(new Color(255, 247, 230));
 		}
 		return textAreaScript;
 	}

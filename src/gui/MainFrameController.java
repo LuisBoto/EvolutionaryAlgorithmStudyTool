@@ -225,12 +225,12 @@ public class MainFrameController {
 		if (mf.getBtnEditSave().getText().equals(Internationalization.get("EDIT"))) {
 			mf.getTextAreaScript().setEditable(true);
 			mf.getBtnEditSave().setText(Internationalization.get("SAVE"));
-			mf.getTextAreaScript().setBackground(new Color(255, 247, 230));
+			mf.getTextAreaScript().setBackground(new Color(199, 190, 165));
 		} else { // Saving functionality
 			mf.getTextAreaScript().setEditable(false);
 			mf.getBtnEditSave().setText(Internationalization.get("EDIT"));
 			this.script = mf.getTextAreaScript().getText();
-			mf.getTextAreaScript().setBackground(new Color(199, 190, 165));
+			mf.getTextAreaScript().setBackground(new Color(255, 247, 230));
 		}
 	}
 

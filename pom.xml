@@ -19,7 +19,7 @@
 		</plugins>
 	</build>
 	<dependencies>
-	<!-- Renjin and R packages dependencies -->
+		<!-- Renjin and R packages dependencies -->
 		<dependency>
 			<groupId>org.renjin</groupId>
 			<artifactId>renjin-script-engine</artifactId>
@@ -46,6 +46,11 @@
 			<groupId>org.java.net.substance</groupId>
 			<artifactId>substance</artifactId>
 			<version>6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.weblookandfeel</groupId>
+			<artifactId>weblaf-ui</artifactId>
+			<version>1.2.13</version>
 		</dependency>
 	</dependencies>
 	<repositories>
