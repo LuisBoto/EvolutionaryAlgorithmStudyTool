@@ -39,7 +39,7 @@ public class FileMerger {
 			fichero += fileNames.get(i) + ";"; // File name
 			String[] lines = fileContents.get(i).split("\n");
 			if (selectedLine >= lines.length)
-				throw new IllegalArgumentException("Out of bounds line parameter");
+				throw new IllegalArgumentException("Out of bounds line parameter on file "+fileNames.get(i));
 			fichero += lines[selectedLine]; // Line parameter
 			fichero += "\n";
 		}

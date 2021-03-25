@@ -95,7 +95,7 @@ public class MainFrame extends JFrame {
 	private JButton btnKruskal;
 	private JButton btnFriedman;
 	private JTextArea txtAreaAdvancedStats;
-	private JButton btnAnova;
+	private JButton btnTTEst;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -114,8 +114,8 @@ public class MainFrame extends JFrame {
 						Internationalization.setEnglish();
 
 					try {
-						//UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
-						UIManager.setLookAndFeel ( "com.alee.laf.WebLookAndFeel" );
+						UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
+						//UIManager.setLookAndFeel ( "com.alee.laf.WebLookAndFeel" );
 					} catch (Exception e) {
 						System.out.println(Internationalization.get("SUBSTANCE_FAIL"));
 					}
@@ -674,7 +674,7 @@ public class MainFrame extends JFrame {
 			advancedStatisticsPreviewPn = new JPanel();
 			advancedStatisticsPreviewPn.setLayout(new GridLayout(0, 3, 2, 2));
 			advancedStatisticsPreviewPn.add(getBtnNormality());
-			advancedStatisticsPreviewPn.add(getBtnAnova());
+			advancedStatisticsPreviewPn.add(getBtnTTEst());
 			advancedStatisticsPreviewPn.add(getBtnWilcoxF());
 			advancedStatisticsPreviewPn.add(getBtnWilcoxT());
 			advancedStatisticsPreviewPn.add(getBtnKruskal());
@@ -697,18 +697,18 @@ public class MainFrame extends JFrame {
 		return btnNormality;
 	}
 
-	protected JButton getBtnAnova() {
-		if (btnAnova == null) {
-			btnAnova = new JButton(Internationalization.get("ANOVA"));
-			btnAnova.addActionListener(new ActionListener() {
+	protected JButton getBtnTTEst() {
+		if (btnTTEst == null) {
+			btnTTEst = new JButton(Internationalization.get("T_TEST"));
+			btnTTEst.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.calculateAdvancedStatistic(1);
 				}
 			});
-			btnAnova.setMnemonic('v');
-			btnAnova.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnTTEst.setMnemonic('t');
+			btnTTEst.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
-		return btnAnova;
+		return btnTTEst;
 	}
 
 	protected JButton getBtnWilcoxF() {

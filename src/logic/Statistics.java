@@ -39,27 +39,30 @@ public class Statistics {
 
 	public static String getAdvancedStatistic(int statisticCode, List<Metric> metrics) throws ScriptException {
 		if (metrics.size() <= 0)
-			return Internationalization.get("SELECT_METRIC_ERROR"); 
+			return Internationalization.get("SELECT_METRIC_ERROR");
 		switch (statisticCode) {
 		case 0: // Normality Test
 			return RScriptRunner.normalityTest(metrics.get(0));
-		case 1: // Anova
-			return "Not implemented yet";
+		case 1: // T test
+			Metric m2 = null;
+			if (metrics.size() == 2)
+				m2 = metrics.get(1);
+			return RScriptRunner.tTest(metrics.get(0), m2);
 		case 2: // WilcoxF
 			if (metrics.size() != 2)
-				return Internationalization.get("SELECT_METRIC_TWO_ERROR"); 
+				return Internationalization.get("SELECT_METRIC_TWO_ERROR");
 			return RScriptRunner.wilcoxonMannTest(metrics.get(0), metrics.get(1), false);
 		case 3: // WilcoxT
 			if (metrics.size() != 2)
-				return Internationalization.get("SELECT_METRIC_TWO_ERROR"); 
+				return Internationalization.get("SELECT_METRIC_TWO_ERROR");
 			return RScriptRunner.wilcoxonMannTest(metrics.get(0), metrics.get(1), true);
 		case 4: // Kruskal
 			if (metrics.size() <= 1)
-				return Internationalization.get("SELECT_METRIC_TWO_MORE_ERROR"); 
+				return Internationalization.get("SELECT_METRIC_TWO_MORE_ERROR");
 			return RScriptRunner.kruskalWalisTest(metrics);
 		case 5: // Friedman
 			if (metrics.size() <= 1)
-				return Internationalization.get("SELECT_METRIC_TWO_MORE_ERROR"); 
+				return Internationalization.get("SELECT_METRIC_TWO_MORE_ERROR");
 			return RScriptRunner.friedmanTest(metrics);
 		}
 		return "";

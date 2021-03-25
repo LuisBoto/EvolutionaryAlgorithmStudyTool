@@ -77,7 +77,7 @@ public class Internationalization {
 		keys.put("SAVE_FIRST", "Please save the current script first");
 		keys.put("SELECTED_LINE_DIALOG", "Please input line index to perform merge, [0-");
 		keys.put("NORMALITY", "Normality Test");
-		keys.put("ANOVA", "Anova");
+		keys.put("T_TEST", "T Test");
 		keys.put("WILCOXONF", "Wilcoxon Test");
 		keys.put("WILCOXONT", "Paired Wilcoxon");
 		keys.put("KRUSKAL", "Kruskal Test");
@@ -160,7 +160,7 @@ public class Internationalization {
 		keys.put("SAVE_FIRST", "Por favor, guarde el script actual primero");
 		keys.put("SELECTED_LINE_DIALOG", "Por favor introduzca índice de línea a utilizar, [0-");
 		keys.put("NORMALITY", "Test Normalidad");
-		keys.put("ANOVA", "Anova");
+		keys.put("T_TEST", "T Test");
 		keys.put("WILCOXONF", "Test Wilcoxon");
 		keys.put("WILCOXONT", "Wilcoxon Pareado");
 		keys.put("KRUSKAL", "Test Kruskal");

@@ -31,7 +31,20 @@ public class RScriptRunner {
 		cleanEngine();
 		commonEngine.eval(metric.toString());
 		ListVector res = (ListVector) commonEngine.eval("shapiro.test(" + metric.getName() + ")");
-		return "p-value: " + res.getElementAsDouble(1); // P value
+		return "shapiro.test:\np.value=" + res.getElementAsDouble(1); // P value
+	}
+
+	public static String tTest(Metric m1, Metric m2) throws ScriptException {
+		cleanEngine();
+		String metricY = "NULL";
+		if (m2 != null) {
+			metricY = m2.getName();
+			commonEngine.eval(m2.toString());
+		}
+		commonEngine.eval(m1.toString());
+
+		ListVector res = (ListVector) commonEngine.eval("t.test(" + m1.getName() + ",y=" + metricY + ")");
+		return "t.test:\np.value=" + res.getElementAsDouble(2); // P value
 	}
 
 	public static String kruskalWalisTest(List<Metric> metrics) throws ScriptException {
@@ -75,7 +88,7 @@ public class RScriptRunner {
 		// commonEngine.eval("names(df_kruskal)<-c('Method', 'Name', 'chi-squared',
 		// 'Statistic', 'p-value')");
 		ListVector res = (ListVector) commonEngine.eval("krus");
-		return "chi-squared: " + res.getElementAsDouble(0) + ", p-value: " + res.getElementAsDouble(2);
+		return "kruskal.test:\nchi-squared=" + res.getElementAsDouble(0) + ", p.value=" + res.getElementAsDouble(2);
 	}
 
 	public static String friedmanTest(List<Metric> metrics) throws ScriptException {
@@ -125,8 +138,8 @@ public class RScriptRunner {
 
 		ListVector res = (ListVector) commonEngine.eval("test<-wilcox.exact(" + m1.getName() + ", " + m2.getName()
 				+ ", paired = " + pairedText + ", exact = T, alternative = 't', conf.int = 0.95)");
-		return "p-value: " + res.getElementAsDouble(2) + ", pointprob: " + res.getElementAsDouble(1) + ", paired: "
-				+ pairedText;
+		return "wilcox.exact:\np.value=" + res.getElementAsDouble(2) + ", pointprob=" + res.getElementAsDouble(1)
+				+ ", paired=" + pairedText;
 	}
 
 	private static void cleanEngine() throws ScriptException {
