@@ -1,5 +1,7 @@
 package logic.scripter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.script.ScriptEngine;
@@ -12,6 +14,23 @@ import org.renjin.sexp.ListVector;
 public class RScriptRunner {
 
 	private static ScriptEngine commonEngine;
+
+	public static void main(String[] args) throws ScriptException {
+		String[] a1 = { "10", "5", "4", "20", "80" };
+		Metric m1 = new Metric("m1", Arrays.asList(a1));
+		String[] a2 = { "3", "4", "5", "6", "7" };
+		Metric m2 = new Metric("m1", Arrays.asList(a2));
+		String[] a3 = { "1", "2", "3", "4", "5" };
+		Metric m3 = new Metric("m1", Arrays.asList(a3));
+		String[] a4 = { "30", "40", "20", "10", "6" };
+		Metric m4 = new Metric("m1", Arrays.asList(a4));
+		List<Metric> l = new ArrayList<Metric>();
+		l.add(m1);
+		l.add(m2);
+		l.add(m3);
+		l.add(m4);
+		friedmanTest(l);
+	}
 
 	public static void runRScript(String script) throws ScriptException, EvalException {
 		System.out.println("Initializing R parsing engine...");
@@ -92,37 +111,19 @@ public class RScriptRunner {
 	}
 
 	public static String friedmanTest(List<Metric> metrics) throws ScriptException {
+		// TODO: Check for a square matrix
 		cleanEngine();
-		StringBuilder group = new StringBuilder("group<-factor(c(");
-		int index = 0;
-		// Building group factor with metric names
-		for (Metric metric : metrics) {
-			group.append("rep('" + metric.getName() + "'," + metric.getSize() + ")");
-			if (index != metrics.size() - 1)
-				group.append(",");
-			else
-				group.append("))");
-			index++;
-		}
-		StringBuilder data = new StringBuilder("data<-c(");
-		index = 0;
-		// Building data array with all metrics
-		for (Metric metric : metrics) {
-			data.append(metric.getName());
-			if (index != metrics.size() - 1)
-				data.append(",");
-			else
-				data.append(")");
-			index++;
-		}
-
-		group.toString();
-		commonEngine.eval(group.toString());
-		for (Metric m : metrics)
+		StringBuilder st = new StringBuilder("y = c(");
+		for (Metric m : metrics) {
 			commonEngine.eval(m.toString());
-		commonEngine.eval(data.toString());
-
-		commonEngine.eval("fried<-friedman.test(data, group, group)"); // TODO: figure this out
+			st.append(m.getName() + ",");
+		}
+		st.deleteCharAt(st.length() - 1).append(")");
+		commonEngine.eval(st.toString());
+		commonEngine.eval("matrixFriedman<-matrix(y, nrow=" + metrics.get(0).getSize() + ", ncol="
+				+ metrics.get(0).getSize() + ")");
+		commonEngine.eval("fried<-friedman.test(matrixFriedman)");
+		System.out.println(commonEngine.eval("matrixFriedman"));
 		System.out.println(commonEngine.eval("fried"));
 		return "";
 	}
