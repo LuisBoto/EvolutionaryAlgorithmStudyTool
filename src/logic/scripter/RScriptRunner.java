@@ -1,7 +1,5 @@
 package logic.scripter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.script.ScriptEngine;
@@ -15,22 +13,22 @@ public class RScriptRunner {
 
 	private static ScriptEngine commonEngine;
 
-	public static void main(String[] args) throws ScriptException {
+	/*public static void main(String[] args) throws ScriptException {
 		String[] a1 = { "10", "5", "4", "20", "80" };
 		Metric m1 = new Metric("m1", Arrays.asList(a1));
 		String[] a2 = { "3", "4", "5", "6", "7" };
-		Metric m2 = new Metric("m1", Arrays.asList(a2));
+		Metric m2 = new Metric("m2", Arrays.asList(a2));
 		String[] a3 = { "1", "2", "3", "4", "5" };
-		Metric m3 = new Metric("m1", Arrays.asList(a3));
-		String[] a4 = { "30", "40", "20", "10", "6" };
-		Metric m4 = new Metric("m1", Arrays.asList(a4));
+		Metric m3 = new Metric("m3", Arrays.asList(a3));
+		String[] a4 = { "30", "40", "20", "10", "25" };
+		Metric m4 = new Metric("m4", Arrays.asList(a4));
 		List<Metric> l = new ArrayList<Metric>();
 		l.add(m1);
 		l.add(m2);
 		l.add(m3);
 		l.add(m4);
 		friedmanTest(l);
-	}
+	}*/
 
 	public static void runRScript(String script) throws ScriptException, EvalException {
 		System.out.println("Initializing R parsing engine...");
@@ -50,7 +48,7 @@ public class RScriptRunner {
 		cleanEngine();
 		commonEngine.eval(metric.toString());
 		ListVector res = (ListVector) commonEngine.eval("shapiro.test(" + metric.getName() + ")");
-		return "shapiro.test:\np.value=" + res.getElementAsDouble(1); // P value
+		return "shapiro.test:\np.value=" + res.getElementAsDouble("p.value"); // P value
 	}
 
 	public static String tTest(Metric m1, Metric m2) throws ScriptException {
@@ -63,7 +61,7 @@ public class RScriptRunner {
 		commonEngine.eval(m1.toString());
 
 		ListVector res = (ListVector) commonEngine.eval("t.test(" + m1.getName() + ",y=" + metricY + ")");
-		return "t.test:\np.value=" + res.getElementAsDouble(2); // P value
+		return "t.test:\np.value=" + res.getElementAsDouble("p.value"); // P value
 	}
 
 	public static String kruskalWalisTest(List<Metric> metrics) throws ScriptException {
@@ -107,7 +105,7 @@ public class RScriptRunner {
 		// commonEngine.eval("names(df_kruskal)<-c('Method', 'Name', 'chi-squared',
 		// 'Statistic', 'p-value')");
 		ListVector res = (ListVector) commonEngine.eval("krus");
-		return "kruskal.test:\nchi-squared=" + res.getElementAsDouble(0) + ", p.value=" + res.getElementAsDouble(2);
+		return "kruskal.test:\nchi-squared=" + res.getElementAsDouble("statistic") + ", p.value=" + res.getElementAsDouble("p.value");
 	}
 
 	public static String friedmanTest(List<Metric> metrics) throws ScriptException {
@@ -123,9 +121,9 @@ public class RScriptRunner {
 		commonEngine.eval("matrixFriedman<-matrix(y, nrow=" + metrics.get(0).getSize() + ", ncol="
 				+ metrics.get(0).getSize() + ")");
 		commonEngine.eval("fried<-friedman.test(matrixFriedman)");
-		System.out.println(commonEngine.eval("matrixFriedman"));
-		System.out.println(commonEngine.eval("fried"));
-		return "";
+		// System.out.println(commonEngine.eval("fried"));
+		ListVector res = (ListVector) commonEngine.eval("fried");
+		return "friedman.test: p.value=" + res.getElementAsDouble("p.value");
 	}
 
 	public static String wilcoxonMannTest(Metric m1, Metric m2, boolean paired) throws ScriptException {
@@ -139,7 +137,7 @@ public class RScriptRunner {
 
 		ListVector res = (ListVector) commonEngine.eval("test<-wilcox.exact(" + m1.getName() + ", " + m2.getName()
 				+ ", paired = " + pairedText + ", exact = T, alternative = 't', conf.int = 0.95)");
-		return "wilcox.exact:\np.value=" + res.getElementAsDouble(2) + ", pointprob=" + res.getElementAsDouble(1)
+		return "wilcox.exact:\np.value=" + res.getElementAsDouble("p.value") + ", pointprob=" + res.getElementAsDouble("pointprob")
 				+ ", paired=" + pairedText;
 	}
 
