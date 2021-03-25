@@ -63,9 +63,21 @@ public class Statistics {
 		case 5: // Friedman
 			if (metrics.size() <= 1)
 				return Internationalization.get("SELECT_METRIC_TWO_MORE_ERROR");
-			return RScriptRunner.friedmanTest(metrics);
+			if (checkLenght(metrics))
+				return RScriptRunner.friedmanTest(metrics);
+			return Internationalization.get("METRIC_LENGTH_ERROR");
 		}
 		return "";
+	}
+
+	private static boolean checkLenght(List<Metric> metrics) {
+		if (metrics.size() <= 0)
+			return false;
+		int dimension = metrics.get(0).getSize();
+		for (Metric m : metrics)
+			if (m.getSize() != dimension)
+				return false;
+		return true;
 	}
 
 	private static double best(List<Metric> metrics, boolean isMax) {

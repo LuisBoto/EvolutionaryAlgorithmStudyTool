@@ -87,6 +87,7 @@ public class Internationalization {
 		keys.put("SELECT_METRIC_TWO_MORE_ERROR", "Please select two or more metrics.");
 		keys.put("ONGOING_CALCULATION", "Statistic calculation ongoing...");
 		keys.put("STAT_CALCULATION_ERROR", "Error calculating statistic.");
+		keys.put("METRIC_LENGTH_ERROR", "All metrics must be the same length.");
 	}
 
 	public static void setSpanish() {
@@ -170,6 +171,7 @@ public class Internationalization {
 		keys.put("SELECT_METRIC_TWO_MORE_ERROR", "Por favor, selecciona dos o más métricas.");
 		keys.put("ONGOING_CALCULATION", "Calculando estadístico...");
 		keys.put("STAT_CALCULATION_ERROR", "Error calculando estadístico.");
+		keys.put("METRIC_LENGTH_ERROR", "Todas las métricas deben tener la misma dimensión.");
 	}
 
 	public static String get(String key) {

@@ -13,22 +13,16 @@ public class RScriptRunner {
 
 	private static ScriptEngine commonEngine;
 
-	/*public static void main(String[] args) throws ScriptException {
-		String[] a1 = { "10", "5", "4", "20", "80" };
-		Metric m1 = new Metric("m1", Arrays.asList(a1));
-		String[] a2 = { "3", "4", "5", "6", "7" };
-		Metric m2 = new Metric("m2", Arrays.asList(a2));
-		String[] a3 = { "1", "2", "3", "4", "5" };
-		Metric m3 = new Metric("m3", Arrays.asList(a3));
-		String[] a4 = { "30", "40", "20", "10", "25" };
-		Metric m4 = new Metric("m4", Arrays.asList(a4));
-		List<Metric> l = new ArrayList<Metric>();
-		l.add(m1);
-		l.add(m2);
-		l.add(m3);
-		l.add(m4);
-		friedmanTest(l);
-	}*/
+	/*
+	 * public static void main(String[] args) throws ScriptException { String[] a1 =
+	 * { "10", "5", "4", "20", "80" }; Metric m1 = new Metric("m1",
+	 * Arrays.asList(a1)); String[] a2 = { "3", "4", "5", "6", "7" }; Metric m2 =
+	 * new Metric("m2", Arrays.asList(a2)); String[] a3 = { "1", "2", "3", "4", "5"
+	 * }; Metric m3 = new Metric("m3", Arrays.asList(a3)); String[] a4 = { "30",
+	 * "40", "20", "10", "25" }; Metric m4 = new Metric("m4", Arrays.asList(a4));
+	 * List<Metric> l = new ArrayList<Metric>(); l.add(m1); l.add(m2); l.add(m3);
+	 * l.add(m4); friedmanTest(l); }
+	 */
 
 	public static void runRScript(String script) throws ScriptException, EvalException {
 		System.out.println("Initializing R parsing engine...");
@@ -105,11 +99,12 @@ public class RScriptRunner {
 		// commonEngine.eval("names(df_kruskal)<-c('Method', 'Name', 'chi-squared',
 		// 'Statistic', 'p-value')");
 		ListVector res = (ListVector) commonEngine.eval("krus");
-		return "kruskal.test:\nchi-squared=" + res.getElementAsDouble("statistic") + ", p.value=" + res.getElementAsDouble("p.value");
+		return "kruskal.test:\nchi-squared=" + res.getElementAsDouble("statistic") + ", p.value="
+				+ res.getElementAsDouble("p.value");
 	}
 
 	public static String friedmanTest(List<Metric> metrics) throws ScriptException {
-		// TODO: Check for a square matrix
+		// Al metrics must have same length
 		cleanEngine();
 		StringBuilder st = new StringBuilder("y = c(");
 		for (Metric m : metrics) {
@@ -137,8 +132,8 @@ public class RScriptRunner {
 
 		ListVector res = (ListVector) commonEngine.eval("test<-wilcox.exact(" + m1.getName() + ", " + m2.getName()
 				+ ", paired = " + pairedText + ", exact = T, alternative = 't', conf.int = 0.95)");
-		return "wilcox.exact:\np.value=" + res.getElementAsDouble("p.value") + ", pointprob=" + res.getElementAsDouble("pointprob")
-				+ ", paired=" + pairedText;
+		return "wilcox.exact:\np.value=" + res.getElementAsDouble("p.value") + ", pointprob="
+				+ res.getElementAsDouble("pointprob") + ", paired=" + pairedText;
 	}
 
 	private static void cleanEngine() throws ScriptException {
