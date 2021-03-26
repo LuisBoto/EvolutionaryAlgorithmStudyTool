@@ -21,7 +21,7 @@ public class TSPLauncher {
 		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/a280.tsp");
 
 		// Parameters
-		int popSize = 10;
+		int popSize = 100;
 		double mutationProbability = 0.20;
 		int maxIterations = 100000;
 		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability, maxIterations);

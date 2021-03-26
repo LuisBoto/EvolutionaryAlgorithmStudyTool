@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Individual<A> {
 	private List<A> representation = new ArrayList<>();
+	private double fitness;
 	private int descendants; // for debugging!
 
 	public Individual(List<A> representation) {
@@ -18,6 +19,14 @@ public class Individual<A> {
 
 	public int length() {
 		return representation.size();
+	}
+	
+	public double getFitness() {
+		return this.fitness;
+	}
+	
+	public void setFitness(double newFit) {
+		this.fitness = newFit;
 	}
 
 	/**

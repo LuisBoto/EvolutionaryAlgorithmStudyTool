@@ -54,21 +54,23 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		updateMetrics(population, 0, 0L);
 
 		long startTime = System.currentTimeMillis();
-		bestIndividual = retrieveBestIndividual(initPopulation, fitnessFn);
+		this.calculateFitness(initPopulation, fitnessFn); // Must be called so fitness values are available
+		bestIndividual = retrieveBestIndividual(initPopulation);
 		int itCount = 0;
 		do {
-			population = nextGeneration(population, fitnessFn, bestIndividual);
-			bestIndividual = retrieveBestIndividual(population, fitnessFn);
+			population = nextGeneration(population, bestIndividual);
+			this.calculateFitness(population, fitnessFn);
+			bestIndividual = retrieveBestIndividual(population);
 
 			// Monitor average and best fitness
-			System.out.println("\nGen: " + itCount + " Best f: " + fitnessFn.apply(bestIndividual) + " Average f:"
-					+ averageFitness(population, fitnessFn));
+			System.out.println("\nGen: " + itCount + " Best f: " + bestIndividual.getFitness() + " Average f:"
+					+ averageFitness(population));
 
 			updateMetrics(population, ++itCount, System.currentTimeMillis() - startTime);
 			this.metrics.setValue(Algorithm.TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
 			this.metrics.setValue(Algorithm.ITERATIONS, itCount);
-			this.metrics.setValue("bestFitness", fitnessFn.apply(bestIndividual));
-			this.metrics.setValue("averageFitness", averageFitness(population, fitnessFn));
+			this.metrics.setValue("bestFitness", bestIndividual.getFitness());
+			this.metrics.setValue("averageFitness", averageFitness(population));
 			this.metricsDumpCheck();
 
 		} while (!this.stopCondition());
@@ -76,12 +78,12 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		return bestIndividual;
 	}
 
-	public Individual<A> retrieveBestIndividual(Collection<Individual<A>> population, FitnessFunction<A> fitnessFn) {
+	public Individual<A> retrieveBestIndividual(Collection<Individual<A>> population) {
 		Individual<A> bestIndividual = null;
 		double bestSoFarFValue = 0;
 
 		for (Individual<A> individual : population) {
-			double fValue = fitnessFn.apply(individual);
+			double fValue = individual.getFitness();
 			if (fValue > bestSoFarFValue) {
 				bestIndividual = individual;
 				bestSoFarFValue = fValue;
@@ -98,12 +100,16 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	// behavior.
 	//
 
-	protected List<Individual<A>> nextGeneration(List<Individual<A>> population, FitnessFunction<A> fitnessFn,
-			Individual<A> bestBefore) {
+	protected void calculateFitness(Collection<Individual<A>> population, FitnessFunction<A> fitnessFn) {
+		for (Individual<A> individual : population)
+			individual.setFitness(fitnessFn.apply(individual));
+	}
+
+	protected List<Individual<A>> nextGeneration(List<Individual<A>> population, Individual<A> bestBefore) {
 		List<Individual<A>> newPopulation = new ArrayList<>(population.size());
 		for (int i = 0; i < population.size() - 1; i++) { // -1 para elitismo
-			Individual<A> x = randomSelection(population, fitnessFn);
-			Individual<A> y = randomSelection(population, fitnessFn);
+			Individual<A> x = randomSelection(population);
+			Individual<A> y = randomSelection(population);
 			Individual<A> child = reproduce(x, y);
 
 			if (random.nextDouble() <= mutationProbability) {
@@ -115,15 +121,15 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		return newPopulation;
 	}
 
-	protected Individual<A> randomSelection(List<Individual<A>> population, FitnessFunction<A> fitnessFn) {
+	protected Individual<A> randomSelection(List<Individual<A>> population) {
 		// Default result is last individual to avoid problems with rounding errors
 		Individual<A> selected = population.get(population.size() - 1);
 
 		// Determine all of the fitness values
 		double[] fValues = new double[population.size()];
-		double minFitness = fitnessFn.apply(population.get(0));
+		double minFitness = population.get(0).getFitness();
 		for (int i = 0; i < population.size(); i++) {
-			fValues[i] = fitnessFn.apply(population.get(i));
+			fValues[i] = population.get(i).getFitness();
 			if (minFitness > fValues[i])
 				minFitness = fValues[i];
 		}
@@ -183,10 +189,10 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		return new Individual<A>(childRepresentation);
 	}
 
-	protected double averageFitness(List<Individual<A>> population, FitnessFunction<A> fitnessFn) {
+	protected double averageFitness(List<Individual<A>> population) {
 		double totalFitness = 0.0;
 		for (int i = 0; i < population.size(); i++) {
-			totalFitness += fitnessFn.apply(population.get(i));
+			totalFitness += population.get(i).getFitness();
 		}
 		return totalFitness / population.size();
 	}
