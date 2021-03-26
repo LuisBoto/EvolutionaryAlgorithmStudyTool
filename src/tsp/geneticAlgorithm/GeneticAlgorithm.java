@@ -8,27 +8,22 @@ import java.util.Random;
 import tsp.lib.Util;
 import tsp.metricFramework.Algorithm;
 
-/**
- * Artificial Intelligence A Modern Approach (3rd Edition): Figure 4.8, page
- * 129.
- */
 public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	protected int individualLength;
-	protected List<A> finiteAlphabet;
 	protected double mutationProbability;
+	protected int maxIterations;
 	protected Random random;
 
-	public GeneticAlgorithm(int individualLength, Collection<A> finiteAlphabet, double mutationProbability) {
-		this(individualLength, finiteAlphabet, mutationProbability, new Random());
+	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxIterations) {
+		this(individualLength, mutationProbability, maxIterations, new Random());
 	}
 
-	public GeneticAlgorithm(int individualLength, Collection<A> finiteAlphabet, double mutationProbability,
-			Random random) {
+	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxIterations, Random random) {
 		super(); // Calls createTrackers
 		this.individualLength = individualLength;
-		this.finiteAlphabet = new ArrayList<A>(finiteAlphabet);
 		this.mutationProbability = mutationProbability;
+		this.maxIterations = maxIterations;
 		this.random = random;
 
 		assert (this.mutationProbability >= 0.0 && this.mutationProbability <= 1.0);
@@ -37,17 +32,16 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	@Override
 	protected void createTrackers() {
 		this.addProgressTracker(new ProgressTracker(Algorithm.ITERATIONS));
+		this.addProgressTracker(new ProgressTracker(Algorithm.TIME_IN_MILLISECONDS));
 		this.addProgressTracker(new ProgressTracker("bestFitness"));
 		this.addProgressTracker(new ProgressTracker("averageFitness"));
 		this.addProgressTracker(new ProgressTracker("mutations"));
 		this.addProgressTracker(new ProgressTracker("cruces"));
 	}
-	
+
 	@Override
 	protected boolean stopCondition() {
-		if (getIterations()>5000)
-			return true;
-		return false;
+		return getIterations() > this.maxIterations;
 	}
 
 	public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn) {
@@ -71,6 +65,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 					+ averageFitness(population, fitnessFn));
 
 			updateMetrics(population, ++itCount, System.currentTimeMillis() - startTime);
+			this.metrics.setValue(Algorithm.TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
 			this.metrics.setValue(Algorithm.ITERATIONS, itCount);
 			this.metrics.setValue("bestFitness", fitnessFn.apply(bestIndividual));
 			this.metrics.setValue("averageFitness", averageFitness(population, fitnessFn));

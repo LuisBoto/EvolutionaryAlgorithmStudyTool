@@ -1,6 +1,5 @@
 package tsp;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,16 +17,18 @@ import tsp.lib.TSPParser;
 public class TSPLauncher {
 
 	public static void main(String[] args) throws ScriptException {
-		//City graph construction
+		// City graph construction
 		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/a280.tsp");
 
 		// Parameters
 		int popSize = 10;
-		double mutationProbability = 0.20; 
-		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability);
+		double mutationProbability = 0.20;
+		int maxIterations = 100000;
+		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability, maxIterations);
 	}
 
-	private static void tspAIModernGeneticAlgorithm(Graph<String> cities, int populationSize, double mutationProbability) {
+	private static void tspAIModernGeneticAlgorithm(Graph<String> cities, int populationSize,
+			double mutationProbability, int maxIterations) {
 		System.out.println("--- TSP AIModern GeneticAlgorithm ---");
 		FitnessFunction<String> fitnessFunction = TSPFunctions.getFitnessFunction();
 		((TSPFitnessFunction) fitnessFunction).setCities(cities);
@@ -37,12 +38,11 @@ public class TSPLauncher {
 		List<String> cityList = cities.getNodes();
 		for (int i = 0; i < populationSize; i++)
 			population.add(TSPFunctions.generateRandomIndividual(cityList));
-		
-		Collection<String> alphabet = cityList;
-		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cityList.size()+1, alphabet, mutationProbability);
+
+		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cityList.size() + 1, mutationProbability, maxIterations);
 		System.out.println("Starting evolution");
 		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction);
-		
+
 		System.out.println("\nMax time unlimited, Best Individual:\n" + bestIndividual.getRepresentation());
 		System.out.println("City number = " + cities.getNodes().size());
 		System.out.println("Fitness = " + fitnessFunction.apply(bestIndividual));
