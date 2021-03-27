@@ -4,13 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Metric {
-	
+
 	private String name;
 	private List<String> values;
+	private boolean normality;
 
 	public Metric(String name, List<String> values) {
 		this.name = name;
 		this.values = values;
+		try {
+			this.normality = Double.parseDouble(RScriptRunner.normalityTest(this).split("p.value=")[1]) > 0.05;
+		} catch (Exception e) {
+			
+		}
 	}
 
 	public Metric(String name) {
@@ -32,6 +38,10 @@ public class Metric {
 
 	public int getSize() {
 		return this.values.size();
+	}
+
+	public boolean isNormal() {
+		return this.normality;
 	}
 
 	@Override

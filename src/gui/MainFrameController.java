@@ -18,6 +18,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -60,6 +61,7 @@ public class MainFrameController {
 		this.script = "";
 		this.statsThread = null;
 		updateStatisticsPanel(); // To create empty components
+		updateAdvancedStatsButtons();
 	}
 
 	public void initialize() {
@@ -82,6 +84,7 @@ public class MainFrameController {
 		mf.getPlotListPn().removeAll();
 		mf.getLblPlotImage().setIcon(new ImageIcon(MainFrame.class.getResource("/gui/img/graph.jpg")));
 		updateStatisticsPanel(); // To empty previous values
+		updateAdvancedStatsButtons();
 
 		this.metrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
@@ -156,6 +159,7 @@ public class MainFrameController {
 			checkMet.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent e) {
 					updateStatisticsPanel();
+					updateAdvancedStatsButtons();
 				}
 			});
 			metricsPanel.add(checkMet);
@@ -475,6 +479,53 @@ public class MainFrameController {
 		mf.getTxtAreaAdvancedStats().setText(Internationalization.get("ONGOING_CALCULATION"));
 		this.statsThread.start();
 	}
+	
+	private void updateAdvancedStatsButtons() {
+		JButton normal = mf.getBtnNormality();
+		JButton ttest = mf.getBtnTTest();
+		JButton wilcoxF = mf.getBtnWilcoxF();
+		JButton wilcoxT = mf.getBtnWilcoxT();
+		JButton kruskal = mf.getBtnKruskal();
+		JButton friedman = mf.getBtnFriedman();
+		
+		normal.setEnabled(false);
+		ttest.setEnabled(false);
+		wilcoxF.setEnabled(false);
+		wilcoxT.setEnabled(false);
+		kruskal.setEnabled(false);
+		friedman.setEnabled(false);
+		
+		switch(getSelectedMetrics(false).size()) {
+		case 0:
+			return;
+		case 1:
+			normal.setEnabled(true);
+			break;
+		case 2:
+			ttest.setEnabled(true);
+			wilcoxT.setEnabled(true);
+			wilcoxF.setEnabled(true);
+			break;
+		default:
+			kruskal.setEnabled(true);
+			friedman.setEnabled(true);
+			break;
+		}
+		
+		boolean allSelectedAreNormal = true;
+		for (Metric m : getSelectedMetrics(false)) {
+			if (!m.isNormal()) allSelectedAreNormal = false;
+		}
+		
+		if (allSelectedAreNormal) { // Disable non parametric tests
+			wilcoxT.setEnabled(false);
+			wilcoxF.setEnabled(false);
+			kruskal.setEnabled(false);
+			friedman.setEnabled(false);
+		} else { // Disable parametric tests
+			ttest.setEnabled(false);
+		}
+	}
 
 	private class StatisticThread extends Thread {
 
@@ -498,5 +549,4 @@ public class MainFrameController {
 			}
 		}
 	}
-
 }

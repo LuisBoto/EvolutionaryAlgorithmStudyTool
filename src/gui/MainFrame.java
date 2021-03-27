@@ -95,7 +95,7 @@ public class MainFrame extends JFrame {
 	private JButton btnKruskal;
 	private JButton btnFriedman;
 	private JTextArea txtAreaAdvancedStats;
-	private JButton btnTTEst;
+	private JButton btnTTest;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -674,7 +674,7 @@ public class MainFrame extends JFrame {
 			advancedStatisticsPreviewPn = new JPanel();
 			advancedStatisticsPreviewPn.setLayout(new GridLayout(0, 3, 2, 2));
 			advancedStatisticsPreviewPn.add(getBtnNormality());
-			advancedStatisticsPreviewPn.add(getBtnTTEst());
+			advancedStatisticsPreviewPn.add(getBtnTTest());
 			advancedStatisticsPreviewPn.add(getBtnWilcoxF());
 			advancedStatisticsPreviewPn.add(getBtnWilcoxT());
 			advancedStatisticsPreviewPn.add(getBtnKruskal());
@@ -697,18 +697,18 @@ public class MainFrame extends JFrame {
 		return btnNormality;
 	}
 
-	protected JButton getBtnTTEst() {
-		if (btnTTEst == null) {
-			btnTTEst = new JButton(Internationalization.get("T_TEST"));
-			btnTTEst.addActionListener(new ActionListener() {
+	protected JButton getBtnTTest() {
+		if (btnTTest == null) {
+			btnTTest = new JButton(Internationalization.get("T_TEST"));
+			btnTTest.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					controller.calculateAdvancedStatistic(1);
 				}
 			});
-			btnTTEst.setMnemonic('t');
-			btnTTEst.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnTTest.setMnemonic('t');
+			btnTTest.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		}
-		return btnTTEst;
+		return btnTTest;
 	}
 
 	protected JButton getBtnWilcoxF() {
