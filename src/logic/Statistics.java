@@ -44,10 +44,9 @@ public class Statistics {
 		case 0: // Normality Test
 			return RScriptRunner.normalityTest(metrics.get(0));
 		case 1: // T test
-			Metric m2 = null;
-			if (metrics.size() == 2)
-				m2 = metrics.get(1);
-			return RScriptRunner.tTest(metrics.get(0), m2);
+			if (metrics.size() != 2)
+				return Internationalization.get("SELECT_METRIC_TWO_ERROR");
+			return RScriptRunner.tTest(metrics.get(0), metrics.get(1));
 		case 2: // WilcoxF
 			if (metrics.size() != 2)
 				return Internationalization.get("SELECT_METRIC_TWO_ERROR");
