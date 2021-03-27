@@ -3,25 +3,21 @@ package logic.scripter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.script.ScriptException;
+
 public class Metric {
 
 	private String name;
 	private List<String> values;
-	private boolean normality;
+	private Boolean normality = null;
 
 	public Metric(String name, List<String> values) {
 		this.name = name;
 		this.values = values;
-		try {
-			this.normality = Double.parseDouble(RScriptRunner.normalityTest(this).split("p.value=")[1]) > 0.05;
-		} catch (Exception e) {
-			
-		}
 	}
 
 	public Metric(String name) {
-		this.name = name;
-		this.values = new ArrayList<String>();
+		this(name, new ArrayList<String>());
 	}
 
 	public String getName() {
@@ -41,6 +37,14 @@ public class Metric {
 	}
 
 	public boolean isNormal() {
+		if (this.normality == null)
+			try {
+				this.normality = Double.parseDouble(
+						RScriptRunner.normalityTest(this).split("p.value=")[1].replaceAll(",", ".")) > 0.05;
+			} catch (NumberFormatException | ScriptException e) {
+				System.out.println("Error calculating metric normality for " + this.getName());
+				this.normality = false;
+			}
 		return this.normality;
 	}
 
