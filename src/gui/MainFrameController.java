@@ -5,8 +5,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -30,7 +30,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
 import internationalization.Internationalization;
@@ -51,7 +50,6 @@ public class MainFrameController {
 	private List<String> loadedFileNames;
 	private List<GraphCommand> plots;
 	private String script;
-	private Timer statisticsAutoupdate;
 	private StatisticThread statsThread;
 
 	public MainFrameController(MainFrame mf) {
@@ -61,13 +59,7 @@ public class MainFrameController {
 		this.plots = new ArrayList<GraphCommand>();
 		this.script = "";
 		this.statsThread = null;
-
-		this.statisticsAutoupdate = new Timer(500, new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				updateStatisticsPanel();
-			}
-		});
-		statisticsAutoupdate.start();
+		updateStatisticsPanel(); // To create empty components
 	}
 
 	public void initialize() {
@@ -89,6 +81,7 @@ public class MainFrameController {
 		mf.getPlotsSelectPn().removeAll();
 		mf.getPlotListPn().removeAll();
 		mf.getLblPlotImage().setIcon(new ImageIcon(MainFrame.class.getResource("/gui/img/graph.jpg")));
+		updateStatisticsPanel(); // To empty previous values
 
 		this.metrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
@@ -160,6 +153,11 @@ public class MainFrameController {
 		metricsPanel.add(fileName);
 		for (int i = 0; i < parsedMetrics.size(); i++) {
 			JCheckBox checkMet = new JCheckBox(parsedMetrics.get(i).getName());
+			checkMet.addItemListener(new ItemListener() {
+				public void itemStateChanged(ItemEvent e) {
+					updateStatisticsPanel();
+				}
+			});
 			metricsPanel.add(checkMet);
 		}
 		this.refreshUI(mf.getMetricsPlotsPn());
