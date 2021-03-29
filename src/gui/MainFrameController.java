@@ -85,6 +85,7 @@ public class MainFrameController {
 		mf.getLblPlotImage().setIcon(new ImageIcon(MainFrame.class.getResource("/gui/img/graph.jpg")));
 		updateStatisticsPanel(); // To empty previous values
 		updateAdvancedStatsButtons();
+		mf.getTxtAreaAdvancedStats().setText("");
 
 		this.metrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
