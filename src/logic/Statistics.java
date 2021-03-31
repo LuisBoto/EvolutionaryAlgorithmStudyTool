@@ -1,6 +1,7 @@
 package logic;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.script.ScriptException;
@@ -8,12 +9,14 @@ import javax.script.ScriptException;
 import internationalization.Internationalization;
 import logic.scripter.Metric;
 import logic.scripter.RScriptRunner;
+import logic.scripter.ScriptResult;
 
 public class Statistics {
 
 	public static final String[] STATISTICS_BASIC = { Internationalization.get("MAXIMUM"),
 			Internationalization.get("MINIMUM"), Internationalization.get("AVERAGE"),
 			Internationalization.get("STANDARD_DEVIATION") };
+	private static List<ScriptResult> scriptResults = new ArrayList<ScriptResult>();
 
 	public static String getStatistic(int statisticCode, List<Metric> metrics) {
 		if (metrics.size() <= 0)
@@ -42,31 +45,38 @@ public class Statistics {
 			return Internationalization.get("SELECT_METRIC_ERROR");
 		switch (statisticCode) {
 		case 0: // Normality Test
-			return RScriptRunner.normalityTest(metrics.get(0));
+			scriptResults.add(RScriptRunner.normalityTest(metrics.get(0)));
+			break;
 		case 1: // T test
 			if (metrics.size() != 2)
 				return Internationalization.get("SELECT_METRIC_TWO_ERROR");
-			return RScriptRunner.tTest(metrics.get(0), metrics.get(1));
+			scriptResults.add(RScriptRunner.tTest(metrics.get(0), metrics.get(1)));
+			break;
 		case 2: // WilcoxF
 			if (metrics.size() != 2)
 				return Internationalization.get("SELECT_METRIC_TWO_ERROR");
-			return RScriptRunner.wilcoxonMannTest(metrics.get(0), metrics.get(1), false);
+			scriptResults.add(RScriptRunner.wilcoxonMannTest(metrics.get(0), metrics.get(1), false));
+			break;
 		case 3: // WilcoxT
 			if (metrics.size() != 2)
 				return Internationalization.get("SELECT_METRIC_TWO_ERROR");
-			return RScriptRunner.wilcoxonMannTest(metrics.get(0), metrics.get(1), true);
+			scriptResults.add(RScriptRunner.wilcoxonMannTest(metrics.get(0), metrics.get(1), true));
+			break;
 		case 4: // Kruskal
 			if (metrics.size() <= 1)
 				return Internationalization.get("SELECT_METRIC_TWO_MORE_ERROR");
-			return RScriptRunner.kruskalWalisTest(metrics);
+			scriptResults.add(RScriptRunner.kruskalWalisTest(metrics));
+			break;
 		case 5: // Friedman
 			if (metrics.size() <= 1)
 				return Internationalization.get("SELECT_METRIC_TWO_MORE_ERROR");
-			if (checkLenght(metrics))
-				return RScriptRunner.friedmanTest(metrics);
+			if (checkLenght(metrics)) { // All metrics must be of same dimension
+				scriptResults.add(RScriptRunner.friedmanTest(metrics));
+				break;
+			}
 			return Internationalization.get("METRIC_LENGTH_ERROR");
 		}
-		return "";
+		return scriptResults.get(scriptResults.size()-1).getResult();
 	}
 
 	private static boolean checkLenght(List<Metric> metrics) {
@@ -124,6 +134,10 @@ public class Statistics {
 			}
 		}
 		return res;
+	}
+	
+	public static void cleanResults() {
+		scriptResults = new ArrayList<ScriptResult>();
 	}
 
 }

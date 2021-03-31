@@ -35,6 +35,7 @@ import javax.swing.border.LineBorder;
 
 import internationalization.Internationalization;
 import java.awt.GridLayout;
+import javax.swing.SwingConstants;
 
 public class MainFrame extends JFrame {
 
@@ -96,6 +97,7 @@ public class MainFrame extends JFrame {
 	private JButton btnFriedman;
 	private JTextArea txtAreaAdvancedStats;
 	private JButton btnTTest;
+	private JLabel lblStatCalcStatus;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -368,7 +370,7 @@ public class MainFrame extends JFrame {
 			previewPn.add(getStatisticsPreviewPn());
 			previewPn.add(Box.createRigidArea(new Dimension(0, 5)));
 			previewPn.add(getAdvancedStatisticsPreviewPn());
-			previewPn.add(Box.createRigidArea(new Dimension(0, 5)));
+			previewPn.add(getLblStatCalcStatus());
 			JScrollPane scrollPane = new JScrollPane(getTxtAreaAdvancedStats());
 			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -394,6 +396,7 @@ public class MainFrame extends JFrame {
 	protected JPanel getMetricsPlotsPn() {
 		if (metricsPlotsPn == null) {
 			metricsPlotsPn = new JPanel();
+			metricsPlotsPn.setMaximumSize(new Dimension(32767, 350));
 			metricsPlotsPn.setVisible(false);
 			metricsPlotsPn.setAlignmentY(Component.TOP_ALIGNMENT);
 			metricsPlotsPn.setLayout(new BoxLayout(metricsPlotsPn, BoxLayout.X_AXIS));
@@ -582,6 +585,7 @@ public class MainFrame extends JFrame {
 	protected JScrollPane getMetricSelectScrollPane() {
 		if (metricSelectScrollPane == null) {
 			metricSelectScrollPane = new JScrollPane();
+			metricSelectScrollPane.setMaximumSize(new Dimension(32767, 350));
 			metricSelectScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			metricSelectScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			metricSelectScrollPane.setViewportView(getMetricSelectPn());
@@ -777,5 +781,15 @@ public class MainFrame extends JFrame {
 			txtAreaAdvancedStats.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 		return txtAreaAdvancedStats;
+	}
+	protected JLabel getLblStatCalcStatus() {
+		if (lblStatCalcStatus == null) {
+			lblStatCalcStatus = new JLabel("");
+			lblStatCalcStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+			lblStatCalcStatus.setHorizontalAlignment(SwingConstants.CENTER);
+			lblStatCalcStatus.setForeground(Color.RED);
+			lblStatCalcStatus.setFont(new Font("Tahoma", Font.BOLD, 12));
+		}
+		return lblStatCalcStatus;
 	}
 }

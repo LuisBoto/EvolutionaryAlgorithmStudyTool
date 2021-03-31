@@ -40,7 +40,7 @@ public class Metric {
 		if (this.normality == null)
 			try {
 				this.normality = Double.parseDouble(
-						RScriptRunner.normalityTest(this).split("p.value=")[1].replaceAll(",", ".")) > 0.05;
+						RScriptRunner.normalityTest(this).getResult().split("p.value=")[1].replaceAll(",", ".")) > 0.05;
 			} catch (NumberFormatException | ScriptException e) {
 				System.out.println("Error calculating metric normality for " + this.getName());
 				this.normality = false;

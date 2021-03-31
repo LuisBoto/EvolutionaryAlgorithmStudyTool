@@ -86,6 +86,7 @@ public class MainFrameController {
 		updateStatisticsPanel(); // To empty previous values
 		updateAdvancedStatsButtons();
 		mf.getTxtAreaAdvancedStats().setText("");
+		mf.getLblStatCalcStatus().setText("");
 
 		this.metrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
@@ -95,6 +96,7 @@ public class MainFrameController {
 		if (this.statsThread != null)
 			this.statsThread.interrupt();
 		this.statsThread = null;
+		Statistics.cleanResults();
 	}
 
 	public void openFile() {
@@ -477,10 +479,10 @@ public class MainFrameController {
 			// this.statsThread.stop();
 		}
 		this.statsThread = new StatisticThread(statisticCode, getSelectedMetrics(false));
-		mf.getTxtAreaAdvancedStats().setText(Internationalization.get("ONGOING_CALCULATION"));
+		mf.getLblStatCalcStatus().setText(Internationalization.get("ONGOING_CALCULATION"));
 		this.statsThread.start();
 	}
-	
+
 	private void updateAdvancedStatsButtons() {
 		JButton normal = mf.getBtnNormality();
 		JButton ttest = mf.getBtnTTest();
@@ -488,15 +490,15 @@ public class MainFrameController {
 		JButton wilcoxT = mf.getBtnWilcoxT();
 		JButton kruskal = mf.getBtnKruskal();
 		JButton friedman = mf.getBtnFriedman();
-		
+
 		normal.setEnabled(false);
 		ttest.setEnabled(false);
 		wilcoxF.setEnabled(false);
 		wilcoxT.setEnabled(false);
 		kruskal.setEnabled(false);
 		friedman.setEnabled(false);
-		
-		switch(getSelectedMetrics(false).size()) {
+
+		switch (getSelectedMetrics(false).size()) {
 		case 0:
 			return;
 		case 1:
@@ -512,12 +514,13 @@ public class MainFrameController {
 			friedman.setEnabled(true);
 			break;
 		}
-		
+
 		boolean allSelectedAreNormal = true;
 		for (Metric m : getSelectedMetrics(false)) {
-			if (!m.isNormal()) allSelectedAreNormal = false;
+			if (!m.isNormal())
+				allSelectedAreNormal = false;
 		}
-		
+
 		if (allSelectedAreNormal) { // Disable non parametric tests
 			wilcoxT.setEnabled(false);
 			wilcoxF.setEnabled(false);
@@ -541,12 +544,14 @@ public class MainFrameController {
 		public void run() {
 			try {
 				String result = Statistics.getAdvancedStatistic(statCode, selected);
-				mf.getTxtAreaAdvancedStats().setText(result);
+				JTextArea area = mf.getTxtAreaAdvancedStats();
+				area.setText(area.getText() + result + "\n");
+				mf.getLblStatCalcStatus().setText("");
 			} catch (Exception e) {
 				if (isInterrupted())
 					return;
 				e.printStackTrace();
-				mf.getTxtAreaAdvancedStats().setText(Internationalization.get("STAT_CALCULATION_ERROR"));
+				mf.getLblStatCalcStatus().setText(Internationalization.get("STAT_CALCULATION_ERROR"));
 			}
 		}
 	}
