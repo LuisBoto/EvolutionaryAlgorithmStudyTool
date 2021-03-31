@@ -73,7 +73,7 @@ public class RScriptRunner {
 		// System.out.println(commonEngine.eval("df_kruskal"));
 		// commonEngine.eval("names(df_kruskal)<-c('Method', 'Name', 'chi-squared',
 		// 'Statistic', 'p-value')");
-		code.append("krus");
+		code.append("\nkrus");
 		ListVector res = (ListVector) commonEngine.eval("krus");
 		result.append("kruskal.test:\nchi-squared=" + res.getElementAsString("statistic") + ", p.value="
 				+ res.getElementAsString("p.value"));
@@ -102,7 +102,7 @@ public class RScriptRunner {
 		code.append("\nfried<-friedman.test(matrixFriedman)");
 		commonEngine.eval("fried<-friedman.test(matrixFriedman)");
 		// System.out.println(commonEngine.eval("fried"));
-		code.append("fried");
+		code.append("\nfried");
 		ListVector res = (ListVector) commonEngine.eval("fried");
 		result.append("friedman.test:\np.value=" + res.getElementAsString("p.value"));
 		return new ScriptResult(code.toString(), result.toString());
@@ -123,6 +123,7 @@ public class RScriptRunner {
 
 		code.append("\ntest<-wilcox.exact(" + m1.getName() + ", " + m2.getName() + ", paired = " + pairedText
 				+ ", exact = T, alternative = 't', conf.int = 0.95)");
+		code.append("\ntest");
 		ListVector res = (ListVector) commonEngine.eval("test<-wilcox.exact(" + m1.getName() + ", " + m2.getName()
 				+ ", paired = " + pairedText + ", exact = T, alternative = 't', conf.int = 0.95)");
 		result.append("wilcox.exact:\np.value=" + res.getElementAsString("p.value") + ", pointprob="

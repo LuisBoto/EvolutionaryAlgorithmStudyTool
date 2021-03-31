@@ -139,5 +139,9 @@ public class Statistics {
 	public static void cleanResults() {
 		scriptResults = new ArrayList<ScriptResult>();
 	}
+	
+	public static List<ScriptResult> getResults() {
+		return scriptResults;
+	}
 
 }

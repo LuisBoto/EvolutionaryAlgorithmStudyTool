@@ -98,6 +98,7 @@ public class MainFrame extends JFrame {
 	private JTextArea txtAreaAdvancedStats;
 	private JButton btnTTest;
 	private JLabel lblStatCalcStatus;
+	private JButton btnExportStatistics;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -375,6 +376,7 @@ public class MainFrame extends JFrame {
 			scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			previewPn.add(scrollPane);
+			previewPn.add(getBtnExportStatistics());
 			previewPn.add(Box.createRigidArea(new Dimension(0, 5)));
 			previewPn.add(getLblPlotPreview());
 			previewPn.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -791,5 +793,19 @@ public class MainFrame extends JFrame {
 			lblStatCalcStatus.setFont(new Font("Tahoma", Font.BOLD, 12));
 		}
 		return lblStatCalcStatus;
+	}
+	protected JButton getBtnExportStatistics() {
+		if (btnExportStatistics == null) {
+			btnExportStatistics = new JButton(Internationalization.get("EXPORT_STATISTICS"));
+			btnExportStatistics.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					controller.exportStatisticScript();
+				}
+			});
+			btnExportStatistics.setMnemonic('p');
+			btnExportStatistics.setFont(new Font("Tahoma", Font.PLAIN, 12));
+			btnExportStatistics.setAlignmentX(Component.CENTER_ALIGNMENT);
+		}
+		return btnExportStatistics;
 	}
 }

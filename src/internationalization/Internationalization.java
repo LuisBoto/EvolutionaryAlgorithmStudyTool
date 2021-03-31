@@ -88,6 +88,7 @@ public class Internationalization {
 		keys.put("ONGOING_CALCULATION", "Statistic calculation ongoing...");
 		keys.put("STAT_CALCULATION_ERROR", "Error calculating statistic.");
 		keys.put("METRIC_LENGTH_ERROR", "All metrics must be the same length.");
+		keys.put("EXPORT_STATISTICS", "Export stats script");
 	}
 
 	public static void setSpanish() {
@@ -172,6 +173,7 @@ public class Internationalization {
 		keys.put("ONGOING_CALCULATION", "Calculando estadístico...");
 		keys.put("STAT_CALCULATION_ERROR", "Error calculando estadístico.");
 		keys.put("METRIC_LENGTH_ERROR", "Todas las métricas deben tener la misma dimensión.");
+		keys.put("EXPORT_STATISTICS", "Exportar script estadístico");
 	}
 
 	public static String get(String key) {

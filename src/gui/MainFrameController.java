@@ -39,6 +39,7 @@ import logic.fileManager.FileMerger;
 import logic.fileManager.FileParser;
 import logic.scripter.Metric;
 import logic.scripter.RScriptRunner;
+import logic.scripter.ScriptResult;
 import logic.scripter.Scripter;
 import logic.scripter.graphs.GraphCommand;
 import logic.scripter.graphs.GraphFactory;
@@ -528,6 +529,32 @@ public class MainFrameController {
 			friedman.setEnabled(false);
 		} else { // Disable parametric tests
 			ttest.setEnabled(false);
+		}
+	}
+	
+	public void exportStatisticScript() {
+		if (Statistics.getResults().size()<=0)
+			return;
+		JFileChooser fc = new JFileChooser();
+		fc.setCurrentDirectory(new java.io.File("."));
+		if (fc.showSaveDialog(mf) != JFileChooser.APPROVE_OPTION)
+			return;
+		File file = fc.getSelectedFile();
+		String path = file.getPath();
+		FileWriter fw;
+		try {
+			fw = new FileWriter(path);
+			BufferedWriter bf = new BufferedWriter(fw);
+			for (ScriptResult sr : Statistics.getResults()) {
+				bf.write(sr.getCode()+"\n");
+			}
+			bf.close();
+			fw.close();
+			JOptionPane.showMessageDialog(this.mf, Internationalization.get("EXPORT_COMPLETED"),
+					Internationalization.get("EXPORT_COMPLETED_PATH") + path, JOptionPane.INFORMATION_MESSAGE);
+		} catch (IOException e) {
+			this.showExceptionDialog(Internationalization.get("EXPORT_ERROR_TITLE"),
+					Internationalization.get("EXPORT_ERROR"), e.getMessage());
 		}
 	}
 
