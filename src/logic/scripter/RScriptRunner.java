@@ -30,7 +30,7 @@ public class RScriptRunner {
 
 	public static ScriptResult normalityTest(Metric metric) throws ScriptException {
 		StringBuilder code = new StringBuilder(metric.toString() + "\n");
-		code.append("shapiro.test(" + metric.getName() + ")");
+		code.append("shapiro.test(" + metric.getName() + ")\n");
 		StringBuilder result = new StringBuilder("");
 
 		// Only one metric
@@ -50,9 +50,9 @@ public class RScriptRunner {
 		metrics.add(m1);
 		metrics.add(m2);
 		code = createGroupData(metrics, code);
-		code.append("\nttest<-pairwise.t.test(data, group)");
+		code.append("\nttest<-pairwise.t.test(data, group)\n");
 		commonEngine.eval("ttest<-pairwise.t.test(data, group)");
-		code.append("\nttest");
+		code.append("ttest\n");
 		ListVector res = (ListVector) commonEngine.eval("ttest");
 		result.append("pairwise.t.test:\np.value=" + res.getElementAsString("p.value"));
 		return new ScriptResult(code.toString(), result.toString());
@@ -67,14 +67,14 @@ public class RScriptRunner {
 
 		cleanEngine();
 		code = createGroupData(metrics, code);
-		code.append("\nkrus<-kruskal.test(data, group)");
+		code.append("\nkrus<-kruskal.test(data, group)\n");
 		commonEngine.eval("krus<-kruskal.test(data, group)");
 		// System.out.println(commonEngine.eval("krus"));
 		// commonEngine.eval("df_kruskal<-data.frame(krus$method,krus$data.name,krus$statistic,krus$parameter,krus$p.value)");
 		// System.out.println(commonEngine.eval("df_kruskal"));
 		// commonEngine.eval("names(df_kruskal)<-c('Method', 'Name', 'chi-squared',
 		// 'Statistic', 'p-value')");
-		code.append("\nkrus");
+		code.append("krus\n");
 		ListVector res = (ListVector) commonEngine.eval("krus");
 		result.append("kruskal.test:\nchi-squared=" + res.getElementAsString("statistic") + ", p.value="
 				+ res.getElementAsString("p.value"));
@@ -87,23 +87,23 @@ public class RScriptRunner {
 
 		// All metrics must have same length
 		cleanEngine();
-		StringBuilder st = new StringBuilder("\ny = c(");
+		StringBuilder st = new StringBuilder("y = c(");
 		for (Metric m : metrics) {
-			code.append("\n" + m.toString());
+			code.append(m.toString() + "\n");
 			commonEngine.eval(m.toString());
 			st.append(m.getName() + ",");
 		}
 		st.deleteCharAt(st.length() - 1).append(")");
 		code.append(st.toString() + "\n");
 		commonEngine.eval(st.toString());
-		code.append("matrixFriedman<-matrix(y, nrow=" + metrics.get(0).getSize() + ", ncol="
-				+ metrics.get(0).getSize() + ")");
+		code.append("matrixFriedman<-matrix(y, nrow=" + metrics.get(0).getSize() + ", ncol=" + metrics.get(0).getSize()
+				+ ")\n");
 		commonEngine.eval("matrixFriedman<-matrix(y, nrow=" + metrics.get(0).getSize() + ", ncol="
 				+ metrics.get(0).getSize() + ")");
-		code.append("\nfried<-friedman.test(matrixFriedman)");
+		code.append("fried<-friedman.test(matrixFriedman)\n");
 		commonEngine.eval("fried<-friedman.test(matrixFriedman)");
 		// System.out.println(commonEngine.eval("fried"));
-		code.append("\nfried");
+		code.append("fried\n");
 		ListVector res = (ListVector) commonEngine.eval("fried");
 		result.append("friedman.test:\np.value=" + res.getElementAsString("p.value"));
 		return new ScriptResult(code.toString(), result.toString());
@@ -117,15 +117,15 @@ public class RScriptRunner {
 		StringBuilder result = new StringBuilder("");
 
 		cleanEngine();
-		code.append("\n" + m1.toString() + "\n" + m2.toString());
+		code.append(m1.toString() + "\n" + m2.toString() + "\n");
 		commonEngine.eval(m1.toString());
 		commonEngine.eval(m2.toString());
 		String pairedText = paired ? "TRUE" : "FALSE";
 
-		code.append("\ntest<-wilcox.exact(" + m1.getName() + ", " + m2.getName() + ", paired = " + pairedText
-				+ ", exact = T, alternative = 't', conf.int = 0.95)");
-		code.append("\ntest");
-		ListVector res = (ListVector) commonEngine.eval("test<-wilcox.exact(" + m1.getName() + ", " + m2.getName()
+		code.append("wilcox<-wilcox.exact(" + m1.getName() + ", " + m2.getName() + ", paired = " + pairedText
+				+ ", exact = T, alternative = 't', conf.int = 0.95)\n");
+		code.append("wilcox\n");
+		ListVector res = (ListVector) commonEngine.eval("wilcox<-wilcox.exact(" + m1.getName() + ", " + m2.getName()
 				+ ", paired = " + pairedText + ", exact = T, alternative = 't', conf.int = 0.95)");
 		result.append("wilcox.exact:\np.value=" + res.getElementAsString("p.value") + ", pointprob="
 				+ res.getElementAsString("pointprob") + ", paired=" + pairedText);
@@ -177,7 +177,7 @@ public class RScriptRunner {
 			index++;
 		}
 
-		code.append("\n" + group.toString());
+		code.append(group.toString());
 		commonEngine.eval(group.toString());
 		for (Metric m : metrics) {
 			code.append("\n" + m.toString());

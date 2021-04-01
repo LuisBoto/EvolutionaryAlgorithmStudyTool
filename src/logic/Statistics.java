@@ -142,13 +142,15 @@ public class Statistics {
 
 	public static List<ScriptResult> getResults() {
 		ArrayList<ScriptResult> copyToReturn = new ArrayList<ScriptResult>(scriptResults);
+		ScriptResult firstElement = copyToReturn.get(0);
+		copyToReturn.set(0, new ScriptResult(firstElement.getCode(), firstElement.getResult()));
 		
 		// Appending libraries right at the script's beggining
 		StringBuilder libs = new StringBuilder("");
 		for (String lib : RScriptRunner.getLibraries()) {
 			libs.append("library(" + lib + ")\n");
 		}
-		libs.append(scriptResults.get(0).getCode());
+		libs.append(copyToReturn.get(0).getCode());
 		copyToReturn.get(0).setCode(libs.toString());
 		return copyToReturn;
 	}
