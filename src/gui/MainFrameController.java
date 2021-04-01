@@ -257,7 +257,7 @@ public class MainFrameController {
 		if (res != 0)
 			return;
 		try {
-			RScriptRunner.runRScript(this.script);
+			RScriptRunner.runRScript(this.script, false);
 			JOptionPane.showMessageDialog(this.mf, Internationalization.get("EXECUTION_COMPLETED"),
 					Internationalization.get("EXECUTION_COMPLETED_TITLE"), JOptionPane.INFORMATION_MESSAGE);
 			showLastPDFPreview();
