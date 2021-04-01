@@ -323,8 +323,8 @@ public class MainFrameController {
 			bf.write(this.script);
 			bf.close();
 			fw.close();
-			JOptionPane.showMessageDialog(this.mf, Internationalization.get("EXPORT_COMPLETED"),
-					Internationalization.get("EXPORT_COMPLETED_PATH") + path, JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this.mf, Internationalization.get("EXPORT_COMPLETED_PATH") + path,
+					Internationalization.get("EXPORT_COMPLETED"), JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException e) {
 			this.showExceptionDialog(Internationalization.get("EXPORT_ERROR_TITLE"),
 					Internationalization.get("EXPORT_ERROR"), e.getMessage());
@@ -531,9 +531,9 @@ public class MainFrameController {
 			ttest.setEnabled(false);
 		}
 	}
-	
+
 	public void exportStatisticScript() {
-		if (Statistics.getResults().size()<=0)
+		if (Statistics.getResults().size() <= 0)
 			return;
 		JFileChooser fc = new JFileChooser();
 		fc.setCurrentDirectory(new java.io.File("."));
@@ -546,12 +546,12 @@ public class MainFrameController {
 			fw = new FileWriter(path);
 			BufferedWriter bf = new BufferedWriter(fw);
 			for (ScriptResult sr : Statistics.getResults()) {
-				bf.write(sr.getCode()+"\n");
+				bf.write(sr.getCode() + "\n");
 			}
 			bf.close();
 			fw.close();
-			JOptionPane.showMessageDialog(this.mf, Internationalization.get("EXPORT_COMPLETED"),
-					Internationalization.get("EXPORT_COMPLETED_PATH") + path, JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this.mf, Internationalization.get("EXPORT_COMPLETED_PATH") + path,
+					Internationalization.get("EXPORT_COMPLETED"), JOptionPane.INFORMATION_MESSAGE);
 		} catch (IOException e) {
 			this.showExceptionDialog(Internationalization.get("EXPORT_ERROR_TITLE"),
 					Internationalization.get("EXPORT_ERROR"), e.getMessage());

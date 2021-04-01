@@ -76,7 +76,7 @@ public class Statistics {
 			}
 			return Internationalization.get("METRIC_LENGTH_ERROR");
 		}
-		return scriptResults.get(scriptResults.size()-1).getResult();
+		return scriptResults.get(scriptResults.size() - 1).getResult();
 	}
 
 	private static boolean checkLenght(List<Metric> metrics) {
@@ -135,13 +135,22 @@ public class Statistics {
 		}
 		return res;
 	}
-	
+
 	public static void cleanResults() {
 		scriptResults = new ArrayList<ScriptResult>();
 	}
-	
+
 	public static List<ScriptResult> getResults() {
-		return scriptResults;
+		ArrayList<ScriptResult> copyToReturn = new ArrayList<ScriptResult>(scriptResults);
+		
+		// Appending libraries right at the script's beggining
+		StringBuilder libs = new StringBuilder("");
+		for (String lib : RScriptRunner.getLibraries()) {
+			libs.append("library(" + lib + ")\n");
+		}
+		libs.append(scriptResults.get(0).getCode());
+		copyToReturn.get(0).setCode(libs.toString());
+		return copyToReturn;
 	}
 
 }

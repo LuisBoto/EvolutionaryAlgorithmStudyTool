@@ -9,6 +9,7 @@ import javax.script.ScriptException;
 
 import org.renjin.eval.EvalException;
 import org.renjin.sexp.ListVector;
+import org.renjin.sexp.LogicalArrayVector;
 
 public class RScriptRunner {
 
@@ -86,16 +87,16 @@ public class RScriptRunner {
 
 		// All metrics must have same length
 		cleanEngine();
-		StringBuilder st = new StringBuilder("y = c(");
+		StringBuilder st = new StringBuilder("\ny = c(");
 		for (Metric m : metrics) {
-			code.append(m.toString() + "\n");
+			code.append("\n" + m.toString());
 			commonEngine.eval(m.toString());
 			st.append(m.getName() + ",");
 		}
 		st.deleteCharAt(st.length() - 1).append(")");
 		code.append(st.toString() + "\n");
 		commonEngine.eval(st.toString());
-		code.append("\nmatrixFriedman<-matrix(y, nrow=" + metrics.get(0).getSize() + ", ncol="
+		code.append("matrixFriedman<-matrix(y, nrow=" + metrics.get(0).getSize() + ", ncol="
 				+ metrics.get(0).getSize() + ")");
 		commonEngine.eval("matrixFriedman<-matrix(y, nrow=" + metrics.get(0).getSize() + ", ncol="
 				+ metrics.get(0).getSize() + ")");
@@ -116,7 +117,7 @@ public class RScriptRunner {
 		StringBuilder result = new StringBuilder("");
 
 		cleanEngine();
-		code.append(m1.toString() + "\n" + m2.toString());
+		code.append("\n" + m1.toString() + "\n" + m2.toString());
 		commonEngine.eval(m1.toString());
 		commonEngine.eval(m2.toString());
 		String pairedText = paired ? "TRUE" : "FALSE";
@@ -135,9 +136,21 @@ public class RScriptRunner {
 		commonEngine = new ScriptEngineManager().getEngineByName("Renjin");
 		commonEngine.eval("rm(list=ls())");
 		commonEngine.eval("graphics.off()");
-		commonEngine.eval("library(reshape)");
-		commonEngine.eval("library(PMCMR)"); // PMCMRplus not available yet on Renjin so PMCMR will do
-		commonEngine.eval("library(exactRankTests)");
+
+		int requireCheck;
+		for (String lib : getLibraries()) {
+			requireCheck = ((LogicalArrayVector) commonEngine.eval("require(" + lib + ")")).getElementAsRawLogical(0);
+			if (requireCheck == 0)
+				commonEngine.eval("library(" + lib + ")");
+		}
+	}
+
+	public static List<String> getLibraries() {
+		List<String> libs = new ArrayList<String>();
+		libs.add("reshape");
+		libs.add("PMCMR"); // PMCMRplus not available yet on Renjin so PMCMR will do
+		libs.add("exactRankTests");
+		return libs;
 	}
 
 	private static StringBuilder createGroupData(List<Metric> metrics, StringBuilder code) throws ScriptException {
