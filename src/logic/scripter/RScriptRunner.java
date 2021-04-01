@@ -14,24 +14,24 @@ import org.renjin.sexp.LogicalArrayVector;
 public class RScriptRunner {
 
 	public static Object runRScript(String script, boolean loadLibraries) throws ScriptException, EvalException {
-		//System.out.println("Initializing R parsing engine...");
+		// System.out.println("Initializing R parsing engine...");
 		ScriptEngineManager factory = new ScriptEngineManager();
 		// Create a Renjin engine
 		ScriptEngine engine = factory.getEngineByName("Renjin");
 		if (loadLibraries) {
-			//System.out.println("Checking required R libraries...");
+			// System.out.println("Checking required R libraries...");
 			checkLibraries(engine);
 		}
 		String[] lines = script.split("\n");
-		//System.out.println("Executing R script");
+		// System.out.println("Executing R script");
 		Object ret = null;
 		for (int i = 0; i < lines.length; i++) {
 			ret = engine.eval(lines[i]);
 		}
-		//System.out.println("R execution finished");
+		// System.out.println("R execution finished");
 		return ret; // Returns result of last line avaluated
 	}
-	
+
 	private static void checkLibraries(ScriptEngine engine) throws ScriptException {
 		int requireCheck;
 		for (String lib : getLibraries()) {
@@ -48,7 +48,7 @@ public class RScriptRunner {
 
 		// Only one metric
 		ListVector res = (ListVector) runRScript(code.toString(), true);
-		result.append("shapiro.test:\np.value=" + res.getElementAsString("p.value"));
+		result.append(metric.getName() + ", shapiro.test:\np.value=" + res.getElementAsString("p.value"));
 		return new ScriptResult(code.toString(), result.toString());
 	}
 
@@ -62,9 +62,10 @@ public class RScriptRunner {
 		code = createGroupData(metrics, code);
 		code.append("\nttest<-pairwise.t.test(data, group)\n");
 		code.append("ttest\n");
-		
+
 		ListVector res = (ListVector) runRScript(code.toString(), true);
-		result.append("pairwise.t.test:\np.value=" + res.getElementAsString("p.value"));
+		result.append(m1.getName() + ", " + m2.getName() + ", pairwise.t.test:\np.value="
+				+ res.getElementAsString("p.value"));
 		return new ScriptResult(code.toString(), result.toString());
 	}
 
@@ -79,6 +80,9 @@ public class RScriptRunner {
 		code.append("\nkrus<-kruskal.test(data, group)\n");
 		code.append("krus\n");
 		ListVector res = (ListVector) runRScript(code.toString(), true);
+		for (Metric m : metrics) {
+			result.append(m.getName() + ", ");
+		}
 		result.append("kruskal.test:\nchi-squared=" + res.getElementAsString("statistic") + ", p.value="
 				+ res.getElementAsString("p.value"));
 		return new ScriptResult(code.toString(), result.toString());
@@ -101,6 +105,9 @@ public class RScriptRunner {
 		code.append("fried<-friedman.test(matrixFriedman)\n");
 		code.append("fried\n");
 		ListVector res = (ListVector) runRScript(code.toString(), true);
+		for (Metric m : metrics) {
+			result.append(m.getName() + ", ");
+		}
 		result.append("friedman.test:\np.value=" + res.getElementAsString("p.value"));
 		return new ScriptResult(code.toString(), result.toString());
 	}
@@ -119,6 +126,7 @@ public class RScriptRunner {
 				+ ", exact = T, alternative = 't', conf.int = 0.95)\n");
 		code.append("wilcox\n");
 		ListVector res = (ListVector) runRScript(code.toString(), true);
+		result.append(m1.getName() + ", " + m2.getName() + ", ");
 		result.append("wilcox.exact:\np.value=" + res.getElementAsString("p.value") + ", pointprob="
 				+ res.getElementAsString("pointprob") + ", paired=" + pairedText);
 		return new ScriptResult(code.toString(), result.toString());
