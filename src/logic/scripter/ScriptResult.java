@@ -25,4 +25,13 @@ public class ScriptResult {
 	public void setResult(String result) {
 		this.result = result;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder res = new StringBuilder("");
+		for (String resultLine : this.getResult().split("\n")) {
+			res.append("#" + resultLine + "\n");
+		}
+		return res.append(this.getCode() + "\n").toString();
+	}
 }

@@ -546,7 +546,7 @@ public class MainFrameController {
 			fw = new FileWriter(path);
 			BufferedWriter bf = new BufferedWriter(fw);
 			for (ScriptResult sr : Statistics.getResults()) {
-				bf.write(sr.getCode() + "\n");
+				bf.write(sr.toString());
 			}
 			bf.close();
 			fw.close();

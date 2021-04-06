@@ -73,7 +73,7 @@ public class Internationalization {
 		keys.put("SPANISH", "Spanish");
 		keys.put("SELECT_LANGUAGE", "Select language");
 		keys.put("ABOUT_MESSAGE",
-				"Evolutive algorithm study tool.\nUniversity of Oviedo, Software Engineering, end of degree project.\nLuis Boto Fernández 2021");
+				"Evolutive algorithm study tool.\nUniversity of Oviedo, Software Engineering, dissertation project.\nLuis Boto Fernández 2021");
 		keys.put("SAVE_FIRST", "Please save the current script first");
 		keys.put("SELECTED_LINE_DIALOG", "Please input line index to perform merge, [0-");
 		keys.put("NORMALITY", "Normality Test");
