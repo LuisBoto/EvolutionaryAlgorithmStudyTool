@@ -141,6 +141,8 @@ public class Statistics {
 	}
 
 	public static List<ScriptResult> getResults() {
+		if (scriptResults.size()<=0)
+			return new ArrayList<ScriptResult>();
 		ArrayList<ScriptResult> copyToReturn = new ArrayList<ScriptResult>(scriptResults);
 		ScriptResult firstElement = copyToReturn.get(0);
 		copyToReturn.set(0, new ScriptResult(firstElement.getCode(), firstElement.getResult()));
