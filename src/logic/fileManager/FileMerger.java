@@ -18,7 +18,12 @@ public class FileMerger {
 	public static int getLineMergeUpperBound(String dir) throws IOException {
 		directory = dir;
 		cargarFicheros();
-		return fileContents.get(0).split("\n").length-1;
+		int min = fileContents.get(0).split("\n").length-1;
+		for (String contents : fileContents) {
+			if (contents.split("\n").length-1 < min)
+				min = contents.split("\n").length-1;
+		}
+		return min;
 	}
 	
 	public static void mergeByLine(String dir, String saveDir, int selectedLine)
