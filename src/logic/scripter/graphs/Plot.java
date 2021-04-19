@@ -14,7 +14,7 @@ public class Plot extends GraphCommand {
 	public String execute() {
 		// plot method call, should return
 		// plot(value1, value2, parameters...)
-		// lines(value3, value4) etc
+		// lines(value1, value3) etc
 		StringBuilder res;
 		boolean lines = this.getMetrics().size() > 2;
 		int mainCallMetrics = 2; // Will either be 2, or 1 on invalid calls
@@ -34,7 +34,8 @@ public class Plot extends GraphCommand {
 		// Concatenation of lines() calls
 		if (lines) {
 			for (int i = 2; i < this.getMetrics().size(); i++) {
-				res.append("\nlines(" + this.getMetrics().get(i).getName() + ")");
+				res.append("\nlines(" + this.getMetrics().get(0).getName() + ", " + this.getMetrics().get(i).getName()
+						+ ")");
 			}
 		}
 
