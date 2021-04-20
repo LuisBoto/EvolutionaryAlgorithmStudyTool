@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.script.ScriptException;
 
+import org.renjin.eval.EvalException;
+
 public class Metric {
 
 	private String name;
@@ -41,8 +43,9 @@ public class Metric {
 			try {
 				this.normality = Double.parseDouble(
 						RScriptRunner.normalityTest(this).getResult().split("p.value=")[1].replaceAll(",", ".")) > 0.05;
-			} catch (NumberFormatException | ScriptException e) {
-				System.out.println("Error calculating metric normality for " + this.getName());
+			} catch (NumberFormatException | EvalException | ScriptException e) {
+				System.out
+						.println("Error calculating metric normality for " + this.getName() + ", will be set to false");
 				this.normality = false;
 			}
 		return this.normality;
