@@ -177,6 +177,8 @@ public class Internationalization {
 	}
 
 	public static String get(String key) {
+		if (keys.isEmpty()) 
+			setEnglish();
 		return keys.get(key);
 	}
 }
