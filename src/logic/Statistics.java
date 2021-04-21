@@ -23,16 +23,16 @@ public class Statistics {
 			return "";
 		double result = -1;
 		switch (statisticCode) {
-		case 0:
+		case 0: // Max
 			result = best(metrics, true);
 			break;
-		case 1:
+		case 1: // Min
 			result = best(metrics, false);
 			break;
-		case 2:
+		case 2: // Average
 			result = average(metrics);
 			break;
-		case 3:
+		case 3: // Standard Deviation
 			result = standardDeviation(metrics);
 			break;
 		}

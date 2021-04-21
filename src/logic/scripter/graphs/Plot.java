@@ -2,6 +2,7 @@ package logic.scripter.graphs;
 
 import java.util.List;
 
+import logic.Statistics;
 import logic.scripter.Metric;
 
 public class Plot extends GraphCommand {
@@ -29,7 +30,13 @@ public class Plot extends GraphCommand {
 			res.append(this.getMetrics().get(i).getName().concat(","));
 		}
 		res.append(this.getMetrics().get(mainCallMetrics - 1).getName());
-		res.append(this.stringifyParameters() + ")");
+		res.append(this.stringifyParameters());
+		
+		if (mainCallMetrics == 2) { // Y axis limits parameter
+			String ymin = Statistics.getStatistic(1, getMetrics().subList(1, this.getMetrics().size())).replace(',', '.');
+			String ymax = Statistics.getStatistic(0, getMetrics().subList(1, this.getMetrics().size())).replace(',', '.');
+			res.append(", ylim=c(" + ymin + "," + ymax + "))"); 
+		}
 
 		// Concatenation of lines() calls
 		if (lines) {

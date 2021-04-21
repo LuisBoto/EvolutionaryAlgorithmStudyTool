@@ -285,6 +285,8 @@ public class StatisticsTest {
 			Statistics.getAdvancedStatistic(4, metrics);
 			Statistics.getAdvancedStatistic(5, metrics);
 			Assert.assertEquals(6, Statistics.getResults().size());
+			Statistics.cleanResults();
+			Assert.assertEquals(0, Statistics.getResults().size());
 		}  catch (ScriptException e) {
 			Assert.fail("ScriptException occurred");
 		}
