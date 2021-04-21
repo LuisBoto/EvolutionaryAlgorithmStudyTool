@@ -5,9 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ 
-	StatisticsTest.class
-	})
+@SuiteClasses({ StatisticsTest.class, FileManagerTest.class, GraphTest.class })
 
 public class AllTest {
 }

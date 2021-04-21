@@ -6,5 +6,6 @@ public class GraphTest {
 
 	@Test
 	public void parameterTest() {
+		// Check for added parameters on plot call
 	}
 }
