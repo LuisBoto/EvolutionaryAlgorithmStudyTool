@@ -259,6 +259,34 @@ public class StatisticsTest {
 
 	@Test
 	public void resultsTest() {
-		
+		Statistics.cleanResults();
+		List<Metric> metrics = new ArrayList<Metric>();
+		Metric values1 = new Metric("values1");
+		values1.addValue("8");
+		values1.addValue("800");
+		values1.addValue("435.65");
+		values1.addValue("8.0E+10");
+		values1.addValue("20");
+		values1.addValue("-9000");
+		Metric values2 = new Metric("values2");
+		values2.addValue("7");
+		values2.addValue("200");
+		values2.addValue("635.65");
+		values2.addValue("3.0E+10");
+		values2.addValue("20");
+		values2.addValue("-9000.74");
+		metrics.add(values1);
+		metrics.add(values2);
+		try {
+			Statistics.getAdvancedStatistic(0, metrics);
+			Statistics.getAdvancedStatistic(1, metrics);
+			Statistics.getAdvancedStatistic(2, metrics);
+			Statistics.getAdvancedStatistic(3, metrics);
+			Statistics.getAdvancedStatistic(4, metrics);
+			Statistics.getAdvancedStatistic(5, metrics);
+			Assert.assertEquals(6, Statistics.getResults().size());
+		}  catch (ScriptException e) {
+			Assert.fail("ScriptException occurred");
+		}
 	}
 }
