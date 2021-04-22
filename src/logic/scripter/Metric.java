@@ -31,7 +31,7 @@ public class Metric {
 	}
 
 	public void addValue(String value) {
-		this.values.add(value);
+		this.values.add(value.replace(',', '.'));
 	}
 
 	public int getSize() {

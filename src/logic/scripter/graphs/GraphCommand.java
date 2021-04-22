@@ -70,7 +70,10 @@ public abstract class GraphCommand {
 	}
 
 	public void setParameters(List<Parameter> params) {
-		this.parameters = params;
+		if (params == null)
+			this.parameters = new ArrayList<Parameter>();
+		else
+			this.parameters = params;
 	}
 
 	protected String stringifyParameters() {

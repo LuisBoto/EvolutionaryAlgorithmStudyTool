@@ -9,8 +9,10 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import logic.fileManager.FileMerger;
@@ -18,6 +20,16 @@ import logic.fileManager.FileParser;
 import logic.scripter.Metric;
 
 public class FileManagerTest {
+	
+	@BeforeClass
+	public static void createTestDirectory() {
+		new File("./testFiles").mkdirs();
+	}
+	
+	@AfterClass
+	public static void deleteTestDirectory() {
+		new File("./testFiles").delete();
+	}
 	
 	@Before
 	@After

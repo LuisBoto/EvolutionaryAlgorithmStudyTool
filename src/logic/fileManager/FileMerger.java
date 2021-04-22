@@ -77,9 +77,9 @@ public class FileMerger {
 		String val = "";
 		DecimalFormat numberFormat = new DecimalFormat("#.############"); // 12 decimals as upper bound
 		
-		for (int i = 1; i < size; i++) { // Current row
-			for (int k = 0; k < columnNumber; k++) { // Current column
-				for (int j = 0; j < fileNames.size(); j++) { // Current file
+		for (int i = 1; i < size; i++) { // Current row i
+			for (int k = 0; k < columnNumber; k++) { // Current column k 
+				for (int j = 0; j < fileNames.size(); j++) { // Current file j
 					val = fileContents.get(j).split("\n")[i].split(";")[k].replace(',', '.'); // Replacing input commas
 					values[j] = Double.parseDouble(val);
 				}
