@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +20,7 @@ import logic.scripter.Metric;
 public class FileManagerTest {
 	
 	@Before
+	@After
 	public void cleanTestFiles() {
 		for (File data : new File("./testFiles/").listFiles()) {
 			data.delete();
@@ -72,9 +74,6 @@ public class FileManagerTest {
 			Assert.assertEquals(4, parsed.get(1).getSize());
 			Assert.assertEquals("iterations0 <- c(8,0.8,-0.8,8E-10)", parsed.get(0).toString());
 			Assert.assertEquals("time0 <- c(30,0.3,0.3,3.87E-4)", parsed.get(1).toString());
-
-			File f = new File("./testFiles/parseTest.csv");
-			f.delete();
 		} catch (IOException e) {
 			// e.printStackTrace();
 			Assert.fail("An exception occurred parsing the test files");
@@ -129,10 +128,6 @@ public class FileManagerTest {
 			Assert.assertEquals("./testFiles/mergeTest1.csv;1E-10;1E+3;1E-4;", lines[1]);
 			Assert.assertEquals("./testFiles/mergeTest2.csv;2E-10;2E+3;2E-4;", lines[2]);
 			Assert.assertEquals("./testFiles/mergeTest3.csv;3E-10;3E+3;3E-4;", lines[3]);
-			
-			for (File data : new File("./testFiles/").listFiles()) {
-				data.delete();
-			}
 		} catch (IllegalArgumentException | IOException e) {
 			// e.printStackTrace();
 			Assert.fail("An error occurred merging the test files");
@@ -186,10 +181,6 @@ public class FileManagerTest {
 			Assert.assertEquals("./testFiles/mergeTest1.csv;10;10;10;", lines[1]);
 			Assert.assertEquals("./testFiles/mergeTest2.csv;20;20;20;", lines[2]);
 			Assert.assertEquals("./testFiles/mergeTest3.csv;30;30;30;", lines[3]);
-			
-			for (File data : new File("./testFiles/").listFiles()) {
-				data.delete();
-			}
 		} catch (IllegalArgumentException | IOException e) {
 			Assert.fail("An error occurred merging the test files");
 		}
@@ -228,9 +219,6 @@ public class FileManagerTest {
 			FileMerger.mergeByLine("./testFiles/", "./testFiles/", 4);
 		} catch (IllegalArgumentException e) {
 			Assert.assertEquals("Out of bounds line parameter on file ./testFiles/mergeTest2.csv", e.getMessage());
-			for (File data : new File("./testFiles/").listFiles()) {
-				data.delete();
-			}
 		} catch (IOException e) {
 			Assert.fail("An error occurred merging the test files");
 		}
@@ -239,10 +227,94 @@ public class FileManagerTest {
 	@Test
 	public void averageMergeSameLengthTest() {
 		// Merge by average 3 valid files all the same in length
+		String fileContents = "iterations;fitness;time;\n10;10;10;\n0.1;0.1;0.1;\n0,1;0,1;0,1;\n1E-10;1E+3;1E-4;\n";
+		FileWriter fr;
+		try {
+			fr = new FileWriter("./testFiles/mergeAverageTest1.csv");
+			BufferedWriter br = new BufferedWriter(fr);
+			br.write(fileContents);
+			br.close();
+			fr.close();
+
+			fileContents = "iterations;fitness;time;\n20;20;20;\n0.2;0.2;0.2;\n0,2;0,2;0,2;\n2E-10;2E+3;2E-4;\n";
+			fr = new FileWriter("./testFiles/mergeAverageTest2.csv");
+			br = new BufferedWriter(fr);
+			br.write(fileContents);
+			br.close();
+			fr.close();
+
+			fileContents = "iterations;fitness;time;\n30;30;30;\n0.3;0.3;0.3;\n0,3;0,3;0,3;\n3E-10;3E+3;3E-4;\n";
+			fr = new FileWriter("./testFiles/mergeAverageTest3.csv");
+			br = new BufferedWriter(fr);
+			br.write(fileContents);
+			br.close();
+			fr.close();
+		} catch (IOException e) {
+			// e.printStackTrace();
+			Assert.fail("An exception occurred creating the test files");
+		}
+
+		try {
+			FileMerger.mergeByAverage("./testFiles/", "./testFiles/");
+			File mergedFile = new File("./testFiles/").listFiles()[3];
+			FileReader reader = new FileReader(mergedFile.getAbsolutePath());
+			BufferedReader bfr = new BufferedReader(reader);
+			String contents = "";
+			String aux;
+			while ((aux = bfr.readLine()) != null) {
+				contents += "\n" + aux;
+			}
+			bfr.close();
+			reader.close();
+			String[] lines = contents.trim().split("\n");
+			Assert.assertEquals(5, lines.length);
+			Assert.assertEquals("iterations;fitness;time;", lines[0]);
+			Assert.assertEquals("20;20;20;", lines[1]);
+			Assert.assertEquals("0.2;0.2;0.2;", lines[2]);
+			Assert.assertEquals("0.2;0.2;0.2;", lines[3]);
+			Assert.assertEquals("0.0000000002;2000;0.0002;", lines[4]);
+		} catch (IllegalArgumentException | IOException e) {
+			// e.printStackTrace();
+			Assert.fail("An error occurred merging the test files");
+		}
 	}
 
 	@Test
 	public void averageMergeDifferentLengthTest() {
 		// Merge by average 3 valid files all different in length
+		String fileContents = "iterations;fitness;time;\n10;10;10;\n0.1;0.1;0.1;\n0,1;0,1;0,1;\n1E-10;1E+3;1E-4;\n";
+		FileWriter fr;
+		try {
+			fr = new FileWriter("./testFiles/mergeAverageTest1.csv");
+			BufferedWriter br = new BufferedWriter(fr);
+			br.write(fileContents);
+			br.close();
+			fr.close();
+
+			fileContents = "iterations;fitness;time;\n20;20;20;\n0.2;0.2;0.2;\n0,2;0,2;0,2;\n";
+			fr = new FileWriter("./testFiles/mergeAverageTest2.csv");
+			br = new BufferedWriter(fr);
+			br.write(fileContents);
+			br.close();
+			fr.close();
+
+			fileContents = "iterations;fitness;time;\n30;30;30;\n0.3;0.3;0.3;\n";
+			fr = new FileWriter("./testFiles/mergeAverageTest3.csv");
+			br = new BufferedWriter(fr);
+			br.write(fileContents);
+			br.close();
+			fr.close();
+		} catch (IOException e) {
+			// e.printStackTrace();
+			Assert.fail("An exception occurred creating the test files");
+		}
+
+		try {
+			FileMerger.mergeByAverage("./testFiles/", "./testFiles/");
+		}  catch (IllegalArgumentException e) {
+			Assert.assertEquals("Files are not equal in row number", e.getMessage());
+		} catch (IOException e) {
+			Assert.fail("An error occurred merging the test files");
+		}
 	}
 }

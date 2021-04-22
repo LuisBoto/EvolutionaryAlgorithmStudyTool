@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,25 +58,32 @@ public class FileMerger {
 		cargarFicheros();
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "";
+		
 		// Adding column names
 		int columnNumber = lineasFichero[0].split(";").length;
 		for (int j = 0; j < columnNumber; j++)
 			fichero += lineasFichero[0].split(";")[j] + ";";
 		fichero += "\n";
+		
 		// Checking all files are equal in row number
 		int size = fileContents.get(0).split("\n").length;
 		for (int i = 1; i < fileNames.size(); i++) {
 			if (fileContents.get(i).split("\n").length != size)
 				throw new IllegalArgumentException("Files are not equal in row number");
 		}
+		
 		// Adding average of lines
 		double[] values = new double[fileNames.size()];
+		String val = "";
+		DecimalFormat numberFormat = new DecimalFormat("#.############"); // 12 decimals as upper bound
+		
 		for (int i = 1; i < size; i++) { // Current row
 			for (int k = 0; k < columnNumber; k++) { // Current column
 				for (int j = 0; j < fileNames.size(); j++) { // Current file
-					values[j] = Double.parseDouble(fileContents.get(j).split("\n")[i].split(";")[k]);
+					val = fileContents.get(j).split("\n")[i].split(";")[k].replace(',', '.'); // Replacing input commas
+					values[j] = Double.parseDouble(val);
 				}
-				fichero += average(values) + ";";
+				fichero += numberFormat.format(average(values)).replace(',', '.') + ";"; // Replacing output commas
 			}
 			fichero += "\n";
 		}

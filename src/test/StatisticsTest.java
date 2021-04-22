@@ -37,7 +37,7 @@ public class StatisticsTest {
 		String result = Statistics.getStatistic(0, metrics);
 		Assert.assertEquals("80000000000", result);
 		result = Statistics.getStatistic(1, metrics);
-		Assert.assertEquals("-9000,74", result);
+		Assert.assertEquals("-9000.74", result);
 	}
 	
 	@Test
@@ -60,7 +60,7 @@ public class StatisticsTest {
 		metrics.add(values1);
 		metrics.add(values2);
 		String result = Statistics.getStatistic(3, metrics);
-		Assert.assertEquals("22897719969,642918", result);
+		Assert.assertEquals("22897719969.642918", result);
 	}
 	
 	@Test
@@ -83,7 +83,7 @@ public class StatisticsTest {
 		metrics.add(values1);
 		metrics.add(values2);
 		String result = Statistics.getStatistic(2, metrics);
-		Assert.assertEquals("9166665343,796665", result);
+		Assert.assertEquals("9166665343.796665", result);
 	}
 	
 	@Test

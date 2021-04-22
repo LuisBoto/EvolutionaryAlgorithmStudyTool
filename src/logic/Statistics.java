@@ -37,7 +37,7 @@ public class Statistics {
 			break;
 		}
 		DecimalFormat numberFormat = new DecimalFormat("#.######");
-		return numberFormat.format(result);
+		return numberFormat.format(result).replace(',', '.');
 	}
 
 	public static String getAdvancedStatistic(int statisticCode, List<Metric> metrics) throws ScriptException {
