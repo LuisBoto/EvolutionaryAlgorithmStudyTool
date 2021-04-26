@@ -276,6 +276,9 @@ public class MainFrameController {
 
 	private void showLastPDFPreview() {
 		String pathPNG = "./" + this.plots.get(this.plots.size() - 1).getPdfName() + ".png";
+		File pngPlot = new File(pathPNG);
+		if (!pngPlot.exists())
+			return;
 		JLabel label = mf.getLblPlotImage();
 		ImageIcon imageIcon = new ImageIcon(pathPNG);
 		Image image = imageIcon.getImage(); // transform it
