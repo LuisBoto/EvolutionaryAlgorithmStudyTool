@@ -35,9 +35,13 @@ public class GraphScriptTest {
 		GraphCommand boxplot = GraphFactory.createGraphObject("BoxPlot", "graphCreationTest", metrics, null);
 		String code = boxplot.generateScriptCode();
 		Assert.assertEquals(
-				"pdf('graphCreationTest.pdf')\ngraphCreationTestDevice<-dev.cur()\npng('graphCreationTest.png')\ndev.control('enable')\n"
-						+ "boxplot(values1,values2, names = c('values1','values2'))\n"
-						+ "dev.copy(which=graphCreationTestDevice)\ndev.off()\ndev.off()",
+				"pdf('graphCreationTest.pdf')\n"
+				+ "graphCreationTestDevice<-dev.cur()\n"
+				+ "png('graphCreationTest.png')\n"
+				+ "dev.control('enable')\n"
+				+ "boxplot(values1,values2, names = c('values1','values2'))\n"
+				+ "dev.copy(which=graphCreationTestDevice)\n"
+				+ "dev.off()\ndev.off()",
 				code);
 		Parameter param1 = new Parameter("parameter1", "valueFirst");
 		Parameter param2 = new Parameter("parameter2", "'valueSecond'");
@@ -49,9 +53,15 @@ public class GraphScriptTest {
 		boxplot = GraphFactory.createGraphObject("BoxPlot", "graphCreationTest", metrics, params);
 		code = boxplot.generateScriptCode();
 		Assert.assertEquals(
-				"pdf('graphCreationTest.pdf')\ngraphCreationTestDevice<-dev.cur()\npng('graphCreationTest.png')\ndev.control('enable')\n"
-						+ "boxplot(values1,values2, names = c('values1','values2'), parameter1=valueFirst, parameter2='valueSecond', parameter3=333)\n"
-						+ "dev.copy(which=graphCreationTestDevice)\ndev.off()\ndev.off()",
+				"pdf('graphCreationTest.pdf')\n"
+				+ "graphCreationTestDevice<-dev.cur()\n"
+				+ "png('graphCreationTest.png')\n"
+				+ "dev.control('enable')\n"
+				+ "boxplot(values1,values2, names = c('values1','values2'), "
+				+ "parameter1=valueFirst, parameter2='valueSecond', parameter3=333)\n"
+				+ "dev.copy(which=graphCreationTestDevice)\n"
+				+ "dev.off()\n"
+				+ "dev.off()",
 				code);
 	}
 
@@ -100,25 +110,26 @@ public class GraphScriptTest {
 		
 		String script = Scripter.createScript(metrics, graphs);
 		String expectedScript = "values1 <- c(10.0,20.0,30.0,40.0,50.0)\n"
-				+ "values2 <- c(10.1,20.1,30.1,40.1,50.1)\n"
-				+ "values3 <- c(10.2,20.2,30.2,40.2,50.2)\n"
-				+ "pdf('graphBoxTest.pdf')\n"
-				+ "graphBoxTestDevice<-dev.cur()\n"
-				+ "png('graphBoxTest.png')\n"
-				+ "dev.control('enable')\n"
-				+ "boxplot(values1, names = c('values1'))\n"
-				+ "dev.copy(which=graphBoxTestDevice)\n"
-				+ "dev.off()\n"
-				+ "dev.off()\n"
-				+ "pdf('graphPlotTest.pdf')\n"
-				+ "graphPlotTestDevice<-dev.cur()\n"
-				+ "png('graphPlotTest.png')\n"
-				+ "dev.control('enable')\n"
-				+ "plot(values1,values2, parameter1=valueFirst, parameter2='valueSecond', parameter3=333, ylim=c(10.1,50.2))\n"
-				+ "lines(values1, values3)\n"
-				+ "dev.copy(which=graphPlotTestDevice)\n"
-				+ "dev.off()\n"
-				+ "dev.off()\n";
+								+ "values2 <- c(10.1,20.1,30.1,40.1,50.1)\n"
+								+ "values3 <- c(10.2,20.2,30.2,40.2,50.2)\n"
+								+ "pdf('graphBoxTest.pdf')\n"
+								+ "graphBoxTestDevice<-dev.cur()\n"
+								+ "png('graphBoxTest.png')\n"
+								+ "dev.control('enable')\n"
+								+ "boxplot(values1, names = c('values1'))\n"
+								+ "dev.copy(which=graphBoxTestDevice)\n"
+								+ "dev.off()\n"
+								+ "dev.off()\n"
+								+ "pdf('graphPlotTest.pdf')\n"
+								+ "graphPlotTestDevice<-dev.cur()\n"
+								+ "png('graphPlotTest.png')\n"
+								+ "dev.control('enable')\n"
+								+ "plot(values1,values2, parameter1=valueFirst, "
+								+ "parameter2='valueSecond', parameter3=333, ylim=c(10.1,50.2))\n"
+								+ "lines(values1, values3)\n"
+								+ "dev.copy(which=graphPlotTestDevice)\n"
+								+ "dev.off()\n"
+								+ "dev.off()\n";
 		Assert.assertEquals(expectedScript, script);
 	}
 }
