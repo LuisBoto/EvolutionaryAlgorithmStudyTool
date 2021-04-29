@@ -21,7 +21,7 @@ public class FileParser {
 		String line = bf.readLine();
 		// First line is composed of metric names
 		for (int i = 0; i < line.split(";").length; i++) {
-			parsedMetrics.add(new Metric(line.split(";")[i]+id));
+			parsedMetrics.add(new Metric(line.split(";")[i]+id+i));
 		}
 		// Now onto parsing values
 		while ((line = bf.readLine()) != null) {

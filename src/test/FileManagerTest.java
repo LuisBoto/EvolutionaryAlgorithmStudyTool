@@ -62,9 +62,9 @@ public class FileManagerTest {
 			Assert.assertEquals(4, parsed.get(0).getSize());
 			Assert.assertEquals(4, parsed.get(1).getSize());
 			Assert.assertEquals(4, parsed.get(2).getSize());
-			Assert.assertEquals("iterations0 <- c(8,0.8,0.8,8E-10)", parsed.get(0).toString());
-			Assert.assertEquals("fitness0 <- c(10,0.1,0.1,1E+3)", parsed.get(1).toString());
-			Assert.assertEquals("time0 <- c(30,0.3,0.3,3E-4)", parsed.get(2).toString());
+			Assert.assertEquals("iterations00 <- c(8,0.8,0.8,8E-10)", parsed.get(0).toString());
+			Assert.assertEquals("fitness01 <- c(10,0.1,0.1,1E+3)", parsed.get(1).toString());
+			Assert.assertEquals("time02 <- c(30,0.3,0.3,3E-4)", parsed.get(2).toString());
 
 			// Second file test includes non valid (text) metric, different combination of
 			// decimals/negatives/notations
@@ -84,8 +84,8 @@ public class FileManagerTest {
 			Assert.assertEquals(2, parsed.size());
 			Assert.assertEquals(4, parsed.get(0).getSize());
 			Assert.assertEquals(4, parsed.get(1).getSize());
-			Assert.assertEquals("iterations0 <- c(8,0.8,-0.8,8E-10)", parsed.get(0).toString());
-			Assert.assertEquals("time0 <- c(30,0.3,0.3,3.87E-4)", parsed.get(1).toString());
+			Assert.assertEquals("iterations00 <- c(8,0.8,-0.8,8E-10)", parsed.get(0).toString());
+			Assert.assertEquals("time02 <- c(30,0.3,0.3,3.87E-4)", parsed.get(1).toString());
 		} catch (IOException e) {
 			// e.printStackTrace();
 			Assert.fail("An exception occurred parsing the test files");
