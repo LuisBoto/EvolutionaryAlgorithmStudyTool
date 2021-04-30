@@ -419,8 +419,6 @@ public class MainFrameController {
 				if (input == null || input.equals(""))
 					return;
 				int selectedLine = Integer.parseInt(input);
-				if (selectedLine < 0 || selectedLine > topBound)
-					return;
 				FileMerger.mergeByLine(mergePath, pathSave, selectedLine);
 			}
 			JOptionPane.showMessageDialog(this.mf, Internationalization.get("MERGE_COMPLETED"),

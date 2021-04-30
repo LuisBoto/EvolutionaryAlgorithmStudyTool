@@ -19,14 +19,14 @@ public class FileMerger {
 	public static int getLineMergeUpperBound(String dir) throws IOException {
 		directory = dir;
 		cargarFicheros();
-		int min = fileContents.get(0).split("\n").length-1;
+		int min = fileContents.get(0).split("\n").length - 1;
 		for (String contents : fileContents) {
-			if (contents.split("\n").length-1 < min)
-				min = contents.split("\n").length-1;
+			if (contents.split("\n").length - 1 < min)
+				min = contents.split("\n").length - 1;
 		}
 		return min;
 	}
-	
+
 	public static void mergeByLine(String dir, String saveDir, int selectedLine)
 			throws IllegalArgumentException, IOException {
 		if (selectedLine < 0)
@@ -45,7 +45,7 @@ public class FileMerger {
 			fichero += fileNames.get(i) + ";"; // File name
 			String[] lines = fileContents.get(i).split("\n");
 			if (selectedLine >= lines.length)
-				throw new IllegalArgumentException("Out of bounds line parameter on file "+fileNames.get(i));
+				throw new IllegalArgumentException("Out of bounds line parameter on file " + fileNames.get(i));
 			fichero += lines[selectedLine]; // Line parameter
 			fichero += "\n";
 		}
@@ -58,27 +58,27 @@ public class FileMerger {
 		cargarFicheros();
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "";
-		
+
 		// Adding column names
 		int columnNumber = lineasFichero[0].split(";").length;
 		for (int j = 0; j < columnNumber; j++)
 			fichero += lineasFichero[0].split(";")[j] + ";";
 		fichero += "\n";
-		
+
 		// Checking all files are equal in row number
 		int size = fileContents.get(0).split("\n").length;
 		for (int i = 1; i < fileNames.size(); i++) {
 			if (fileContents.get(i).split("\n").length != size)
 				throw new IllegalArgumentException("Files are not equal in row number");
 		}
-		
+
 		// Adding average of lines
 		double[] values = new double[fileNames.size()];
 		String val = "";
 		DecimalFormat numberFormat = new DecimalFormat("#.############"); // 12 decimals as upper bound
-		
+
 		for (int i = 1; i < size; i++) { // Current row i
-			for (int k = 0; k < columnNumber; k++) { // Current column k 
+			for (int k = 0; k < columnNumber; k++) { // Current column k
 				for (int j = 0; j < fileNames.size(); j++) { // Current file j
 					val = fileContents.get(j).split("\n")[i].split(";")[k].replace(',', '.'); // Replacing input commas
 					values[j] = Double.parseDouble(val);
