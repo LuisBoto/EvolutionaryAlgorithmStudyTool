@@ -13,15 +13,15 @@ import org.renjin.sexp.LogicalArrayVector;
 
 public class RScriptRunner {
 	
-	private static ScriptEngine engine = new ScriptEngineManager().getEngineByName("Renjin");
+	//private static ScriptEngine engine = new ScriptEngineManager().getEngineByName("Renjin");
 
 	public static Object runRScript(String script, boolean loadLibraries) throws ScriptException, EvalException {
-		/*// System.out.println("Initializing R parsing engine...");
-		//ScriptEngineManager factory = new ScriptEngineManager();
+		// System.out.println("Initializing R parsing engine...");
+		ScriptEngineManager factory = new ScriptEngineManager();
 		// Create a Renjin engine
-		//ScriptEngine engine = factory.getEngineByName("Renjin");*/
+		ScriptEngine engine = factory.getEngineByName("Renjin");
 		
-		engine.eval("rm(list = ls())");
+		//engine.eval("rm(list = ls())");
 		if (loadLibraries) {
 			// System.out.println("Checking required R libraries...");
 			checkLibraries(engine);
