@@ -49,7 +49,7 @@ public class FileMerger {
 			fichero += lines[selectedLine]; // Line parameter
 			fichero += "\n";
 		}
-		guardarFichero(fichero, "resumenUltimaLinea", saveDir);
+		guardarFichero(fichero, "resumenLinea", saveDir);
 	}
 
 	public static void mergeByAverage(String dir, String saveDir) throws IllegalArgumentException, IOException {
@@ -77,10 +77,14 @@ public class FileMerger {
 		String val = "";
 		DecimalFormat numberFormat = new DecimalFormat("#.############"); // 12 decimals as upper bound
 
+		String[] columns;
 		for (int i = 1; i < size; i++) { // Current row i
 			for (int k = 0; k < columnNumber; k++) { // Current column k
 				for (int j = 0; j < fileNames.size(); j++) { // Current file j
-					val = fileContents.get(j).split("\n")[i].split(";")[k].replace(',', '.'); // Replacing input commas
+					columns = fileContents.get(j).split("\n")[i].split(";");
+					if (columns.length!=columnNumber)
+						throw new IllegalArgumentException("Files are not equal in column number");
+					val = columns[k].replace(',', '.'); // Replacing input commas
 					values[j] = Double.parseDouble(val);
 				}
 				fichero += numberFormat.format(average(values)).replace(',', '.') + ";"; // Replacing output commas
