@@ -138,7 +138,7 @@ public class MainFrameController {
 		mf.getLblFile().setText(Internationalization.get("LOADED_FILES"));
 		StringBuilder names = new StringBuilder("<html><b>" + Internationalization.get("LOADED_FILES") + ":</b><br>");
 		for (String name : this.loadedFileNames)
-			names.append("· " + name + "<br>");
+			names.append("-" + name + "<br>");
 		names.append("</html>");
 		mf.getLblFile().setToolTipText(names.toString());
 	}
