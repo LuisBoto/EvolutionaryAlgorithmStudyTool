@@ -339,7 +339,6 @@ public class MainFrame extends JFrame {
 	protected JPanel getPlotsPn() {
 		if (plotsPn == null) {
 			plotsPn = new JPanel();
-			plotsPn.setPreferredSize(new Dimension(300, 10));
 			plotsPn.setBorder(new LineBorder(new Color(0, 0, 0)));
 			plotsPn.setLayout(new BoxLayout(plotsPn, BoxLayout.Y_AXIS));
 			plotsPn.add(getLblFile());
@@ -398,7 +397,7 @@ public class MainFrame extends JFrame {
 	protected JPanel getMetricsPlotsPn() {
 		if (metricsPlotsPn == null) {
 			metricsPlotsPn = new JPanel();
-			metricsPlotsPn.setMaximumSize(new Dimension(32767, 350));
+			metricsPlotsPn.setPreferredSize(new Dimension(250, 300));
 			metricsPlotsPn.setVisible(false);
 			metricsPlotsPn.setAlignmentY(Component.TOP_ALIGNMENT);
 			metricsPlotsPn.setLayout(new BoxLayout(metricsPlotsPn, BoxLayout.X_AXIS));
@@ -482,6 +481,8 @@ public class MainFrame extends JFrame {
 	protected JPanel getPlotListPn() {
 		if (plotListPn == null) {
 			plotListPn = new JPanel();
+			plotListPn.setPreferredSize(new Dimension(10, 150));
+			plotListPn.setMinimumSize(new Dimension(23, 150));
 			plotListPn.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 			plotListPn.setLayout(new BoxLayout(plotListPn, BoxLayout.Y_AXIS));
 		}
@@ -587,7 +588,7 @@ public class MainFrame extends JFrame {
 	protected JScrollPane getMetricSelectScrollPane() {
 		if (metricSelectScrollPane == null) {
 			metricSelectScrollPane = new JScrollPane();
-			metricSelectScrollPane.setMaximumSize(new Dimension(32767, 350));
+			metricSelectScrollPane.setPreferredSize(new Dimension(125, 2));
 			metricSelectScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			metricSelectScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			metricSelectScrollPane.setViewportView(getMetricSelectPn());
@@ -598,6 +599,7 @@ public class MainFrame extends JFrame {
 	protected JScrollPane getPlotSelectScrollPane() {
 		if (plotSelectScrollPane == null) {
 			plotSelectScrollPane = new JScrollPane();
+			plotSelectScrollPane.setPreferredSize(new Dimension(100, 2));
 			plotSelectScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			plotSelectScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			plotSelectScrollPane.setViewportView(getPlotsSelectPn());
@@ -608,7 +610,6 @@ public class MainFrame extends JFrame {
 	protected JScrollPane getPlotListScrollPane() {
 		if (plotListScrollPane == null) {
 			plotListScrollPane = new JScrollPane();
-			plotListScrollPane.setMinimumSize(new Dimension(23, 75));
 			plotListScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			plotListScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			plotListScrollPane.setViewportView(getPlotListPn());
