@@ -118,7 +118,7 @@ public class MainFrame extends JFrame {
 
 					try {
 						UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
-						//UIManager.setLookAndFeel ( "com.alee.laf.WebLookAndFeel" );
+						// UIManager.setLookAndFeel ( "com.alee.laf.WebLookAndFeel" );
 					} catch (Exception e) {
 						System.out.println(Internationalization.get("SUBSTANCE_FAIL"));
 					}
@@ -481,8 +481,6 @@ public class MainFrame extends JFrame {
 	protected JPanel getPlotListPn() {
 		if (plotListPn == null) {
 			plotListPn = new JPanel();
-			plotListPn.setPreferredSize(new Dimension(10, 150));
-			plotListPn.setMinimumSize(new Dimension(23, 150));
 			plotListPn.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 			plotListPn.setLayout(new BoxLayout(plotListPn, BoxLayout.Y_AXIS));
 		}
@@ -610,6 +608,7 @@ public class MainFrame extends JFrame {
 	protected JScrollPane getPlotListScrollPane() {
 		if (plotListScrollPane == null) {
 			plotListScrollPane = new JScrollPane();
+			plotListScrollPane.setPreferredSize(new Dimension(10, 150));
 			plotListScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 			plotListScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			plotListScrollPane.setViewportView(getPlotListPn());
@@ -785,6 +784,7 @@ public class MainFrame extends JFrame {
 		}
 		return txtAreaAdvancedStats;
 	}
+
 	protected JLabel getLblStatCalcStatus() {
 		if (lblStatCalcStatus == null) {
 			lblStatCalcStatus = new JLabel("");
@@ -795,6 +795,7 @@ public class MainFrame extends JFrame {
 		}
 		return lblStatCalcStatus;
 	}
+
 	protected JButton getBtnExportStatistics() {
 		if (btnExportStatistics == null) {
 			btnExportStatistics = new JButton(Internationalization.get("EXPORT_STATISTICS"));
