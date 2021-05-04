@@ -275,9 +275,11 @@ public class MainFrameController {
 	}
 
 	private void showLastPDFPreview() {
+		if (this.plots.size() <= 0) // No plots on script
+			return;
 		String pathPNG = "./" + this.plots.get(this.plots.size() - 1).getPdfName() + ".png";
 		File pngPlot = new File(pathPNG);
-		if (!pngPlot.exists())
+		if (!pngPlot.exists()) // No plot file or png generated
 			return;
 		JLabel label = mf.getLblPlotImage();
 		ImageIcon imageIcon = new ImageIcon(pathPNG);
