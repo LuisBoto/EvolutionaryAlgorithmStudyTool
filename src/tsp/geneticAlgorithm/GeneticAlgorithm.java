@@ -14,19 +14,27 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	protected double mutationProbability;
 	protected int maxTime;
 	protected Random random;
+	protected int reproduceOperator;
+	protected int mutateOperator;
 
-	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxTime) {
-		this(individualLength, mutationProbability, maxTime, new Random());
+	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxTime, int reproduceOperator,
+			int mutateOperator) {
+		this(individualLength, mutationProbability, maxTime, reproduceOperator, mutateOperator, new Random());
 	}
 
-	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxTime, Random random) {
+	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxTime, int reproduceOperator,
+			int mutateOperator, Random random) {
 		super(); // Calls createTrackers
 		this.individualLength = individualLength;
 		this.mutationProbability = mutationProbability;
 		this.maxTime = maxTime;
 		this.random = random;
+		this.mutateOperator = mutateOperator;
+		this.reproduceOperator = reproduceOperator;
 
 		assert (this.mutationProbability >= 0.0 && this.mutationProbability <= 1.0);
+		assert (this.mutateOperator == 0 || this.mutateOperator == 1);
+		assert (this.reproduceOperator == 0 || this.reproduceOperator == 1);
 	}
 
 	@Override
@@ -117,10 +125,11 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		for (int i = 0; i < population.size() - 1; i++) { // -1 for elitism
 			Individual<A> x = randomSelection(population);
 			Individual<A> y = randomSelection(population);
-			Individual<A> child = reproduce2(x, y);
+
+			Individual<A> child = this.reproduceOperator == 0 ? this.reproduce(x, y) : this.reproduce2(x, y);
 
 			if (random.nextDouble() <= mutationProbability) {
-				child = mutate2(child);
+				child = this.mutateOperator == 0 ? this.mutate(child) : this.mutate2(child);
 			}
 			newPopulation.add(child);
 		}
@@ -202,7 +211,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		List<A> childRepresentation = new ArrayList<A>(x.getRepresentation().size());
 		int counter = 0;
 		int randSize = this.random.nextInt(workingIndividualLength);
-		
+
 		// Adding random amount of cities from first parent, on same order
 		for (int i = 0; i < randSize; i++) {
 			childRepresentation.add(counter, x.getRepresentation().get(i));
