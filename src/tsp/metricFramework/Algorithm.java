@@ -49,7 +49,7 @@ public abstract class Algorithm<A> {
 	@SuppressWarnings("deprecation")
 	private void flushToFile() {
 		if (this.fileUrl == null)
-			this.fileUrl = "./executionResults/" + new Date().toGMTString().replace(':', '-') + ".csv";
+			this.fileUrl = "./execution " + new Date().toGMTString().replace(':', '-') + ".csv";
 		try {
 			FileWriter fw = new FileWriter(this.fileUrl);
 			BufferedWriter bf = new BufferedWriter(fw);

@@ -12,18 +12,18 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	protected int individualLength;
 	protected double mutationProbability;
-	protected int maxIterations;
+	protected int maxTime;
 	protected Random random;
 
-	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxIterations) {
-		this(individualLength, mutationProbability, maxIterations, new Random());
+	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxTime) {
+		this(individualLength, mutationProbability, maxTime, new Random());
 	}
 
-	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxIterations, Random random) {
+	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxTime, Random random) {
 		super(); // Calls createTrackers
 		this.individualLength = individualLength;
 		this.mutationProbability = mutationProbability;
-		this.maxIterations = maxIterations;
+		this.maxTime = maxTime;
 		this.random = random;
 
 		assert (this.mutationProbability >= 0.0 && this.mutationProbability <= 1.0);
@@ -41,7 +41,14 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	@Override
 	protected boolean stopCondition() {
-		return getIterations() > this.maxIterations;
+		return getTimeInMilliseconds() > this.maxTime;
+	}
+
+	@Override
+	protected boolean saveCondition() {
+		if (getIterations() % 1 == 0) // Every 5 iterations, save metrics
+			return true;
+		return false;
 	}
 
 	public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn) {
@@ -107,17 +114,17 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	protected List<Individual<A>> nextGeneration(List<Individual<A>> population, Individual<A> bestBefore) {
 		List<Individual<A>> newPopulation = new ArrayList<>(population.size());
-		for (int i = 0; i < population.size() - 1; i++) { // -1 para elitismo
+		for (int i = 0; i < population.size() - 1; i++) { // -1 for elitism
 			Individual<A> x = randomSelection(population);
 			Individual<A> y = randomSelection(population);
-			Individual<A> child = reproduce(x, y);
+			Individual<A> child = reproduce2(x, y);
 
 			if (random.nextDouble() <= mutationProbability) {
-				child = mutate(child);
+				child = mutate2(child);
 			}
 			newPopulation.add(child);
 		}
-		newPopulation.add(bestBefore);
+		newPopulation.add(bestBefore); // Adding elite individual not iterated on loop
 		return newPopulation;
 	}
 
@@ -155,7 +162,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	}
 
 	protected Individual<A> reproduce(Individual<A> x, Individual<A> y) {
-
+		// OX type cross operator
 		int workingIndividualLength = individualLength - 1;
 
 		List<A> childRepresentation = new ArrayList<A>(x.getRepresentation());
@@ -189,6 +196,33 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		return new Individual<A>(childRepresentation);
 	}
 
+	protected Individual<A> reproduce2(Individual<A> x, Individual<A> y) {
+		// Uniform, coin toss crossover operator
+		int workingIndividualLength = individualLength - 1;
+		List<A> childRepresentation = new ArrayList<A>(x.getRepresentation().size());
+		int counter = 0;
+		// Adding a random set of half the cities from first parent, on relative order
+		for (int i = 0; i < workingIndividualLength; i++) {
+			if (this.random.nextInt(100) < 50) {
+				childRepresentation.add(counter, x.getRepresentation().get(i));
+				counter++;
+			}
+		}
+
+		// Inheriting the rest from second parent, on relative order
+		for (int i = 0; i < workingIndividualLength; i++) {
+			if (!childRepresentation.contains(y.getRepresentation().get(i))) {
+				childRepresentation.add(counter, y.getRepresentation().get(i));
+				counter++;
+			}
+		}
+
+		// Last city must be initial one
+		childRepresentation.add(individualLength - 1, childRepresentation.get(0));
+		this.metrics.incrementIntValue("cruces");
+		return new Individual<A>(childRepresentation);
+	}
+
 	protected double averageFitness(List<Individual<A>> population) {
 		double totalFitness = 0.0;
 		for (int i = 0; i < population.size(); i++) {
@@ -207,6 +241,26 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 		mutatedRepresentation.set(mutateOffsetPos1, mutateOffsetValue2);
 		mutatedRepresentation.set(mutateOffsetPos2, mutateOffsetValue1);
+
+		// Last city must be initial one
+		mutatedRepresentation.set(individualLength - 1, mutatedRepresentation.get(0));
+		this.metrics.incrementIntValue("mutations");
+		return new Individual<A>(mutatedRepresentation);
+	}
+
+	protected Individual<A> mutate2(Individual<A> child) {
+		// Shuffle the cities by halfs
+		int workingIndividualLength = individualLength - 1;
+		List<A> mutatedRepresentation = new ArrayList<A>(child.getRepresentation());
+
+		for (int i = 0; i < workingIndividualLength; i += 2) {
+			mutatedRepresentation.add(child.getRepresentation().get(i));
+		}
+
+		for (int i = 0; i < workingIndividualLength; i++) {
+			if (!mutatedRepresentation.contains(child.getRepresentation().get(i)))
+				mutatedRepresentation.add(child.getRepresentation().get(i));
+		}
 
 		// Last city must be initial one
 		mutatedRepresentation.set(individualLength - 1, mutatedRepresentation.get(0));

@@ -18,13 +18,14 @@ public class TSPLauncher {
 
 	public static void main(String[] args) throws ScriptException {
 		// City graph construction
-		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/burma14.tsp");
+		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/a280.tsp");
 
 		// Parameters
 		int popSize = 100;
-		double mutationProbability = 0.20;
-		int maxIterations = 60;
-		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability, maxIterations);
+		double mutationProbability = 0.2;
+		//int maxIterations = 60;
+		int maxTime = 1000*30;
+		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability, maxTime);
 	}
 
 	private static void tspAIModernGeneticAlgorithm(Graph<String> cities, int populationSize,
