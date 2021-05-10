@@ -117,7 +117,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		for (int i = 0; i < population.size() - 1; i++) { // -1 for elitism
 			Individual<A> x = randomSelection(population);
 			Individual<A> y = randomSelection(population);
-			Individual<A> child = reproduce(x, y);
+			Individual<A> child = reproduce2(x, y);
 
 			if (random.nextDouble() <= mutationProbability) {
 				child = mutate2(child);
@@ -201,18 +201,12 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		int workingIndividualLength = individualLength - 1;
 		List<A> childRepresentation = new ArrayList<A>(x.getRepresentation().size());
 		int counter = 0;
-		int rand = this.random.nextInt(100);
-		// Adding half the cities from first parent, on same order
-		if (rand < 50) { // Keeping first half
-			for (int i = 0; i < workingIndividualLength / 2; i++) {
-				childRepresentation.add(counter, x.getRepresentation().get(i));
-				counter++;
-			}
-		} else { // Keeping second half
-			for (int i = workingIndividualLength / 2; i >= 0; i--) {
-				childRepresentation.add(counter, x.getRepresentation().get(i));
-				counter++;
-			}
+		int randSize = this.random.nextInt(workingIndividualLength);
+		
+		// Adding random amount of cities from first parent, on same order
+		for (int i = 0; i < randSize; i++) {
+			childRepresentation.add(counter, x.getRepresentation().get(i));
+			counter++;
 		}
 
 		// Inheriting the rest from second parent, on inverse relative order
@@ -259,7 +253,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		int workingIndividualLength = individualLength - 1;
 		List<A> mutatedRepresentation = new ArrayList<A>();
 
-		for (int i = workingIndividualLength-1; i >= 0; i--) {
+		for (int i = workingIndividualLength - 1; i >= 0; i--) {
 			mutatedRepresentation.add(child.getRepresentation().get(i));
 		}
 
