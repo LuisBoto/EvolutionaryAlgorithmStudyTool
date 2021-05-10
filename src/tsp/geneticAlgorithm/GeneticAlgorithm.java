@@ -117,7 +117,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		for (int i = 0; i < population.size() - 1; i++) { // -1 for elitism
 			Individual<A> x = randomSelection(population);
 			Individual<A> y = randomSelection(population);
-			Individual<A> child = reproduce2(x, y);
+			Individual<A> child = reproduce(x, y);
 
 			if (random.nextDouble() <= mutationProbability) {
 				child = mutate2(child);
@@ -197,20 +197,26 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	}
 
 	protected Individual<A> reproduce2(Individual<A> x, Individual<A> y) {
-		// Uniform, coin toss crossover operator
+		// Halfs cross operator
 		int workingIndividualLength = individualLength - 1;
 		List<A> childRepresentation = new ArrayList<A>(x.getRepresentation().size());
 		int counter = 0;
-		// Adding a random set of half the cities from first parent, on relative order
-		for (int i = 0; i < workingIndividualLength; i++) {
-			if (this.random.nextInt(100) < 50) {
+		int rand = this.random.nextInt(100);
+		// Adding half the cities from first parent, on same order
+		if (rand < 50) { // Keeping first half
+			for (int i = 0; i < workingIndividualLength / 2; i++) {
+				childRepresentation.add(counter, x.getRepresentation().get(i));
+				counter++;
+			}
+		} else { // Keeping second half
+			for (int i = workingIndividualLength / 2; i >= 0; i--) {
 				childRepresentation.add(counter, x.getRepresentation().get(i));
 				counter++;
 			}
 		}
 
-		// Inheriting the rest from second parent, on relative order
-		for (int i = 0; i < workingIndividualLength; i++) {
+		// Inheriting the rest from second parent, on inverse relative order
+		for (int i = workingIndividualLength - 1; i >= 0; i--) {
 			if (!childRepresentation.contains(y.getRepresentation().get(i))) {
 				childRepresentation.add(counter, y.getRepresentation().get(i));
 				counter++;
@@ -249,21 +255,16 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	}
 
 	protected Individual<A> mutate2(Individual<A> child) {
-		// Shuffle the cities by halfs
+		// Reverse individual
 		int workingIndividualLength = individualLength - 1;
-		List<A> mutatedRepresentation = new ArrayList<A>(child.getRepresentation());
+		List<A> mutatedRepresentation = new ArrayList<A>();
 
-		for (int i = 0; i < workingIndividualLength; i += 2) {
+		for (int i = workingIndividualLength-1; i >= 0; i--) {
 			mutatedRepresentation.add(child.getRepresentation().get(i));
 		}
 
-		for (int i = 0; i < workingIndividualLength; i++) {
-			if (!mutatedRepresentation.contains(child.getRepresentation().get(i)))
-				mutatedRepresentation.add(child.getRepresentation().get(i));
-		}
-
 		// Last city must be initial one
-		mutatedRepresentation.set(individualLength - 1, mutatedRepresentation.get(0));
+		mutatedRepresentation.add(individualLength - 1, mutatedRepresentation.get(0));
 		this.metrics.incrementIntValue("mutations");
 		return new Individual<A>(mutatedRepresentation);
 	}
