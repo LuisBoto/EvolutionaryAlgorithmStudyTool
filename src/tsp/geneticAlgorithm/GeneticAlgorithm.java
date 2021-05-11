@@ -51,7 +51,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		this.addProgressTracker(new ProgressTracker("bestFitness"));
 		this.addProgressTracker(new ProgressTracker("averageFitness"));
 		this.addProgressTracker(new ProgressTracker("mutations"));
-		this.addProgressTracker(new ProgressTracker("cruces"));
+		this.addProgressTracker(new ProgressTracker("crossovers"));
 	}
 
 	@Override
@@ -76,9 +76,9 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		validatePopulation(population);
 
 		updateMetrics(population, 0);
-		this.startTime = System.currentTimeMillis();
 		this.calculateFitness(initPopulation, fitnessFn); // Must be called so fitness values are available
 		bestIndividual = retrieveBestIndividual(initPopulation);
+		this.startTime = System.currentTimeMillis();
 		int itCount = 0;
 
 		do {
@@ -209,7 +209,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 		// Last city must be initial one
 		childRepresentation.set(individualLength - 1, childRepresentation.get(0));
-		metrics.incrementIntValue("cruces");
+		metrics.incrementIntValue("crossovers");
 		return new Individual<A>(childRepresentation);
 	}
 
@@ -236,7 +236,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 		// Last city must be initial one
 		childRepresentation.add(individualLength - 1, childRepresentation.get(0));
-		metrics.incrementIntValue("cruces");
+		metrics.incrementIntValue("crossovers");
 		return new Individual<A>(childRepresentation);
 	}
 

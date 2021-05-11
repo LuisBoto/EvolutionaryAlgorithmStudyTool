@@ -25,17 +25,25 @@ public class TSPLauncher {
 		double mutationRatio = Double.parseDouble(args[5]);
 
 		// City graph construction
-		//Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/d1655.tsp");
+		// Graph<String> cities =
+		// TSPParser.parseInstance("./resources/tspInstances/d1655.tsp");
 		Graph<String> cities = TSPParser.parseInstance(instanceURL);
 
 		// Parameters
 		// int maxIterations = 60;
-		int popSize = populationSize;// 100;
-		double crossoverProbability = crossoverRatio;// 0.8;
-		double mutationProbability = mutationRatio;// 0.2;
-		int maxTime = 1000 * 60 * 10;
-		int reproduce = crossoverOperator;// 1;
-		int mutate = mutationOperator;// 1;
+
+		int popSize = populationSize;
+		double crossoverProbability = crossoverRatio;
+		double mutationProbability = mutationRatio;
+		int maxTime = 1000 * 60 * 1;
+		int reproduce = crossoverOperator;
+		int mutate = mutationOperator;
+
+		/*
+		 * int popSize = 100; double crossoverProbability = 0.8; double
+		 * mutationProbability = 0.2; int maxTime = 1000 * 60 * 1; int reproduce = 1;
+		 * int mutate = 1;
+		 */
 		tspAIModernGeneticAlgorithm(cities, popSize, crossoverProbability, mutationProbability, maxTime, reproduce,
 				mutate);
 	}
