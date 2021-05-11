@@ -23,6 +23,7 @@ public class TSPLauncher {
 		int populationSize = Integer.parseInt(args[3]);
 		double crossoverRatio = Double.parseDouble(args[4]);
 		double mutationRatio = Double.parseDouble(args[5]);
+		int maxtimeSeconds = Integer.parseInt(args[6]);
 
 		// City graph construction
 		// Graph<String> cities =
@@ -35,7 +36,7 @@ public class TSPLauncher {
 		int popSize = populationSize;
 		double crossoverProbability = crossoverRatio;
 		double mutationProbability = mutationRatio;
-		int maxTime = 1000 * 60 * 1;
+		int maxTime = maxtimeSeconds*1000;
 		int reproduce = crossoverOperator;
 		int mutate = mutationOperator;
 
