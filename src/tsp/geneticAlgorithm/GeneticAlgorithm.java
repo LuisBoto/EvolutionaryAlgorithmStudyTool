@@ -2,6 +2,7 @@ package tsp.geneticAlgorithm;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -10,6 +11,7 @@ import tsp.metricFramework.Algorithm;
 
 public class GeneticAlgorithm<A> extends Algorithm<A> {
 
+	protected String instanceName;
 	protected int individualLength;
 	protected double crossoverProbability;
 	protected double mutationProbability;
@@ -18,10 +20,11 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	protected int reproduceOperator;
 	protected int mutateOperator;
 
-	public GeneticAlgorithm(int individualLength, double crossoverProbability, double mutationProbability, int maxTime,
-			int reproduceOperator, int mutateOperator) {
+	public GeneticAlgorithm(String instanceName, int individualLength, double crossoverProbability,
+			double mutationProbability, int maxTime, int reproduceOperator, int mutateOperator) {
 		this(individualLength, crossoverProbability, mutationProbability, maxTime, reproduceOperator, mutateOperator,
 				new Random());
+		this.instanceName = instanceName;
 	}
 
 	public GeneticAlgorithm(int individualLength, double crossoverProbability, double mutationProbability, int maxTime,
@@ -114,13 +117,6 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 		return bestIndividual;
 	}
-
-	//
-	// PROTECTED METHODS
-	//
-	// Note: Override these protected methods to create your own desired
-	// behavior.
-	//
 
 	protected void calculateFitness(Collection<Individual<A>> population, FitnessFunction<A> fitnessFn) {
 		for (Individual<A> individual : population)
@@ -296,6 +292,14 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 						+ "] in population is not the required length of " + this.individualLength);
 			}
 		}
+	}
+
+	@SuppressWarnings("deprecation")
+	@Override
+	protected String getExecutionFilename() {
+		return "GATSP_" + this.instanceName + "_" + reproduceOperator + "_" + mutateOperator + "_" + POPULATION_SIZE
+				+ "_" + crossoverProbability + "_" + mutationProbability + "_" + maxTime + "_execution_"
+				+ new Date().toGMTString().replace(':', '_').replace(" ", "_") + ".csv";
 	}
 
 }

@@ -39,11 +39,12 @@ public class TSPParser {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return createGraph();
+		String name = fileURL.split("/")[fileURL.split("/").length-1].replace(".", "");
+		return createGraph(name);
 	}
 
-	private static Graph<String> createGraph() {
-		Graph<String> instance = new Graph<String>(points.size());
+	private static Graph<String> createGraph(String name) {
+		Graph<String> instance = new Graph<String>(name, points.size());
 		for (Point point : points)
 			instance.addNode(point.getName());
 		for (Point point : points) {

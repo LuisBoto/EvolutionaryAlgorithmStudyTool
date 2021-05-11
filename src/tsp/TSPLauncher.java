@@ -18,7 +18,7 @@ public class TSPLauncher {
 
 	public static void main(String[] args) throws ScriptException {
 		// City graph construction
-		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/a280.tsp");
+		Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/ch130.tsp");
 
 		// Parameters
 		// int maxIterations = 60;
@@ -45,13 +45,13 @@ public class TSPLauncher {
 		for (int i = 0; i < populationSize; i++)
 			population.add(TSPFunctions.generateRandomIndividual(cityList));
 
-		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cityList.size() + 1, crossoverProbability,
+		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cities.getName(), cityList.size() + 1, crossoverProbability,
 				mutationProbability, maxIterations, reproduceOperator, mutationOperator);
 		System.out.println("Starting evolution");
 		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction);
 
-		System.out.println("\nMax time unlimited, Best Individual:\n" + bestIndividual.getRepresentation());
-		System.out.println("City number = " + cities.getNodes().size());
+		System.out.println("\nBest Individual:\n" + bestIndividual.getRepresentation());
+		System.out.println("Node number = " + cities.getNodes().size());
 		System.out.println("Fitness = " + fitnessFunction.apply(bestIndividual));
 		System.out.println("Population Size = " + ga.getPopulationSize());
 		System.out.println("Iterations = " + ga.getIterations());

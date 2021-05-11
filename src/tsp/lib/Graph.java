@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Graph<T> {
 
+	private String name;
 	private double[][] weights;
 	private boolean[][] edges;
 	private T[] nodes;
@@ -18,6 +19,11 @@ public class Graph<T> {
 	private String caminoMinimo;
 	private String recorridoProfundidad;
 
+	public Graph(String name, int dimension) {
+		this(dimension);
+		this.name = name;
+	}
+
 	@SuppressWarnings("unchecked")
 	public Graph(int dimension) {
 		this.weights = new double[dimension][dimension];
@@ -29,13 +35,17 @@ public class Graph<T> {
 		this.ejecutadoFloyd = false;
 	}
 
+	public String getName() {
+		return this.name;
+	}
+
 	public List<T> getNodes() {
 		List<T> nodes = new ArrayList<T>();
-		for (int i=0; i<this.size; i++)
+		for (int i = 0; i < this.size; i++)
 			nodes.add(this.nodes[i]);
 		return nodes;
 	}
-	
+
 	public int addNode(T node) {
 		/**
 		 * M�todo que a�ade un nuevo nodo al grafo. Falla si el nodo ya existe en el
@@ -124,9 +134,9 @@ public class Graph<T> {
 
 	public double getEdge(T source, T target) {
 		/**
-		 * /** M�todo que devuelve el peso de la arista entre dos nodos. @ return -1 no
-		 * existe nodo origen, -2 no existe nodo destino, -3 no existen ninguno, -4 no
-		 * existe la arista.
+		 * /** M�todo que devuelve el peso de la arista entre dos nodos. @ return -1
+		 * no existe nodo origen, -2 no existe nodo destino, -3 no existen ninguno, -4
+		 * no existe la arista.
 		 *
 		 * @param source el nodo fuente
 		 * @param target el nodo destino
@@ -168,9 +178,9 @@ public class Graph<T> {
 		 * @param source el nodo origen
 		 * @param target el nodo destino
 		 * @param weight el peso de la arista que une al nodo origen y al nodo destino
-		 * @return int 0 si se ha a�adido la arista; @ return -1 no existe nodo origen,
-		 *         -2 no existe nodo destino, @ -3 no existen ninguno, -4 ya existe la
-		 *         arista, -5 peso negativo
+		 * @return int 0 si se ha a�adido la arista; @ return -1 no existe nodo
+		 *         origen, -2 no existe nodo destino, @ -3 no existen ninguno, -4 ya
+		 *         existe la arista, -5 peso negativo
 		 */
 		if (weight < 0)
 			return -5;
@@ -223,8 +233,8 @@ public class Graph<T> {
 		 * M�todo que implementa Dijkstra Iterativo
 		 * 
 		 * @param boolean[] el vector S de aristas
-		 * @param double[] el vector D de pesos
-		 * @param T[] el vector P de nodos
+		 * @param double[]  el vector D de pesos
+		 * @param T[]       el vector P de nodos
 		 * @return Vector D de pesos
 		 */
 
@@ -414,7 +424,8 @@ public class Graph<T> {
 		 *
 		 * Origen<tab>(coste0)<tab>Intermedio1<tab>(coste1)...IntermedioN<tab>(costeN)
 		 * Destino Si no hay camino: Origen<tab>(Infinity)<tab>Destino Si Origen y
-		 * Destino coinciden: Origen Si no existen los 2 nodos devuelve una cadena vac�a
+		 * Destino coinciden: Origen Si no existen los 2 nodos devuelve una cadena
+		 * vac�a
 		 *
 		 * @param origen
 		 * @param destino
@@ -465,8 +476,8 @@ public class Graph<T> {
 		/**
 		 * Lanza el recorrido en profundidad de un grafo desde un nodo determinado, No
 		 * necesariamente recorre todos los nodos. Al recorrer cada nodo a�ade el
-		 * toString del nodo y un tabulador Se puede usar un m�todo privado recursivo...
-		 * Si no existe el nodo devuelve una cadena vacia
+		 * toString del nodo y un tabulador Se puede usar un m�todo privado
+		 * recursivo... Si no existe el nodo devuelve una cadena vacia
 		 */
 		if (getNode(nodo) == -1)
 			return "";
@@ -479,8 +490,8 @@ public class Graph<T> {
 	private void recursivoProfundidad(T source, boolean[] visited) {
 		/**
 		 * M�todo auxiliar que implementa el Recorrido en Profundidad: Desde un nodo
-		 * pasado como par�metro, actualiza el vector de nodos visitados con dicho nodo
-		 * y comprueba si existe camino para el resto de nodos que no se encuentren
+		 * pasado como par�metro, actualiza el vector de nodos visitados con dicho
+		 * nodo y comprueba si existe camino para el resto de nodos que no se encuentren
 		 * visitados. En caso de que exista camino, repite el mismo proceso para el
 		 * nuevo nodo.
 		 *

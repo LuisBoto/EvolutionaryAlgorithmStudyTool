@@ -5,7 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import java.util.Timer;
@@ -36,7 +35,7 @@ public abstract class Algorithm<A> {
 		// Method to be called from Impl that manages:
 		// Timer that checks saving condition
 		// File dump on execution finish
-		if (!timerRunning) 
+		if (!timerRunning)
 			startTimer();
 		if (stopCondition()) {
 			dumpTimer.cancel();
@@ -79,10 +78,9 @@ public abstract class Algorithm<A> {
 	}
 
 	// Write metrics to csv file
-	@SuppressWarnings("deprecation")
 	private void flushToFile() {
 		if (this.fileUrl == null)
-			this.fileUrl = "./execution " + new Date().toGMTString().replace(':', '-') + ".csv";
+			this.fileUrl = "./" + getExecutionFilename();
 		try {
 			FileWriter fw = new FileWriter(this.fileUrl);
 			BufferedWriter bf = new BufferedWriter(fw);
@@ -134,7 +132,10 @@ public abstract class Algorithm<A> {
 		metrics.setValue(TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
 	}
 
-	// Method where metric trackers should be created, called from Algorithm() constructor by default
+	protected abstract String getExecutionFilename();
+
+	// Method where metric trackers should be created,
+	// called from Algorithm() constructor by default
 	protected abstract void createTrackers();
 
 	/** Progress trackers can be used to display progress information. */
