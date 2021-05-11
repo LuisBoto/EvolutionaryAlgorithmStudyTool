@@ -18,8 +18,8 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	protected int reproduceOperator;
 	protected int mutateOperator;
 
-	public GeneticAlgorithm(int individualLength, double crossoverProbability, double mutationProbability, 
-			int maxTime, int reproduceOperator, int mutateOperator) {
+	public GeneticAlgorithm(int individualLength, double crossoverProbability, double mutationProbability, int maxTime,
+			int reproduceOperator, int mutateOperator) {
 		this(individualLength, crossoverProbability, mutationProbability, maxTime, reproduceOperator, mutateOperator,
 				new Random());
 	}

@@ -22,9 +22,10 @@ public abstract class Algorithm<A> {
 	protected static MetricStorage metrics = new MetricStorage(); // Must be static so multiple threads can use it
 	private static List<ProgressTracker> progressTrackers = new ArrayList<>();
 	protected String fileUrl;
+	protected long startTime; // Must be initialized on impl when execution starts
 	protected static Timer dumpTimer;
 	private boolean timerRunning = false;
-	protected long startTime; // Must be initialized on impl
+	private static boolean alreadySaved = false; // To avoid Timer firing multiple times on same Save Trigger
 
 	public Algorithm() {
 		this.createTrackers();
@@ -32,7 +33,10 @@ public abstract class Algorithm<A> {
 	}
 
 	public void metricsDumpCheck() {
-		if (!timerRunning)
+		// Method to be called from Impl that manages:
+		// Timer that checks saving condition
+		// File dump on execution finish
+		if (!timerRunning) 
 			startTimer();
 		if (stopCondition()) {
 			dumpTimer.cancel();
@@ -41,25 +45,29 @@ public abstract class Algorithm<A> {
 	}
 
 	private void timerCheck() {
-		if (saveCondition())
-			this.notifyProgressTrackers();
+		if (saveCondition()) {
+			if (!alreadySaved) {
+				alreadySaved = true;
+				this.notifyProgressTrackers();
+			}
+		} else {
+			alreadySaved = false;
+		}
 	}
-	
+
 	private void startTimer() {
 		dumpTimer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
 				timerCheck();
 			}
-		}, 0L, 100L);
+		}, 0L, 25L);
 		timerRunning = true;
 	}
 
 	// Default metric save condition to be overriden
 	protected boolean saveCondition() {
-		if (getIterations() % 5 == 0) // Every 5 iterations, save metrics
-			return true;
-		return false;
+		return getIterations() % 5 == 0;
 	}
 
 	// Default stop condition to be overriden
@@ -116,8 +124,8 @@ public abstract class Algorithm<A> {
 	}
 
 	public long getTimeInMilliseconds() {
-		return System.currentTimeMillis() - startTime; // More accurate
-		//return metrics.getLong(TIME_IN_MILLISECONDS);
+		return System.currentTimeMillis() - startTime; // Accurate time
+		// return metrics.getLong(TIME_IN_MILLISECONDS);
 	}
 
 	protected void updateMetrics(Collection<Individual<A>> population, int itCount) {
@@ -126,8 +134,7 @@ public abstract class Algorithm<A> {
 		metrics.setValue(TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
 	}
 
-	// Method where metric trackers should be created, called from Algorithm()
-	// constructor by default
+	// Method where metric trackers should be created, called from Algorithm() constructor by default
 	protected abstract void createTrackers();
 
 	/** Progress trackers can be used to display progress information. */
