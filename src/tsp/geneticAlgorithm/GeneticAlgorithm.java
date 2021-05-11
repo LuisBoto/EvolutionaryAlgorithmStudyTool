@@ -82,25 +82,29 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		int itCount = 0;
 
 		do {
-			population = nextGeneration(population, bestIndividual);
-			metrics.setValue(Algorithm.TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
-			this.calculateFitness(population, fitnessFn);
-			bestIndividual = retrieveBestIndividual(population);
-
-			// Monitor average and best fitness
-			System.out.println("\nTime: " + getTimeInMilliseconds() + " Gen: " + itCount + " Best f: "
-					+ bestIndividual.getFitness() + " Average f:" + averageFitness(population));
-
 			updateMetrics(population, ++itCount);
 			metrics.setValue(Algorithm.TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
 			metrics.setValue(Algorithm.ITERATIONS, itCount);
 			metrics.setValue("bestFitness", bestIndividual.getFitness());
 			metrics.setValue("averageFitness", averageFitness(population));
+			printStatus();
 			metricsDumpCheck();
 
+			population = nextGeneration(population, bestIndividual);
+			metrics.setValue(Algorithm.TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
+			this.calculateFitness(population, fitnessFn);
+			metrics.setValue(Algorithm.TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
+			bestIndividual = retrieveBestIndividual(population);
 		} while (!this.stopCondition());
 
+		metricsDumpCheck();
 		return bestIndividual;
+	}
+
+	private void printStatus() {
+		// Monitor average and best fitness, time, iteration etc.
+		System.out.println("\nTime: " + getTimeInMilliseconds() + " Gen: " + getIterations() + " Best f: "
+				+ metrics.getValue("bestFitness") + " Average f:" + metrics.getValue("averageFitness"));
 	}
 
 	public Individual<A> retrieveBestIndividual(Collection<Individual<A>> population) {
@@ -299,7 +303,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	protected String getExecutionFilename() {
 		return "GATSP_" + this.instanceName + "_" + reproduceOperator + "_" + mutateOperator + "_" + POPULATION_SIZE
 				+ "_" + crossoverProbability + "_" + mutationProbability + "_" + maxTime + "_execution_"
-				+ new Date().toGMTString().replace(':', '_').replace(" ", "_") + random.nextInt(10000) +".csv";
+				+ new Date().toGMTString().replace(':', '_').replace(" ", "_") + random.nextInt(10000) + ".csv";
 	}
 
 }
