@@ -286,7 +286,7 @@ public class FileManagerTest {
 			Assert.assertEquals("0.2;0.2;0.2;", lines[3]);
 			Assert.assertEquals("0.0000000002;2000;0.0002;", lines[4]);
 		} catch (IllegalArgumentException | IOException e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			Assert.fail("An error occurred merging the test files");
 		}
 	}

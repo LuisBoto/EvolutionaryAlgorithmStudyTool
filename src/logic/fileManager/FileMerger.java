@@ -57,6 +57,14 @@ public class FileMerger {
 		// dir = directory containing csv files to be merged
 		directory = dir;
 		loadFiles();
+		for (Triple<String, List<String>, List<String>> group : fileGroups) {
+			fileNames = (List<String>) group.getSecond();
+			fileContents = (List<String>) group.getThird();
+			mergeIndividualByAverage(saveDir, "mergeAverage_" + group.getFirst());
+		}
+	}
+
+	private static void mergeIndividualByAverage(String saveDir, String resultFileName) throws IOException {
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "";
 
@@ -92,7 +100,7 @@ public class FileMerger {
 			}
 			fichero += "\n";
 		}
-		saveFile(fichero, "resumenPromedios", saveDir);
+		saveFile(fichero, resultFileName, saveDir);
 	}
 
 	private static void loadFiles() throws IOException {
@@ -113,7 +121,8 @@ public class FileMerger {
 		// Grouping
 		fileGroups = new ArrayList<Triple<String, List<String>, List<String>>>();
 		for (String fileName : fileNames) {
-			String fileGroupName = fileName.substring(0, fileName.length() / 2); // Groups by first half of filename...
+			String realName = fileName.split("/")[fileName.split("/").length - 1]; // Removing path ahead
+			String fileGroupName = realName.substring(0, realName.length() / 2); // Groups by first half of filename...
 			boolean foundGroup = false;
 			for (Triple<String, List<String>, List<String>> group : fileGroups) {
 				if (group.getFirst().equals(fileGroupName)) {
@@ -175,18 +184,6 @@ public class FileMerger {
 			this.first = first;
 			this.second = second;
 			this.third = third;
-		}
-
-		public void setFirst(T content) {
-			this.first = content;
-		}
-
-		public void setSecond(U content) {
-			this.second = content;
-		}
-
-		public void setThird(V content) {
-			this.third = content;
 		}
 
 		public T getFirst() {
