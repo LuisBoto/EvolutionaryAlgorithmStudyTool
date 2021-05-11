@@ -1,7 +1,5 @@
 package tsp.metricFramework;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +8,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import javax.swing.Timer;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import tsp.geneticAlgorithm.Individual;
 
@@ -24,22 +23,19 @@ public abstract class Algorithm<A> {
 	private static List<ProgressTracker> progressTrackers = new ArrayList<>();
 	protected String fileUrl;
 	protected static Timer dumpTimer;
+	private boolean timerRunning = false;
 	protected long startTime; // Must be initialized on impl
 
 	public Algorithm() {
 		this.createTrackers();
-		dumpTimer = new Timer(100, new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				timerCheck();
-			}
-		});
+		dumpTimer = new Timer();
 	}
 
 	public void metricsDumpCheck() {
-		if (!dumpTimer.isRunning())
-			dumpTimer.start();
+		if (!timerRunning)
+			startTimer();
 		if (stopCondition()) {
-			dumpTimer.stop();
+			dumpTimer.cancel();
 			this.flushToFile();
 		}
 	}
@@ -47,6 +43,16 @@ public abstract class Algorithm<A> {
 	private void timerCheck() {
 		if (saveCondition())
 			this.notifyProgressTrackers();
+	}
+	
+	private void startTimer() {
+		dumpTimer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				timerCheck();
+			}
+		}, 0L, 100L);
+		timerRunning = true;
 	}
 
 	// Default metric save condition to be overriden
@@ -110,7 +116,7 @@ public abstract class Algorithm<A> {
 	}
 
 	public long getTimeInMilliseconds() {
-		return System.currentTimeMillis() - startTime;
+		return System.currentTimeMillis() - startTime; // More accurate
 		//return metrics.getLong(TIME_IN_MILLISECONDS);
 	}
 

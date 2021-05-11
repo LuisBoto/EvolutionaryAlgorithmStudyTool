@@ -11,21 +11,24 @@ import tsp.metricFramework.Algorithm;
 public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	protected int individualLength;
+	protected double crossoverProbability;
 	protected double mutationProbability;
 	protected int maxTime;
 	protected Random random;
 	protected int reproduceOperator;
 	protected int mutateOperator;
 
-	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxTime, int reproduceOperator,
-			int mutateOperator) {
-		this(individualLength, mutationProbability, maxTime, reproduceOperator, mutateOperator, new Random());
+	public GeneticAlgorithm(int individualLength, double crossoverProbability, double mutationProbability, 
+			int maxTime, int reproduceOperator, int mutateOperator) {
+		this(individualLength, crossoverProbability, mutationProbability, maxTime, reproduceOperator, mutateOperator,
+				new Random());
 	}
 
-	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxTime, int reproduceOperator,
-			int mutateOperator, Random random) {
+	public GeneticAlgorithm(int individualLength, double crossoverProbability, double mutationProbability, int maxTime,
+			int reproduceOperator, int mutateOperator, Random random) {
 		super(); // Calls createTrackers and thread
 		this.individualLength = individualLength;
+		this.crossoverProbability = crossoverProbability;
 		this.mutationProbability = mutationProbability;
 		this.maxTime = maxTime;
 		this.random = random;
@@ -33,6 +36,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		this.reproduceOperator = reproduceOperator;
 
 		assert (this.mutationProbability >= 0.0 && this.mutationProbability <= 1.0);
+		assert (this.crossoverProbability >= 0.0 && this.crossoverProbability <= 1.0);
 		assert (this.mutateOperator == 0 || this.mutateOperator == 1);
 		assert (this.reproduceOperator == 0 || this.reproduceOperator == 1);
 	}
@@ -55,27 +59,28 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	@Override
 	protected boolean saveCondition() {
 		long module10s = getTimeInMilliseconds() % 10000;
-		return (module10s > 9900); // Every 10s save metrics, with an error margin
+		return (module10s > 9950 || module10s < 50); // Every 10s save metrics, with an error margin
 	}
 
 	public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn) {
-		// Initial values 
+		// Initial values
 		metrics.setValue("mutations", 0);
-		metrics.setValue("crosses", 0);
+		metrics.setValue("crossovers", 0);
 		Individual<A> bestIndividual = null;
-		
+
 		// Create a local copy of the population to work with
 		List<Individual<A>> population = new ArrayList<>(initPopulation);
 		validatePopulation(population);
-		
+
 		updateMetrics(population, 0);
 		this.startTime = System.currentTimeMillis();
 		this.calculateFitness(initPopulation, fitnessFn); // Must be called so fitness values are available
 		bestIndividual = retrieveBestIndividual(initPopulation);
 		int itCount = 0;
-		
+
 		do {
 			population = nextGeneration(population, bestIndividual);
+			metrics.setValue(Algorithm.TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
 			this.calculateFitness(population, fitnessFn);
 			bestIndividual = retrieveBestIndividual(population);
 
@@ -127,8 +132,9 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 		for (int i = 0; i < population.size() - 1; i++) { // -1 for elitism
 			Individual<A> x = randomSelection(population);
 			Individual<A> y = randomSelection(population);
-
-			Individual<A> child = this.reproduceOperator == 0 ? this.reproduce(x, y) : this.reproduce2(x, y);
+			Individual<A> child = x;
+			if (random.nextDouble() <= crossoverProbability)
+				child = this.reproduceOperator == 0 ? this.reproduce(x, y) : this.reproduce2(x, y);
 
 			if (random.nextDouble() <= mutationProbability) {
 				child = this.mutateOperator == 0 ? this.mutate(child) : this.mutate2(child);
