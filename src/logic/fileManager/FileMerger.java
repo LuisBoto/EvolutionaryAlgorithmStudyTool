@@ -15,10 +15,11 @@ public class FileMerger {
 	protected static String directory;
 	protected static List<String> fileNames;
 	protected static List<String> fileContents;
+	protected static List<Triple<String, List<String>, List<String>>> fileGroups;
 
 	public static int getLineMergeUpperBound(String dir) throws IOException {
 		directory = dir;
-		cargarFicheros();
+		loadFiles();
 		int min = fileContents.get(0).split("\n").length - 1;
 		for (String contents : fileContents) {
 			if (contents.split("\n").length - 1 < min)
@@ -33,7 +34,7 @@ public class FileMerger {
 			throw new IllegalArgumentException("Out of bounds line parameter");
 		// dir = directory containing csv files to be merged
 		directory = dir;
-		cargarFicheros();
+		loadFiles();
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "Cabecera;";
 		// Adding column names
@@ -49,13 +50,13 @@ public class FileMerger {
 			fichero += lines[selectedLine]; // Line parameter
 			fichero += "\n";
 		}
-		guardarFichero(fichero, "resumenLinea", saveDir);
+		saveFile(fichero, "resumenLinea", saveDir);
 	}
 
 	public static void mergeByAverage(String dir, String saveDir) throws IllegalArgumentException, IOException {
 		// dir = directory containing csv files to be merged
 		directory = dir;
-		cargarFicheros();
+		loadFiles();
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "";
 
@@ -82,7 +83,7 @@ public class FileMerger {
 			for (int k = 0; k < columnNumber; k++) { // Current column k
 				for (int j = 0; j < fileNames.size(); j++) { // Current file j
 					columns = fileContents.get(j).split("\n")[i].split(";");
-					if (columns.length!=columnNumber)
+					if (columns.length != columnNumber)
 						throw new IllegalArgumentException("Files are not equal in column number");
 					val = columns[k].replace(',', '.'); // Replacing input commas
 					values[j] = Double.parseDouble(val);
@@ -91,10 +92,10 @@ public class FileMerger {
 			}
 			fichero += "\n";
 		}
-		guardarFichero(fichero, "resumenPromedios", saveDir);
+		saveFile(fichero, "resumenPromedios", saveDir);
 	}
 
-	private static List<String> cargarFicheros() throws IOException {
+	private static void loadFiles() throws IOException {
 		fileNames = new ArrayList<String>();
 		fileContents = new ArrayList<String>();
 		File file = new File(directory);
@@ -105,13 +106,34 @@ public class FileMerger {
 					fileNames.add(directory + fichero.getName());
 		}
 		for (String fichero : fileNames)
-			fileContents.add(cargaFichero(fichero));
+			fileContents.add(loadIndividualFile(fichero));
 		if (fileContents.size() <= 0 || fileNames.size() <= 0)
 			throw new IllegalArgumentException("Directory contains no valid files");
-		return fileContents;
+
+		// Grouping
+		fileGroups = new ArrayList<Triple<String, List<String>, List<String>>>();
+		for (String fileName : fileNames) {
+			String fileGroupName = fileName.substring(0, fileName.length() / 2); // Groups by first half of filename...
+			boolean foundGroup = false;
+			for (Triple<String, List<String>, List<String>> group : fileGroups) {
+				if (group.getFirst().equals(fileGroupName)) {
+					group.getSecond().add(fileName);
+					group.getThird().add(loadIndividualFile(fileName));
+					foundGroup = true;
+					break;
+				}
+			}
+			if (!foundGroup) {
+				List<String> names = new ArrayList<String>();
+				List<String> contents = new ArrayList<String>();
+				names.add(fileName);
+				contents.add(loadIndividualFile(fileName));
+				fileGroups.add(new Triple<String, List<String>, List<String>>(fileGroupName, names, contents));
+			}
+		}
 	}
 
-	private static String cargaFichero(String fichero) {
+	private static String loadIndividualFile(String fichero) {
 		Scanner kbd;
 		String text = "";
 		try {
@@ -127,7 +149,7 @@ public class FileMerger {
 	}
 
 	@SuppressWarnings("deprecation")
-	private static void guardarFichero(String contents, String name, String saveDir) throws IOException {
+	private static void saveFile(String contents, String name, String saveDir) throws IOException {
 		BufferedWriter bw;
 		bw = new BufferedWriter(
 				new FileWriter(new File(saveDir + name + " " + new Date().toGMTString().replace(':', '-') + ".csv")));
@@ -141,6 +163,43 @@ public class FileMerger {
 		for (int i = 0; i < values.length; i++)
 			prom += values[i];
 		return prom / (double) values.length;
+	}
+
+	private static class Triple<T, U, V> {
+
+		private T first;
+		private U second;
+		private V third;
+
+		public Triple(T first, U second, V third) {
+			this.first = first;
+			this.second = second;
+			this.third = third;
+		}
+
+		public void setFirst(T content) {
+			this.first = content;
+		}
+
+		public void setSecond(U content) {
+			this.second = content;
+		}
+
+		public void setThird(V content) {
+			this.third = content;
+		}
+
+		public T getFirst() {
+			return first;
+		}
+
+		public U getSecond() {
+			return second;
+		}
+
+		public V getThird() {
+			return third;
+		}
 	}
 
 }
