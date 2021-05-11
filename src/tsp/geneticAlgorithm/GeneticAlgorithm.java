@@ -299,7 +299,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	protected String getExecutionFilename() {
 		return "GATSP_" + this.instanceName + "_" + reproduceOperator + "_" + mutateOperator + "_" + POPULATION_SIZE
 				+ "_" + crossoverProbability + "_" + mutationProbability + "_" + maxTime + "_execution_"
-				+ new Date().toGMTString().replace(':', '_').replace(" ", "_") + ".csv";
+				+ new Date().toGMTString().replace(':', '_').replace(" ", "_") + random.nextInt(10000) +".csv";
 	}
 
 }
