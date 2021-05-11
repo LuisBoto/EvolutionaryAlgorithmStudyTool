@@ -24,7 +24,7 @@ public class TSPLauncher {
 		// int maxIterations = 60;
 		int popSize = 100;
 		double mutationProbability = 0.2;
-		int maxTime = 1000 * 60;
+		int maxTime = 1000 * 30;
 		int reproduce = 1;
 		int mutate = 1;
 		tspAIModernGeneticAlgorithm(cities, popSize, mutationProbability, maxTime, reproduce, mutate);

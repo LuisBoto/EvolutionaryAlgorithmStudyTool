@@ -24,7 +24,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	public GeneticAlgorithm(int individualLength, double mutationProbability, int maxTime, int reproduceOperator,
 			int mutateOperator, Random random) {
-		super(); // Calls createTrackers
+		super(); // Calls createTrackers and thread
 		this.individualLength = individualLength;
 		this.mutationProbability = mutationProbability;
 		this.maxTime = maxTime;
@@ -54,39 +54,41 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	@Override
 	protected boolean saveCondition() {
-		if (getIterations() % 1 == 0) // Every 5 iterations, save metrics
-			return true;
-		return false;
+		long module10s = getTimeInMilliseconds() % 10000;
+		return (module10s > 9900); // Every 10s save metrics, with an error margin
 	}
 
 	public Individual<A> geneticAlgorithm(Collection<Individual<A>> initPopulation, FitnessFunction<A> fitnessFn) {
-		this.metrics.setValue("mutations", 0);
-		this.metrics.setValue("cruces", 0);
+		// Initial values 
+		metrics.setValue("mutations", 0);
+		metrics.setValue("crosses", 0);
 		Individual<A> bestIndividual = null;
+		
 		// Create a local copy of the population to work with
 		List<Individual<A>> population = new ArrayList<>(initPopulation);
 		validatePopulation(population);
-		updateMetrics(population, 0, 0L);
-
-		long startTime = System.currentTimeMillis();
+		
+		updateMetrics(population, 0);
+		this.startTime = System.currentTimeMillis();
 		this.calculateFitness(initPopulation, fitnessFn); // Must be called so fitness values are available
 		bestIndividual = retrieveBestIndividual(initPopulation);
 		int itCount = 0;
+		
 		do {
 			population = nextGeneration(population, bestIndividual);
 			this.calculateFitness(population, fitnessFn);
 			bestIndividual = retrieveBestIndividual(population);
 
 			// Monitor average and best fitness
-			System.out.println("\nGen: " + itCount + " Best f: " + bestIndividual.getFitness() + " Average f:"
-					+ averageFitness(population));
+			System.out.println("\nTime: " + getTimeInMilliseconds() + " Gen: " + itCount + " Best f: "
+					+ bestIndividual.getFitness() + " Average f:" + averageFitness(population));
 
-			updateMetrics(population, ++itCount, System.currentTimeMillis() - startTime);
-			this.metrics.setValue(Algorithm.TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
-			this.metrics.setValue(Algorithm.ITERATIONS, itCount);
-			this.metrics.setValue("bestFitness", bestIndividual.getFitness());
-			this.metrics.setValue("averageFitness", averageFitness(population));
-			this.metricsDumpCheck();
+			updateMetrics(population, ++itCount);
+			metrics.setValue(Algorithm.TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
+			metrics.setValue(Algorithm.ITERATIONS, itCount);
+			metrics.setValue("bestFitness", bestIndividual.getFitness());
+			metrics.setValue("averageFitness", averageFitness(population));
+			metricsDumpCheck();
 
 		} while (!this.stopCondition());
 
@@ -201,7 +203,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 		// Last city must be initial one
 		childRepresentation.set(individualLength - 1, childRepresentation.get(0));
-		this.metrics.incrementIntValue("cruces");
+		metrics.incrementIntValue("cruces");
 		return new Individual<A>(childRepresentation);
 	}
 
@@ -228,7 +230,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 		// Last city must be initial one
 		childRepresentation.add(individualLength - 1, childRepresentation.get(0));
-		this.metrics.incrementIntValue("cruces");
+		metrics.incrementIntValue("cruces");
 		return new Individual<A>(childRepresentation);
 	}
 
@@ -253,7 +255,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 		// Last city must be initial one
 		mutatedRepresentation.set(individualLength - 1, mutatedRepresentation.get(0));
-		this.metrics.incrementIntValue("mutations");
+		metrics.incrementIntValue("mutations");
 		return new Individual<A>(mutatedRepresentation);
 	}
 
@@ -268,7 +270,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 		// Last city must be initial one
 		mutatedRepresentation.add(individualLength - 1, mutatedRepresentation.get(0));
-		this.metrics.incrementIntValue("mutations");
+		metrics.incrementIntValue("mutations");
 		return new Individual<A>(mutatedRepresentation);
 	}
 

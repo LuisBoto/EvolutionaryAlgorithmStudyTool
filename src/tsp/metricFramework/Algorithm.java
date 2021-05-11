@@ -1,5 +1,7 @@
 package tsp.metricFramework;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import javax.swing.Timer;
 
 import tsp.geneticAlgorithm.Individual;
 
@@ -16,19 +20,33 @@ public abstract class Algorithm<A> {
 	protected static final String ITERATIONS = "iterations";
 	protected static final String TIME_IN_MILLISECONDS = "timeInMSec";
 
-	protected MetricStorage metrics = new MetricStorage();
-	private List<ProgressTracker> progressTrackers = new ArrayList<>();
+	protected static MetricStorage metrics = new MetricStorage(); // Must be static so multiple threads can use it
+	private static List<ProgressTracker> progressTrackers = new ArrayList<>();
 	protected String fileUrl;
+	protected static Timer dumpTimer;
+	protected long startTime; // Must be initialized on impl
 
 	public Algorithm() {
 		this.createTrackers();
+		dumpTimer = new Timer(100, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				timerCheck();
+			}
+		});
 	}
 
 	public void metricsDumpCheck() {
+		if (!dumpTimer.isRunning())
+			dumpTimer.start();
+		if (stopCondition()) {
+			dumpTimer.stop();
+			this.flushToFile();
+		}
+	}
+
+	private void timerCheck() {
 		if (saveCondition())
 			this.notifyProgressTrackers();
-		if (stopCondition())
-			this.flushToFile();
 	}
 
 	// Default metric save condition to be overriden
@@ -40,8 +58,9 @@ public abstract class Algorithm<A> {
 
 	// Default stop condition to be overriden
 	protected boolean stopCondition() {
-		if (getTimeInMilliseconds() > 30000) // 30s default max time
+		if (getTimeInMilliseconds() > 30000) { // 30s default max time
 			return true;
+		}
 		return false;
 	}
 
@@ -61,8 +80,11 @@ public abstract class Algorithm<A> {
 				}
 			}
 			bf.write("\n");
+			// System.out.println(progressTrackers.size());
 			for (int i = 0; i < metricSize; i++) {
 				for (ProgressTracker tracer : progressTrackers) {
+					// System.out.println(tracer.getName() + " " + i + " " +
+					// metrics.getMetricValues(tracer.getName()));
 					bf.write(metrics.getMetricValues(tracer.getName()).get(i).concat(";"));
 				}
 				bf.write("\n");
@@ -73,12 +95,6 @@ public abstract class Algorithm<A> {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	/** Metrics */
-	public void clearInstrumentation() {
-		// Sets the population size and number of iterations to zero.
-		updateMetrics(new ArrayList<Individual<A>>(), 0, 0L);
 	}
 
 	public MetricStorage getMetrics() {
@@ -94,13 +110,14 @@ public abstract class Algorithm<A> {
 	}
 
 	public long getTimeInMilliseconds() {
-		return metrics.getLong(TIME_IN_MILLISECONDS);
+		return System.currentTimeMillis() - startTime;
+		//return metrics.getLong(TIME_IN_MILLISECONDS);
 	}
 
-	protected void updateMetrics(Collection<Individual<A>> population, int itCount, long time) {
+	protected void updateMetrics(Collection<Individual<A>> population, int itCount) {
 		metrics.setValue(POPULATION_SIZE, population.size());
 		metrics.setValue(ITERATIONS, itCount);
-		metrics.setValue(TIME_IN_MILLISECONDS, time);
+		metrics.setValue(TIME_IN_MILLISECONDS, this.getTimeInMilliseconds());
 	}
 
 	// Method where metric trackers should be created, called from Algorithm()
@@ -117,7 +134,7 @@ public abstract class Algorithm<A> {
 			tracer.saveProgress();
 	}
 
-	public class ProgressTracker {
+	public static class ProgressTracker {
 
 		private String name;
 
