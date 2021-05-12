@@ -216,21 +216,18 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	protected Individual<A> reproduce2(Individual<A> x, Individual<A> y) {
 		// Halfs cross operator
 		int workingIndividualLength = individualLength - 1;
-		List<A> childRepresentation = new ArrayList<A>(x.getRepresentation().size());
-		int counter = 0;
+		List<A> childRepresentation = new ArrayList<A>();
 		int randSize = this.random.nextInt(workingIndividualLength);
 
 		// Adding random amount of cities from first parent, on same order
 		for (int i = 0; i < randSize; i++) {
-			childRepresentation.add(counter, x.getRepresentation().get(i));
-			counter++;
+			childRepresentation.add(x.getRepresentation().get(i));
 		}
 
 		// Inheriting the rest from second parent, on inverse relative order
 		for (int i = workingIndividualLength - 1; i >= 0; i--) {
 			if (!childRepresentation.contains(y.getRepresentation().get(i))) {
-				childRepresentation.add(counter, y.getRepresentation().get(i));
-				counter++;
+				childRepresentation.add(y.getRepresentation().get(i));
 			}
 		}
 
