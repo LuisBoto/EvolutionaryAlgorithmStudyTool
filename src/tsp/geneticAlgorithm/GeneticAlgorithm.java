@@ -46,12 +46,12 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 
 	@Override
 	protected void createTrackers() {
-		this.addProgressTracker(new ProgressTracker(Algorithm.ITERATIONS));
-		this.addProgressTracker(new ProgressTracker(Algorithm.TIME_IN_MILLISECONDS));
-		this.addProgressTracker(new ProgressTracker("bestFitness"));
-		this.addProgressTracker(new ProgressTracker("averageFitness"));
-		this.addProgressTracker(new ProgressTracker("mutations"));
-		this.addProgressTracker(new ProgressTracker("crossovers"));
+		this.addProgressTracker(Algorithm.ITERATIONS);
+		this.addProgressTracker(Algorithm.TIME_IN_MILLISECONDS);
+		this.addProgressTracker("bestFitness");
+		this.addProgressTracker("averageFitness");
+		this.addProgressTracker("mutations");
+		this.addProgressTracker("crossovers");
 	}
 
 	@Override

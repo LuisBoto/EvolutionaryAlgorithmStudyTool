@@ -139,7 +139,8 @@ public abstract class Algorithm<A> {
 	protected abstract void createTrackers();
 
 	/** Progress trackers can be used to display progress information. */
-	public void addProgressTracker(ProgressTracker pTracker) {
+	public void addProgressTracker(String metricName) {
+		ProgressTracker pTracker = new ProgressTracker(metricName);
 		progressTrackers.add(pTracker);
 	}
 
