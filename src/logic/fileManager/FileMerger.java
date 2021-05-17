@@ -84,7 +84,7 @@ public class FileMerger {
 		// Adding average of lines
 		double[] values = new double[fileNames.size()];
 		String val = "";
-		DecimalFormat numberFormat = new DecimalFormat("#.############"); // 12 decimals as upper bound
+		DecimalFormat numberFormat = new DecimalFormat("#.###############"); // 15 decimals as upper bound
 
 		String[] columns;
 		for (int i = 1; i < size; i++) { // Current row i

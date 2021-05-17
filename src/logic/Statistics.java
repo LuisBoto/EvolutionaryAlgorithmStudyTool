@@ -36,7 +36,7 @@ public class Statistics {
 			result = standardDeviation(metrics);
 			break;
 		}
-		DecimalFormat numberFormat = new DecimalFormat("#.######");
+		DecimalFormat numberFormat = new DecimalFormat("#.##########");
 		return numberFormat.format(result).replace(',', '.');
 	}
 
