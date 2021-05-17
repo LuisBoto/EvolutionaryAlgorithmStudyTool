@@ -122,7 +122,7 @@ public class FileMerger {
 		fileGroups = new ArrayList<Triple<String, List<String>, List<String>>>();
 		for (String fileName : fileNames) {
 			String realName = fileName.split("/")[fileName.split("/").length - 1]; // Removing path ahead
-			String fileGroupName = realName.substring(0, realName.length() / 2); // Groups by first half of filename...
+			String fileGroupName = realName.substring(0, realName.split("GMT")[0].length()); // Groups by name before GMT mark...
 			boolean foundGroup = false;
 			for (Triple<String, List<String>, List<String>> group : fileGroups) {
 				if (group.getFirst().equals(fileGroupName)) {

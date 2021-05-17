@@ -299,7 +299,7 @@ public class GeneticAlgorithm<A> extends Algorithm<A> {
 	@Override
 	protected String getExecutionFilename() {
 		return "GATSP_" + this.instanceName + "_" + reproduceOperator + "_" + mutateOperator + "_" + getPopulationSize()
-				+ "_" + crossoverProbability + "_" + mutationProbability + "_" + maxTime + "_execution_"
+				+ "_" + crossoverProbability + "_" + mutationProbability + "_" + maxTime + "_GMT_"
 				+ new Date().toGMTString().replace(':', '_').replace(" ", "_") + random.nextInt(10000) + ".csv";
 	}
 
