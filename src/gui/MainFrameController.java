@@ -102,30 +102,34 @@ public class MainFrameController {
 
 	public void openFile() {
 		JFileChooser fc = new JFileChooser();
+		fc.setMultiSelectionEnabled(true);
 		fc.setCurrentDirectory(new java.io.File("."));
 		if (fc.showOpenDialog(mf) != JFileChooser.APPROVE_OPTION)
 			return;
-		// A file has been selected
-		File f = fc.getSelectedFile();
-		if (!f.getName().endsWith(".csv")) {
-			JOptionPane.showMessageDialog(this.mf, Internationalization.get("NON_SUPPORTED_FORMAT"),
-					Internationalization.get("ERROR"), JOptionPane.ERROR_MESSAGE);
-			return;
-		}
+		// One file (or more) has been selected
+		File[] fs = fc.getSelectedFiles();
+		// File f = fc.getSelectedFile();
+		for (File f : fs) {
+			if (!f.getName().endsWith(".csv")) {
+				JOptionPane.showMessageDialog(this.mf, Internationalization.get("NON_SUPPORTED_FORMAT"),
+						Internationalization.get("ERROR"), JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 
-		String filepath = f.getPath();
-		this.loadedFileNames.add(f.getName());
-		List<Metric> parsedMetrics;
-		try {
-			parsedMetrics = FileParser.parseMetrics(loadedFileNames.size(), filepath);
-			this.populateMetricPanel(parsedMetrics, f.getName());
-			this.populatePlotSelectPanel();
-			this.updateLoadedFileLabel();
-			this.enableButtons();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this.mf, Internationalization.get("ERROR_OPENING_FILE"),
-					Internationalization.get("ERROR_READING_FILE"), JOptionPane.ERROR_MESSAGE);
-			return;
+			String filepath = f.getPath();
+			this.loadedFileNames.add(f.getName());
+			List<Metric> parsedMetrics;
+			try {
+				parsedMetrics = FileParser.parseMetrics(loadedFileNames.size(), filepath);
+				this.populateMetricPanel(parsedMetrics, f.getName());
+				this.populatePlotSelectPanel();
+				this.updateLoadedFileLabel();
+				this.enableButtons();
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this.mf, Internationalization.get("ERROR_OPENING_FILE"),
+						Internationalization.get("ERROR_READING_FILE"), JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 		}
 	}
 
