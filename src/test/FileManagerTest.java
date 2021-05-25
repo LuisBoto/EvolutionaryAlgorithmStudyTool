@@ -242,21 +242,21 @@ public class FileManagerTest {
 		String fileContents = "iterations;fitness;time;\n10;10;10;\n0.1;0.1;0.1;\n0,1;0,1;0,1;\n1E-10;1E+3;1E-4;\n";
 		FileWriter fr;
 		try {
-			fr = new FileWriter("./testFiles/mergeAverageTest1.csv");
+			fr = new FileWriter("./testFiles/mergeAverageTest_GMT_1.csv");
 			BufferedWriter br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n20;20;20;\n0.2;0.2;0.2;\n0,2;0,2;0,2;\n2E-10;2E+3;2E-4;\n";
-			fr = new FileWriter("./testFiles/mergeAverageTest2.csv");
+			fr = new FileWriter("./testFiles/mergeAverageTest_GMT_2.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n30;30;30;\n0.3;0.3;0.3;\n0,3;0,3;0,3;\n3E-10;3E+3;3E-4;\n";
-			fr = new FileWriter("./testFiles/mergeAverageTest3.csv");
+			fr = new FileWriter("./testFiles/mergeAverageTest_GMT_3.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
