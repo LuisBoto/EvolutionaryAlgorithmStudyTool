@@ -98,21 +98,21 @@ public class FileManagerTest {
 		String fileContents = "iterations;fitness;time;\n10;10;10;\n0.1;0.1;0.1;\n0,1;0,1;0,1;\n1E-10;1E+3;1E-4;\n";
 		FileWriter fr;
 		try {
-			fr = new FileWriter("./testFiles/mergeTest1.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_1.csv");
 			BufferedWriter br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n20;20;20;\n0.2;0.2;0.2;\n0,2;0,2;0,2;\n2E-10;2E+3;2E-4;\n";
-			fr = new FileWriter("./testFiles/mergeTest2.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_2.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n30;30;30;\n0.3;0.3;0.3;\n0,3;0,3;0,3;\n3E-10;3E+3;3E-4;\n";
-			fr = new FileWriter("./testFiles/mergeTest3.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_3.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
@@ -137,9 +137,9 @@ public class FileManagerTest {
 			String[] lines = contents.trim().split("\n");
 			Assert.assertEquals(4, lines.length);
 			Assert.assertEquals("Cabecera;iterations;fitness;time;", lines[0]);
-			Assert.assertEquals("./testFiles/mergeTest1.csv;1E-10;1E+3;1E-4;", lines[1]);
-			Assert.assertEquals("./testFiles/mergeTest2.csv;2E-10;2E+3;2E-4;", lines[2]);
-			Assert.assertEquals("./testFiles/mergeTest3.csv;3E-10;3E+3;3E-4;", lines[3]);
+			Assert.assertEquals("./testFiles/mergeTest_GMT_1.csv;1E-10;1E+3;1E-4;", lines[1]);
+			Assert.assertEquals("./testFiles/mergeTest_GMT_2.csv;2E-10;2E+3;2E-4;", lines[2]);
+			Assert.assertEquals("./testFiles/mergeTest_GMT_3.csv;3E-10;3E+3;3E-4;", lines[3]);
 		} catch (IllegalArgumentException | IOException e) {
 			// e.printStackTrace();
 			Assert.fail("An error occurred merging the test files");
@@ -152,21 +152,21 @@ public class FileManagerTest {
 		String fileContents = "iterations;fitness;time;\n10;10;10;\n0.1;0.1;0.1;\n0,1;0,1;0,1;\n1E-10;1E+3;1E-4;\n";
 		FileWriter fr;
 		try {
-			fr = new FileWriter("./testFiles/mergeTest1.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_1.csv");
 			BufferedWriter br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n20;20;20;\n0.2;0.2;0.2;\n0,2;0,2;0,2;\n";
-			fr = new FileWriter("./testFiles/mergeTest2.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_2.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n30;30;30;\n0.3;0.3;0.3;\n";
-			fr = new FileWriter("./testFiles/mergeTest3.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_3.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
@@ -190,9 +190,9 @@ public class FileManagerTest {
 			String[] lines = contents.trim().split("\n");
 			Assert.assertEquals(4, lines.length);
 			Assert.assertEquals("Cabecera;iterations;fitness;time;", lines[0]);
-			Assert.assertEquals("./testFiles/mergeTest1.csv;10;10;10;", lines[1]);
-			Assert.assertEquals("./testFiles/mergeTest2.csv;20;20;20;", lines[2]);
-			Assert.assertEquals("./testFiles/mergeTest3.csv;30;30;30;", lines[3]);
+			Assert.assertEquals("./testFiles/mergeTest_GMT_1.csv;10;10;10;", lines[1]);
+			Assert.assertEquals("./testFiles/mergeTest_GMT_2.csv;20;20;20;", lines[2]);
+			Assert.assertEquals("./testFiles/mergeTest_GMT_3.csv;30;30;30;", lines[3]);
 		} catch (IllegalArgumentException | IOException e) {
 			Assert.fail("An error occurred merging the test files");
 		}
@@ -204,21 +204,21 @@ public class FileManagerTest {
 		String fileContents = "iterations;fitness;time;\n10;10;10;\n0.1;0.1;0.1;\n0,1;0,1;0,1;\n1E-10;1E+3;1E-4;\n";
 		FileWriter fr;
 		try {
-			fr = new FileWriter("./testFiles/mergeTest1.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_1.csv");
 			BufferedWriter br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n20;20;20;\n0.2;0.2;0.2;\n0,2;0,2;0,2;\n";
-			fr = new FileWriter("./testFiles/mergeTest2.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_2.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n30;30;30;\n0.3;0.3;0.3;\n";
-			fr = new FileWriter("./testFiles/mergeTest3.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_3.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
@@ -230,7 +230,7 @@ public class FileManagerTest {
 		try {
 			FileMerger.mergeByLine("./testFiles/", "./testFiles/", 4);
 		} catch (IllegalArgumentException e) {
-			Assert.assertEquals("Out of bounds line parameter on file ./testFiles/mergeTest2.csv", e.getMessage());
+			Assert.assertEquals("Out of bounds line parameter on file ./testFiles/mergeTest_GMT_2.csv", e.getMessage());
 		} catch (IOException e) {
 			Assert.fail("An error occurred merging the test files");
 		}
@@ -242,21 +242,21 @@ public class FileManagerTest {
 		String fileContents = "iterations;fitness;time;\n10;10;10;\n0.1;0.1;0.1;\n0,1;0,1;0,1;\n1E-10;1E+3;1E-4;\n";
 		FileWriter fr;
 		try {
-			fr = new FileWriter("./testFiles/mergeAverageTest_GMT_1.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_1.csv");
 			BufferedWriter br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n20;20;20;\n0.2;0.2;0.2;\n0,2;0,2;0,2;\n2E-10;2E+3;2E-4;\n";
-			fr = new FileWriter("./testFiles/mergeAverageTest_GMT_2.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_2.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n30;30;30;\n0.3;0.3;0.3;\n0,3;0,3;0,3;\n3E-10;3E+3;3E-4;\n";
-			fr = new FileWriter("./testFiles/mergeAverageTest_GMT_3.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_3.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
@@ -268,7 +268,7 @@ public class FileManagerTest {
 
 		try {
 			FileMerger.mergeByAverage("./testFiles/", "./testFiles/");
-			File mergedFile = new File("./testFiles/").listFiles()[3];
+			File mergedFile = new File("./testFiles/").listFiles()[0]; //First file alphabetically due to starting by 'mergeAverage'
 			FileReader reader = new FileReader(mergedFile.getAbsolutePath());
 			BufferedReader bfr = new BufferedReader(reader);
 			String contents = "";
@@ -297,21 +297,21 @@ public class FileManagerTest {
 		String fileContents = "iterations;fitness;time;\n10;10;10;\n0.1;0.1;0.1;\n0,1;0,1;0,1;\n1E-10;1E+3;1E-4;\n";
 		FileWriter fr;
 		try {
-			fr = new FileWriter("./testFiles/mergeAverageTest1.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_1.csv");
 			BufferedWriter br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n20;20;20;\n0.2;0.2;0.2;\n0,2;0,2;0,2;\n";
-			fr = new FileWriter("./testFiles/mergeAverageTest2.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_2.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
 			fr.close();
 
 			fileContents = "iterations;fitness;time;\n30;30;30;\n0.3;0.3;0.3;\n";
-			fr = new FileWriter("./testFiles/mergeAverageTest3.csv");
+			fr = new FileWriter("./testFiles/mergeTest_GMT_3.csv");
 			br = new BufferedWriter(fr);
 			br.write(fileContents);
 			br.close();
