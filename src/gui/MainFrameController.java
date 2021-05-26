@@ -49,6 +49,7 @@ public class MainFrameController {
 
 	private MainFrame mf;
 	private List<Metric> metrics;
+	private List<Metric> selectedMetrics;
 	private List<String> loadedFileNames;
 	private List<GraphCommand> plots;
 	private String script;
@@ -57,6 +58,7 @@ public class MainFrameController {
 	public MainFrameController(MainFrame mf) {
 		this.mf = mf;
 		this.metrics = new ArrayList<Metric>();
+		this.selectedMetrics = new ArrayList<Metric>();
 		this.loadedFileNames = new ArrayList<String>();
 		this.plots = new ArrayList<GraphCommand>();
 		this.script = "";
@@ -90,6 +92,7 @@ public class MainFrameController {
 		mf.getLblStatCalcStatus().setText("");
 
 		this.metrics = new ArrayList<Metric>();
+		this.selectedMetrics = new ArrayList<Metric>();
 		this.plots = new ArrayList<GraphCommand>();
 		this.loadedFileNames = new ArrayList<String>();
 		this.updateLoadedFileLabel();
@@ -163,9 +166,15 @@ public class MainFrameController {
 		fileName.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		metricsPanel.add(fileName);
 		for (int i = 0; i < parsedMetrics.size(); i++) {
-			JCheckBox checkMet = new JCheckBox(parsedMetrics.get(i).getName());
+			Metric currentMetric = parsedMetrics.get(i);
+			JCheckBox checkMet = new JCheckBox(currentMetric.getName());
 			checkMet.addItemListener(new ItemListener() {
 				public void itemStateChanged(ItemEvent e) {
+					// Adding/removing metric to selected metrics
+					if (e.getStateChange() == java.awt.event.ItemEvent.SELECTED)
+						selectedMetrics.add(currentMetric);
+					else
+						selectedMetrics.remove(currentMetric);
 					updateStatisticsPanel();
 					updateAdvancedStatsButtons();
 				}
@@ -341,19 +350,16 @@ public class MainFrameController {
 	}
 
 	public List<Metric> getSelectedMetrics(boolean unSelectAfter) {
-		List<Metric> metrics = new ArrayList<Metric>();
-		int metricCounter = 0;
+		List<Metric> metricsToReturn = new ArrayList<Metric>(this.selectedMetrics);
 		for (Component comp : mf.getMetricSelectPn().getComponents()) {
 			if (!(comp instanceof JCheckBox))
 				continue;
 			if (((JCheckBox) comp).isSelected()) {
 				if (unSelectAfter)
 					((JCheckBox) comp).setSelected(false);
-				metrics.add(this.metrics.get(metricCounter));
 			}
-			metricCounter++;
 		}
-		return metrics;
+		return metricsToReturn;
 	}
 
 	public String getSelectedPlot() {
