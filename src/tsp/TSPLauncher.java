@@ -50,7 +50,7 @@ public class TSPLauncher {
 	}
 
 	private static void tspAIModernGeneticAlgorithm(Graph<String> cities, int populationSize,
-			double crossoverProbability, double mutationProbability, int maxIterations, int reproduceOperator,
+			double crossoverProbability, double mutationProbability, int max, int reproduceOperator,
 			int mutationOperator) {
 		System.out.println("--- TSP AIModern GeneticAlgorithm ---");
 		FitnessFunction<String> fitnessFunction = TSPFunctions.getFitnessFunction();
@@ -63,7 +63,7 @@ public class TSPLauncher {
 			population.add(TSPFunctions.generateRandomIndividual(cityList));
 
 		GeneticAlgorithm<String> ga = new GeneticAlgorithm<>(cities.getName(), cityList.size() + 1,
-				crossoverProbability, mutationProbability, maxIterations, reproduceOperator, mutationOperator);
+				crossoverProbability, mutationProbability, max, reproduceOperator, mutationOperator);
 		System.out.println("Starting evolution");
 		Individual<String> bestIndividual = ga.geneticAlgorithm(population, fitnessFunction);
 
