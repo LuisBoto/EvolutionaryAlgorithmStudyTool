@@ -43,7 +43,7 @@ public class FileManagerTest {
 	public void parseTest() {
 		// Initial file test with 3 valid metrics
 		// Includes decimal (both . and ,), negative, positive, scientific notation
-		String fileContents = "iterations;fitness;time;\n8;10;30;\n0.8;0.1;0.3;\n0,8;0,1;0,3;\n8E-10;1E+3;3E-4;\n";
+		String fileContents = "iterations;fitness best;time;\n8;10;30;\n0.8;0.1;0.3;\n0,8;0,1;0,3;\n8E-10;1E+3;3E-4;\n";
 		FileWriter fr;
 		try {
 			fr = new FileWriter("./testFiles/parseTest.csv");
@@ -63,12 +63,12 @@ public class FileManagerTest {
 			Assert.assertEquals(4, parsed.get(1).getSize());
 			Assert.assertEquals(4, parsed.get(2).getSize());
 			Assert.assertEquals("iterations00 <- c(8,0.8,0.8,8E-10)", parsed.get(0).toString());
-			Assert.assertEquals("fitness01 <- c(10,0.1,0.1,1E+3)", parsed.get(1).toString());
+			Assert.assertEquals("fitness_best01 <- c(10,0.1,0.1,1E+3)", parsed.get(1).toString());
 			Assert.assertEquals("time02 <- c(30,0.3,0.3,3E-4)", parsed.get(2).toString());
 
 			// Second file test includes non valid (text) metric, different combination of
 			// decimals/negatives/notations
-			fileContents = "iterations;fitness;time;\n8;10;30;\n0.8;hola;0.3;\n-0,8;0,1;0,3;\n8E-10;1E+3;3,87E-4;\n";
+			fileContents = "iterations;fitness best;time;\n8;10;30;\n0.8;hola;0.3;\n-0,8;0,1;0,3;\n8E-10;1E+3;3,87E-4;\n";
 			try {
 				fr = new FileWriter("./testFiles/parseTest.csv");
 				BufferedWriter br = new BufferedWriter(fr);
