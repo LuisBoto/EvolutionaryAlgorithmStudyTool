@@ -125,8 +125,9 @@ public class GraphScriptTest {
 								+ "png('graphPlotTest.png')\n"
 								+ "dev.control('enable')\n"
 								+ "plot(values1,values2, parameter1=valueFirst, "
-								+ "parameter2='valueSecond', parameter3=333, ylim=c(10.1,50.2))\n"
-								+ "lines(values1, values3)\n"
+								+ "parameter2='valueSecond', parameter3=333, type='l', ylim=c(10.1,50.2), col='#062498')\n"
+								+ "lines(values1, values3, col='#072398')\n"
+								+ "legend(x='topleft', legend=c('values2', 'values3'), fill=c('#062498', '#072398'))\n"
 								+ "dev.copy(which=graphPlotTestDevice)\n"
 								+ "dev.off()\n"
 								+ "dev.off()\n";
