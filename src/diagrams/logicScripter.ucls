@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="logic.scripter.ScriptResult" project="TFG-HerramientaAlgEvolutivos" 
     file="/TFG-HerramientaAlgEvolutivos/src/logic/scripter/ScriptResult.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="682" y="508"/>    
+    <position height="-1" width="-1" x="672" y="514"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="logic.scripter.Scripter" project="TFG-HerramientaAlgEvolutivos" 
     file="/TFG-HerramientaAlgEvolutivos/src/logic/scripter/Scripter.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="401" y="499"/>    
+    <position height="-1" width="-1" x="393" y="493"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,8 +48,12 @@
   </class>  
   <association id="6">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="7" name="scriptResults"/>      
-      <multiplicity id="8" minimum="0" maximum="2147483647"/>    
+      <attribute id="7" name="scriptResults">        
+        <position height="0" width="0" x="-10" y="6"/>      
+      </attribute>      
+      <multiplicity id="8" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-10" y="6"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

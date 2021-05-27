@@ -3,7 +3,7 @@
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="logic.fileManager.FileMerger" project="TFG-HerramientaAlgEvolutivos" 
     file="/TFG-HerramientaAlgEvolutivos/src/logic/fileManager/FileMerger.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="152" y="166"/>    
+    <position height="-1" width="-1" x="202" y="170"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="logic.fileManager.FileParser" project="TFG-HerramientaAlgEvolutivos" 
     file="/TFG-HerramientaAlgEvolutivos/src/logic/fileManager/FileParser.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="424" y="148"/>    
+    <position height="-1" width="-1" x="524" y="133"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

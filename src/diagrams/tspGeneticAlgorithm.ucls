@@ -32,7 +32,7 @@
   </interface>  
   <class id="4" language="java" name="tsp.TSPLauncher" project="TFG-HerramientaAlgEvolutivos" 
     file="/TFG-HerramientaAlgEvolutivos/src/tsp/TSPLauncher.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="248" y="570"/>    
+    <position height="-1" width="-1" x="254" y="641"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -41,7 +41,7 @@
   </class>  
   <class id="5" language="java" name="tsp.geneticAlgorithm.TSPFunctions" project="TFG-HerramientaAlgEvolutivos" 
     file="/TFG-HerramientaAlgEvolutivos/src/tsp/geneticAlgorithm/TSPFunctions.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="726" y="564"/>    
+    <position height="-1" width="-1" x="722" y="554"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
