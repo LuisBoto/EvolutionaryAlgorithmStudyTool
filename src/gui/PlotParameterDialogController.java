@@ -58,7 +58,7 @@ public class PlotParameterDialogController {
 
 	private boolean checkPDFName() {
 		String pdfName = this.pd.getTxtName().getText();
-		return pdfName.matches("[a-zA-Z]+");
+		return pdfName.matches("[a-zA-Z]+[a-zA-Z0-9_]*");
 	}
 	
 	public void cancel() {

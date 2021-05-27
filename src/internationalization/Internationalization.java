@@ -63,7 +63,7 @@ public class Internationalization {
 		keys.put("PARAMETER_NAME", "Parameter name:");
 		keys.put("PARAMETER_VALUE", "Parameter value:");
 		keys.put("PARAMETERS", "Parameters: ");
-		keys.put("PLOT_NAME_ERROR", "Please input a valid plot name");
+		keys.put("PLOT_NAME_ERROR", "Please input a valid plot name (alphanumeric characters only)");
 		keys.put("MAXIMUM", "Maximum");
 		keys.put("MINIMUM", "Minimum");
 		keys.put("AVERAGE", "Average");
@@ -148,7 +148,7 @@ public class Internationalization {
 		keys.put("PARAMETER_NAME", "Nombre parámetro:");
 		keys.put("PARAMETER_VALUE", "Valor parámetro:");
 		keys.put("PARAMETERS", "Parámetros: ");
-		keys.put("PLOT_NAME_ERROR", "Por favor, introduce un nombre válido de gráfico");
+		keys.put("PLOT_NAME_ERROR", "Por favor, introduce un nombre válido de gráfico (solo caracteres alfanuméricos)");
 		keys.put("MAXIMUM", "Máximo");
 		keys.put("MINIMUM", "Mínimo");
 		keys.put("AVERAGE", "Promedio");

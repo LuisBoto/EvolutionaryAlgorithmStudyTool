@@ -1,6 +1,7 @@
 package logic.scripter.graphs;
 
 import java.util.List;
+import java.util.Random;
 
 import logic.Statistics;
 import logic.scripter.Metric;
@@ -65,7 +66,12 @@ public class Plot extends GraphCommand {
 		return res.toString();
 	}
 
-	private String calculateColor(String varName) {
+	private String calculateColor(String name) {
+		Random rand = new Random();
+		rand.setSeed(name.hashCode());
+		String varName = "";
+		for (int i=0; i<name.length(); i++) 
+			varName += name.charAt(rand.nextInt(name.length()));
 		// Return an hexadecimal color string
 		String hex = String.format("#%02x%02x%02x", 224, 224, 224);
 		if (varName != null && !varName.equals("")) {
