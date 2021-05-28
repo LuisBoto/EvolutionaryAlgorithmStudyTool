@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>org.renjin</groupId>
 			<artifactId>renjin-script-engine</artifactId>
-			<version>3.5-beta43</version>
+			<version>RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.renjin.cran</groupId>
