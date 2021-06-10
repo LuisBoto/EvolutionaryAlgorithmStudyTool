@@ -18,33 +18,25 @@ public class TSPLauncher {
 
 	public static void main(String[] args) throws ScriptException {
 		String instanceURL = args[0];
-		int crossoverOperator = Integer.parseInt(args[1]);
-		int mutationOperator = Integer.parseInt(args[2]);
-		int populationSize = Integer.parseInt(args[3]);
-		double crossoverRatio = Double.parseDouble(args[4]);
-		double mutationRatio = Double.parseDouble(args[5]);
-		int maxtimeSeconds = Integer.parseInt(args[6]);
+		int reproduce = Integer.parseInt(args[1]);
+		int mutate = Integer.parseInt(args[2]);
+		int popSize = Integer.parseInt(args[3]);
+		double crossoverProbability = Double.parseDouble(args[4]);
+		double mutationProbability = Double.parseDouble(args[5]);
+		int maxTime = Integer.parseInt(args[6])*1000;
 
 		// City graph construction
-		// Graph<String> cities =
-		// TSPParser.parseInstance("./resources/tspInstances/d1655.tsp");
 		Graph<String> cities = TSPParser.parseInstance(instanceURL);
 
-		// Parameters
-		// int maxIterations = 60;
-
-		int popSize = populationSize;
-		double crossoverProbability = crossoverRatio;
-		double mutationProbability = mutationRatio;
-		int maxTime = maxtimeSeconds*1000;
-		int reproduce = crossoverOperator;
-		int mutate = mutationOperator;
-
-		/*
-		 * int popSize = 100; double crossoverProbability = 0.8; double
-		 * mutationProbability = 0.2; int maxTime = 1000 * 60 * 1; int reproduce = 1;
-		 * int mutate = 1;
-		 */
+		/*Graph<String> cities = TSPParser.parseInstance("./resources/tspInstances/d1655.tsp");
+		int popSize = 100; 
+		double crossoverProbability = 0.8; 
+		double
+		mutationProbability = 0.2; 
+		int maxTime = 1000 * 60 * 1; 
+		int reproduce = 1;
+		int mutate = 1;*/
+		 
 		tspAIModernGeneticAlgorithm(cities, popSize, crossoverProbability, mutationProbability, maxTime, reproduce,
 				mutate);
 	}
