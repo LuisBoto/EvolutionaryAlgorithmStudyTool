@@ -31,10 +31,18 @@ public class FileMerger {
 	public static void mergeByLine(String dir, String saveDir, int selectedLine)
 			throws IllegalArgumentException, IOException {
 		if (selectedLine < 0)
-			throw new IllegalArgumentException("Out of bounds line parameter");
+			throw new IllegalArgumentException("Out of bounds line parameter");		
 		// dir = directory containing csv files to be merged
 		directory = dir;
 		loadFiles();
+		for (Triple<String, List<String>, List<String>> group : fileGroups) {
+			fileNames = (List<String>) group.getSecond();
+			fileContents = (List<String>) group.getThird();
+			mergeIndividualByLine(saveDir, "mergeLine_" + group.getFirst(), selectedLine);
+		}
+	}
+	
+	private static void mergeIndividualByLine(String saveDir, String fileName, int selectedLine) throws IOException {
 		String[] lineasFichero = fileContents.get(0).split("\n");
 		String fichero = "Cabecera;";
 		// Adding column names
@@ -50,7 +58,7 @@ public class FileMerger {
 			fichero += lines[selectedLine]; // Line parameter
 			fichero += "\n";
 		}
-		saveFile(fichero, "resumenLinea", saveDir);
+		saveFile(fichero, fileName, saveDir);
 	}
 
 	public static void mergeByAverage(String dir, String saveDir) throws IllegalArgumentException, IOException {
@@ -122,6 +130,20 @@ public class FileMerger {
 		fileGroups = new ArrayList<Triple<String, List<String>, List<String>>>();
 		for (String fileName : fileNames) {
 			String realName = fileName.split("/")[fileName.split("/").length - 1]; // Removing path ahead
+			if (!realName.contains("GMT")) { // No group logic
+				if (fileGroups.isEmpty()) {
+					List<String> names = new ArrayList<String>();
+					List<String> contents = new ArrayList<String>();
+					names.add(fileName);
+					contents.add(loadIndividualFile(fileName));
+					fileGroups.add(0,
+							new Triple<String, List<String>, List<String>>("NO_GROUP_" + realName, names, contents));
+				} else {
+					fileGroups.get(0).getSecond().add(fileName);
+					fileGroups.get(0).getThird().add(loadIndividualFile(fileName));
+				}
+				continue; // File's been added to NOGROUP 
+			}
 			String fileGroupName = realName.substring(0, realName.split("GMT")[0].length()); // Groups by name before GMT mark...
 			boolean foundGroup = false;
 			for (Triple<String, List<String>, List<String>> group : fileGroups) {

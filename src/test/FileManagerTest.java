@@ -124,7 +124,7 @@ public class FileManagerTest {
 
 		try {
 			FileMerger.mergeByLine("./testFiles/", "./testFiles/", 4);
-			File mergedFile = new File("./testFiles/").listFiles()[3];
+			File mergedFile = new File("./testFiles/").listFiles()[0]; //Assuming alphabetical order
 			FileReader reader = new FileReader(mergedFile.getAbsolutePath());
 			BufferedReader bfr = new BufferedReader(reader);
 			String contents = "";
@@ -177,7 +177,7 @@ public class FileManagerTest {
 
 		try {
 			FileMerger.mergeByLine("./testFiles/", "./testFiles/", 1);
-			File mergedFile = new File("./testFiles/").listFiles()[3];
+			File mergedFile = new File("./testFiles/").listFiles()[0]; // Assuming alphabetical order
 			FileReader reader = new FileReader(mergedFile.getAbsolutePath());
 			BufferedReader bfr = new BufferedReader(reader);
 			String contents = "";
