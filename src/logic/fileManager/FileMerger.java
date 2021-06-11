@@ -93,7 +93,8 @@ public class FileMerger {
 		double[] values = new double[fileNames.size()];
 		String val = "";
 		DecimalFormat numberFormat = new DecimalFormat("#.###############"); // 15 decimals as upper bound
-
+		
+		boolean isColumnNonNumeric = false;
 		String[] columns;
 		for (int i = 1; i < size; i++) { // Current row i
 			for (int k = 0; k < columnNumber; k++) { // Current column k
@@ -102,9 +103,18 @@ public class FileMerger {
 					if (columns.length != columnNumber)
 						throw new IllegalArgumentException("Files are not equal in column number");
 					val = columns[k].replace(',', '.'); // Replacing input commas
-					values[j] = Double.parseDouble(val);
+					if (FileParser.isNumeric(val))
+						values[j] = Double.parseDouble(val);
+					else { //Found a non numeric metric
+						isColumnNonNumeric = true;
+						break; // Don't check the rest of files for this cell
+					}
 				}
-				fichero += numberFormat.format(average(values)).replace(',', '.') + ";"; // Replacing output commas
+				if (!isColumnNonNumeric)
+					fichero += numberFormat.format(average(values)).replace(',', '.') + ";"; // Replacing output commas
+				else
+					fichero += "NON_NUMERIC;";
+				isColumnNonNumeric = false;
 			}
 			fichero += "\n";
 		}
