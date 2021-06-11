@@ -157,7 +157,7 @@ public class MainFrameController {
 		if (this.loadedFileNames.size() > 1)
 			metricsPanel.add(new JSeparator());
 
-		int maxNameLength = 25;
+		int maxNameLength = 35;
 		int cut = newMetricsFilename.length() < maxNameLength ? newMetricsFilename.length() : maxNameLength;
 		String fileNameLabel = newMetricsFilename.substring(0, cut);
 		if (newMetricsFilename.length() > maxNameLength)
