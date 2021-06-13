@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="tsp.lib.TSPParser.Point" project="TFG-HerramientaAlgEvolutivos" 
     file="/TFG-HerramientaAlgEvolutivos/src/tsp/lib/TSPParser.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="448" y="546"/>    
+    <position height="-1" width="-1" x="451" y="458"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,29 +30,29 @@
   </class>  
   <class id="4" language="java" name="tsp.lib.Util" project="TFG-HerramientaAlgEvolutivos" 
     file="/TFG-HerramientaAlgEvolutivos/src/tsp/lib/Util.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="829" y="384"/>    
+    <position height="-1" width="-1" x="534" y="666"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <nesting id="5">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </nesting>  
-  <association id="6">    
+  <association id="5">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="7" name="points">        
-        <position height="0" width="0" x="-7" y="-2"/>      
+      <attribute id="6" name="points">        
+        <position height="0" width="0" x="-4" y="-90"/>      
       </attribute>      
-      <multiplicity id="8" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="-7" y="-2"/>      
+      <multiplicity id="7" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="-4" y="-90"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <nesting id="8">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </nesting>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    

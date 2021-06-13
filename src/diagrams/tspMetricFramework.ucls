@@ -13,7 +13,7 @@
   </class>  
   <class id="2" language="java" name="tsp.metricFramework.MetricStorage" project="TFG-HerramientaAlgEvolutivos" 
     file="/TFG-HerramientaAlgEvolutivos/src/tsp/metricFramework/MetricStorage.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="572" y="229"/>    
+    <position height="-1" width="-1" x="577" y="238"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -31,32 +31,32 @@
   </class>  
   <association id="4">    
     <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="5" name="metrics">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="6" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="7">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="8" name="progressTrackers">        
+      <attribute id="5" name="progressTrackers">        
         <position height="0" width="0" x="-12" y="4"/>      
       </attribute>      
-      <multiplicity id="9" minimum="0" maximum="2147483647">        
+      <multiplicity id="6" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="-12" y="4"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="10">    
+  <nesting id="7">    
     <end type="SOURCE" refId="3"/>    
     <end type="TARGET" refId="1"/>  
   </nesting>  
+  <association id="8">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="9" name="metrics">        
+        <position height="0" width="0" x="5" y="9"/>      
+      </attribute>      
+      <multiplicity id="10" minimum="0" maximum="1">        
+        <position height="0" width="0" x="5" y="9"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
