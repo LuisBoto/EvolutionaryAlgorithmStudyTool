@@ -1,4 +1,4 @@
-# Evolutive Algorithm Study Tool
+# Evolutionary Algorithm Study Tool
 ## What's this?
 This repository houses the dissertation project for my software engineering degree. It consists of a java written tool, aimed at helping in studying algorithm execution data.
 
